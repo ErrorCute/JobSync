@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% load  static  %}
+
     <link rel="stylesheet" href="../static/css/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,33 +26,20 @@
           <div class="bar"></div>
       </div>
         <ul class="nav-items">
-            <li class="nav-link"><a href="{% url 'login' %}">Inicio</a></li>
+            <li class="nav-link"><a href="{% url 'index' %}">Inicio</a></li>
+
+            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
+            
             <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
             
         </ul>
     </navbar>
 
-    <div class="content">
-        <form action="">
-            <h2> JobSync</h2>
-            <div class="input-box">
-                <input type="email" placeholder="Correo" required>
-                <i class="ri-mail-fill"></i>
-            </div>
+    {% block contenido %} 
 
-            <div class="input-box">
-                <input type="password" placeholder="Contraseña" required>
-                <i class="ri-lock-fill"></i>
-            </div>
+    
 
-            <div class="remember">
-                <label for=""><input type="checkbox">Recuerdame</label>
-                <a href="#">Recuperar contraseña</a>
-            </div>
-
-            <button type="submit" class="btn">Iniciar Sesion</button>
-        </form>
-    </div>
+    {% endblock %}  
 
 </body>
 

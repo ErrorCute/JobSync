@@ -1,8 +1,31 @@
-from django.shortcuts import render
 
-# Create your views here.
-def login(request):
-    return render(request,'login.html')
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login  # Cambia el nombre de la función login
+from .forms import UsuarioUserForm
+from django.contrib.auth.decorators import login_required
 
+def custom_login(request):
+    if request.method == 'POST':
+        formulario = UsuarioUserForm(data=request.POST)
+        if formulario.is_valid():
+            email = formulario.cleaned_data.get('email')  
+            password = formulario.cleaned_data.get('password')
+            user = authenticate(request, email=email, password=password)  
+            if user is not None:
+                login(request, user) 
+                return redirect('sobre_nosotros') 
+    else:
+        formulario = UsuarioUserForm()    
+        
+    return render(request, 'registration/login.html', {'formulario': formulario})
+
+
+
+def index(request):
+    return render(request,'index.html')
+
+
+
+@login_required
 def sobre_nosotros(request):
     return render(request, 'sobrenosotros.html')
