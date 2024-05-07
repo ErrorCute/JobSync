@@ -8,9 +8,9 @@ def custom_login(request):
     if request.method == 'POST':
         formulario = UsuarioUserForm(data=request.POST)
         if formulario.is_valid():
-            email = formulario.cleaned_data.get('email')  
+            username = formulario.cleaned_data.get('username')  
             password = formulario.cleaned_data.get('password')
-            user = authenticate(request, email=email, password=password)  
+            user = authenticate(request,username=username, password=password)  
             if user is not None:
                 login(request, user) 
                 return redirect('sobre_nosotros') 
@@ -27,5 +27,6 @@ def index(request):
 
 
 @login_required
+
 def sobre_nosotros(request):
     return render(request, 'sobrenosotros.html')

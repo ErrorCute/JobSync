@@ -7,7 +7,7 @@
     <title>Document</title>
     {% load  static  %}
 
-    <link rel="stylesheet" href="../static/css/estilo.css">
+    <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,9 +27,8 @@
       </div>
         <ul class="nav-items">
             <li class="nav-link"><a href="{% url 'index' %}">Inicio</a></li>
-
-            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
             
+            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
             <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
             
         </ul>
