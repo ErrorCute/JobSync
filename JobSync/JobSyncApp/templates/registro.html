@@ -1,14 +1,33 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../static/css/registro.css">
+    <link rel="stylesheet" href="{% static 'css' %}/registro.css">
+    <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
 <body>
+    <navbar class="navbar-container">
+        <div class="logo-container" >
+            <a href=""><img src="" alt="" style="margin-top: 1px; margin-right: 10px;"></a>
+            <a href="">JobSync</a>
+        </div>
+        <div class="bars">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+      </div>
+        <ul class="nav-items">
+            <li class="nav-link"><a href="{% url 'index' %}">Inicio</a></li>
+            
+            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
+            <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
+            
+        </ul>
+    </navbar>
     <div class="wrapper" >
         <form action="" method="POST">
            
@@ -51,5 +70,10 @@
     </div>
 </body>
 </html>
+
+    
+
+    
+
 
     

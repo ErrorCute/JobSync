@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url(../css/img/fondo.png);
+}
+
+.registro, .gestion, .reportes {
+    margin: 50px;
+    display: flex; 
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    width: 280px;
+    height: 140px;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    border-radius: 12px;
+    padding: 30px 35px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.container a {
+    color: #fff;
+    margin-bottom: 10px; 
+}
+
+.registro .container i, .gestion .container i, .reportes .container i{
+    font-size: 50px;
+}

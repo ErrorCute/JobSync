@@ -13,7 +13,7 @@ def custom_login(request):
             user = authenticate(request,username=username, password=password)  
             if user is not None:
                 login(request, user) 
-                return redirect('sobre_nosotros') 
+                return redirect('home') 
     else:
         formulario = UsuarioUserForm()    
         
@@ -28,6 +28,8 @@ def index(request):
 def registro(request):
     return render(request, 'registro.html')
 
+def home(request):
+    return render(request, 'home.html')
 @login_required
 
 def sobre_nosotros(request):
