@@ -1,0 +1,50 @@
+
+{% extends 'index.html' %}
+
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css' %}/registro.css">
+
+{% block contenido %} 
+
+    <div class="wrapper" >
+        <form action="" method="POST">
+           
+            <h1>Registro</h1>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="text" placeholder="Nombre" required>
+                    <i class="ri-user-fill"></i>
+                </div>
+                <div class="input-field">
+                    <input type="text" placeholder="Apellido" required>
+                    <i class="ri-user-fill"></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="email" placeholder="Email" required>
+                    <i class="ri-mail-fill"></i>
+                </div>
+                <div class="input-field">
+                    <input type="number" placeholder="Telefono" required>
+                    <i class="ri-phone-fill"></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    <input type="password" placeholder="Contraseña" required>
+                    <i class="ri-lock-password-fill"></i>
+                </div>
+                <div class="input-field">
+                    <input type="password" placeholder="Repita contraseña" required>
+                    <i class="ri-lock-password-fill"></i>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn">Registrar</button>
+            
+            
+        </form>
+    </div>
+
+{% endblock %}
