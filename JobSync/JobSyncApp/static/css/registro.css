@@ -19,7 +19,7 @@ body {
 .wrapper {
     width: 750px;
     background: rgba(22, 22, 22, 0.1);
-    border: 2px solid rgba(250, 249, 249, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2); 
     backdrop-filter: blur(30px);
     border-radius: 10px;
@@ -41,7 +41,7 @@ body {
 }
 
 .input-box .input-field {
-    position: flex;
+    position: relative;
     width: 40%;
     height: 50px;
     margin: 13px 0;
