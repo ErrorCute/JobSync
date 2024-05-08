@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css' %}/registro.css">
+   <link rel="stylesheet" href="{% static 'css' %}/registro.css">
     <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
@@ -31,7 +31,6 @@
             {%endif%}
         </ul>
     </navbar>
-
     
     <div class="wrapper">
         <form action="" method="POST">
@@ -40,31 +39,31 @@
             <div class="input-box">
                 <div class="input-field">
                     {{ form.nombre }}
-                    <i class="ri-user-fill"></i>
+                   
                 </div>
                 <div class="input-field">
                     {{ form.apellido }}
-                    <i class="ri-user-fill"></i>
+                    
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
                     {{ form.email }}
-                    <i class="ri-mail-fill"></i>
+                    
                 </div>
                 <div class="input-field">
                     {{ form.telefono }}
-                    <i class="ri-phone-fill"></i>
+                    
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
                     {{ form.contraseña }}
-                    <i class="ri-lock-password-fill"></i>
+                    
                 </div>
                 <div class="input-field">
                     {{ form.repetir_contraseña }}
-                    <i class="ri-lock-password-fill"></i>
+                    
                 </div>
             </div>
             

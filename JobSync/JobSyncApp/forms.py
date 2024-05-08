@@ -8,12 +8,13 @@ class UsuarioUserForm(AuthenticationForm):
         fields = ['username', 'password']  # Ajusta los campos según tu modelo
 
 class RegistroForm(forms.Form):
-    nombre = forms.CharField(max_length=100)
-    apellido = forms.CharField(max_length=100)
-    email = forms.EmailField()
-    telefono = forms.CharField(max_length=15)
-    contraseña = forms.CharField(widget=forms.PasswordInput)
-    repetir_contraseña = forms.CharField(widget=forms.PasswordInput)
+    nombre = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Nombre'}))
+    apellido = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Apellido'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Correo electrónico'}))
+    telefono = forms.CharField(max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Teléfono'}))
+    contraseña = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
+    repetir_contraseña = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Repetir contraseña'}))
+
 
     def clean(self):
         cleaned_data = super().clean()
