@@ -3,10 +3,10 @@ from .import views
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('index', views.index, name='index'),
     path('sobre_nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
-    path('login/', views.custom_login, name='custom_login'),
+    path('', views.custom_login, name='custom_login'),
     path('registro/', views.registro, name='registro'), 
     path('home/', views.home, name='home'), 
-    path('logout/', views.custom_logout, name='logout'),
+    path('custom_logout/', views.custom_logout, name='custom_logout'),
 ]

@@ -25,7 +25,7 @@ def custom_login(request):
 
 def custom_logout(request):
     logout(request)
-    return redirect('index.html')
+    return redirect('')
 
 def index(request):
     return render(request,'index.html')
