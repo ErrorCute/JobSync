@@ -28,45 +28,48 @@
             
         </ul>
     </navbar>
-    <div class="wrapper" >
+
+    
+    <div class="wrapper">
         <form action="" method="POST">
-           
+            {% csrf_token %}
             <h1>Registro</h1>
             <div class="input-box">
                 <div class="input-field">
-                    <input type="text" placeholder="Nombre" required>
+                    {{ form.nombre }}
                     <i class="ri-user-fill"></i>
                 </div>
                 <div class="input-field">
-                    <input type="text" placeholder="Apellido" required>
+                    {{ form.apellido }}
                     <i class="ri-user-fill"></i>
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-                    <input type="email" placeholder="Email" required>
+                    {{ form.email }}
                     <i class="ri-mail-fill"></i>
                 </div>
                 <div class="input-field">
-                    <input type="number" placeholder="Telefono" required>
+                    {{ form.telefono }}
                     <i class="ri-phone-fill"></i>
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-                    <input type="password" placeholder="Contraseña" required>
+                    {{ form.contraseña }}
                     <i class="ri-lock-password-fill"></i>
                 </div>
                 <div class="input-field">
-                    <input type="password" placeholder="Repita contraseña" required>
+                    {{ form.repetir_contraseña }}
                     <i class="ri-lock-password-fill"></i>
                 </div>
             </div>
             
             <button type="submit" class="btn">Registrar</button>
-            
-            
         </form>
+        {% if error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %}
     </div>
 </body>
 </html>
