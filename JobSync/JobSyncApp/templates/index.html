@@ -1,3 +1,4 @@
+{% load  static  %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    {% load  static  %}
     <link rel="stylesheet" href="{% static 'css' %}/login.css">
     <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
@@ -30,8 +30,9 @@
            
             <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
             {%if user.is_authenticated%}
-            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
             <li class="nav-link"><a href="{% url 'logout' %}">Cerrar Sesion</a></li>
+            {% else %}
+            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
             {%endif%}
         </ul>
     </navbar>
