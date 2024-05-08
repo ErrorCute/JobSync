@@ -27,10 +27,12 @@
       </div>
         <ul class="nav-items">
             <li class="nav-link"><a href="{% url 'index' %}">Inicio</a></li>
-            
-            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
+           
             <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
-            
+            {%if user.is_authenticated%}
+            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
+            <li class="nav-link"><a href="{% url 'logout' %}">Cerrar Sesion</a></li>
+            {%endif%}
         </ul>
     </navbar>
 

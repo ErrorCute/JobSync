@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from .models import CustomUser  # Cambia el nombre de la función login
 from .forms import  UsuarioUserForm,RegistroForm
@@ -23,6 +23,9 @@ def custom_login(request):
     return render(request, 'registration/login.html', {'formulario': formulario})
 
 
+def custom_logout(request):
+    logout(request)
+    return redirect('index.html')
 
 def index(request):
     return render(request,'index.html')
