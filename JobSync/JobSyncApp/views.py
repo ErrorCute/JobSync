@@ -16,7 +16,10 @@ def custom_login(request):
             user = authenticate(request,username=username, password=password)  
             if user is not None:
                 login(request, user) 
-                return redirect('home') 
+                if user.rol:
+                    return redirect('index_colaborador')
+                else:
+                    return redirect('home') 
     else:
         formulario = UsuarioUserForm()    
         
@@ -70,7 +73,10 @@ def registro(request):
 
 def home(request):
     return render(request, 'home.html')
-@login_required
 
+def index_colaborador(request):
+    return render(request ,'colaborador/index_colaborador.html')
+
+@login_required
 def sobre_nosotros(request):
     return render(request, 'sobrenosotros.html')

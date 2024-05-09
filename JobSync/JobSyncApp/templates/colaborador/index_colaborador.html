@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index_colaborador</title>
+    <link rel="stylesheet" href="{% static 'css' %}/home.css">
+    <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+<body>
+    <navbar class="navbar-container">
+        <div class="logo-container" >
+            <a href=""><img src="" alt="" style="margin-top: 1px; margin-right: 10px;"></a>
+            <a href="">JobSync</a>
+        </div>
+        <div class="bars">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+      </div>
+        <ul class="nav-items">
+            <li class="nav-link"><a href="{% url 'index' %}">Inicio</a></li>
+            
+            <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
+            {%if user.is_authenticated%}
+            <li class="nav-link"><a href="{% url 'custom_logout' %}">Cerrar Sesion</a></li>
+            {% else %}
+            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
+            {%endif%}
+        </ul>
+    </navbar>
+
+     <div class="registro">
+        <div class="container">
+            <a href="#">Mi Agenda</a>
+            <i class="bi bi-calendar3"></i>
+        </div>
+    </div>
+    <div class="gestion">
+        <div class="container">
+            <a href="#">Gestión de Trabajos</a>
+            <i class="ri-list-check-3"></i>
+        </div>
+    </div>
+    <div class="reportes">
+        <div class="container">
+            <a href="#">Reportes</a>
+            <i class="ri-file-text-fill"></i>
+        </div>
+    </div>
+</body>
+</html>
