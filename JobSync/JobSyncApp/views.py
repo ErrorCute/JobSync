@@ -26,9 +26,7 @@ def custom_login(request):
     return render(request, 'registration/login.html', {'formulario': formulario})
 
 
-def custom_logout(request):
-    logout(request)
-    return redirect('/')
+
 
 def index(request):
     return render(request,'index.html')
