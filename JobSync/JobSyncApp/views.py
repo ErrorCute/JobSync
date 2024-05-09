@@ -67,7 +67,9 @@ def registro(request):
         form = RegistroForm() 
         return render(request, 'registro.html',{'form': form})
 
-
+def lista_colaboradores(request):
+    colaboradores = CustomUser.objects.filter(rol=True)
+    return render(request, 'colaboradores.html', {'colaboradores': colaboradores})
 
 def home(request):
     return render(request, 'home.html')
