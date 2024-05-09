@@ -1,16 +1,17 @@
 
 .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 70px;
-    align-items: center;
-    background: #248f8f;
-    color: #fff;
-    position:fixed;
-    top:0;
-    width: 100%;
-  }
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem; /* Reducido el padding para evitar desbordamientos */
+  height: 70px;
+  align-items: center;
+  background: #248f8f;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Añadido z-index para asegurar que esté encima de otros elementos */
+}
   
   .navbar-container .logo-container a {
     font-size: 1.5rem;
@@ -28,7 +29,7 @@
   .navbar-container .nav-items {
     display: flex;
     list-style-type: none;
-    gap: 3rem;
+    gap: 2rem;
     align-items: center;
   }
   
@@ -41,6 +42,7 @@
     -o-transition: 0.2s;
     padding: 10px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
   
   .navbar-container .nav-items .nav-link:after {

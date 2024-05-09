@@ -38,4 +38,29 @@
     {% endfor %}
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+       
+        var cardContainer = document.querySelector(".card-container");
+        var lastCard = cardContainer.lastElementChild;
+    
+       
+        var registerButton = document.createElement("a");
+        registerButton.setAttribute("href", "{% url 'registro' %}");
+        registerButton.classList.add("register-button");
+        registerButton.innerText = "+";
+    
+       
+        var buttonTop = lastCard.offsetTop + lastCard.offsetHeight / 3 - registerButton.offsetHeight / 2;
+        var buttonLeft = lastCard.offsetLeft + lastCard.offsetWidth + 100; 
+    
+       
+        registerButton.style.position = "absolute";
+        registerButton.style.top = buttonTop + "px";
+        registerButton.style.left = buttonLeft + "px";
+    
+       
+        cardContainer.appendChild(registerButton);
+    });
+    </script>
 {% endblock %}

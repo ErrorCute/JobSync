@@ -1,17 +1,15 @@
 body {
     font-family: "Sen", sans-serif;
-    background-color: #f2f2f2;
     margin: 0;
     padding: 0;
     background: url(../css/img/fondo.png);
 }
 
-
 .header {
-    margin-top: 50px;
+    margin-top: 70px;
     text-align: center;
     padding: 20px 0;
-    background-color: #333;
+    background: transparent;
     color: #fff;
 }
 
@@ -43,6 +41,21 @@ body {
     margin: 5px 0;
 }
 
-.card p strong {
-    font-weight: bold;
+
+.register-button {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px; 
+    text-align: center; 
+    background-color: #248f8f; 
+    color: #fff; 
+    font-size: 24px; 
+    border-radius: 50%;
+    text-decoration: none; 
+    transition: background-color 0.3s; 
+}
+
+.register-button:hover {
+    background-color: #08a3a3; /* Cambia el color de fondo cuando se pasa el mouse */
 }
