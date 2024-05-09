@@ -1,7 +1,29 @@
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'css' %}/listado_colaboradores.css">
-{% block contenido %} 
+<link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+{% block contenido %}
+<navbar class="navbar-container">
+    <div class="logo-container" >
+        <a href=""><img src="" alt="" style="margin-top: 1px; margin-right: 10px;"></a>
+        <a href="">JobSync</a>
+    </div>
+    <div class="bars">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+  </div>
+    <ul class="nav-items">
+        <li class="nav-link"><a href="{% url 'index' %}">Inicio</a></li>
+        
+        <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
+        {%if user.is_authenticated%}
+        <li class="nav-link"><a href="{% url 'logout' %}">Cerrar Sesion</a></li>
+        {% else %}
+        <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
+        {%endif%}
+    </ul>
+</navbar>
 <div class="header">
     <h1>Colaboradores</h1>
 </div>
@@ -15,5 +37,5 @@
     </div>
     {% endfor %}
 </div>
-<button>Registro Colaboradores</button>
+
 {% endblock %}
