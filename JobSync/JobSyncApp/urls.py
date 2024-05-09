@@ -9,10 +9,11 @@ urlpatterns = [
     
     path('', views.custom_login, name='custom_login'),
     path('registro/', views.registro, name='registro'), 
-    path('colaboradores/', views.lista_colaboradores, name='colaboradores'),
+    
+    
     # admin ---- 
     path('home/', views.home, name='home'), 
-
+    path('colaboradores/', views.lista_colaboradores, name='colaboradores'),
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
 ]

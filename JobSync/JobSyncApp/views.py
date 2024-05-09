@@ -26,8 +26,6 @@ def custom_login(request):
     return render(request, 'registration/login.html', {'formulario': formulario})
 
 
-
-
 def index(request):
     return render(request,'index.html')
 
@@ -67,9 +65,12 @@ def registro(request):
         form = RegistroForm() 
         return render(request, 'registro.html',{'form': form})
 
+
 def lista_colaboradores(request):
     colaboradores = CustomUser.objects.filter(rol=True)
-    return render(request, 'colaboradores.html', {'colaboradores': colaboradores})
+    return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
+
+
 
 def home(request):
     return render(request, 'home.html')
