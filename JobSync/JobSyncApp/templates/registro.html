@@ -1,49 +1,77 @@
-{% extends 'index.html' %}
-
-
-{% load static %} 
-
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <link rel="stylesheet" href="{% static 'css' %}/registro.css">
+    <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+<body>
+    <navbar class="navbar-container">
+        <div class="logo-container" >
+            <a href=""><img src="" alt="" style="margin-top: 1px; margin-right: 10px;"></a>
+            <a href="">JobSync</a>
+        </div>
+        <div class="bars">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+      </div>
+        <ul class="nav-items">
+            <li class="nav-link"><a href="{% url 'index' %}">Inicio</a></li>
+            
+            <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
+            {%if user.is_authenticated%}
+            <li class="nav-link"><a href="{% url 'custom_logout' %}">Cerrar Sesion</a></li>
+            {% else %}
+            <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
+            {%endif%}
+        </ul>
+    </navbar>
     
-{% block contenido %} 
-    <div class="wrapper" >
+    <div class="wrapper">
         <form action="" method="POST">
-           
+            {% csrf_token %}
             <h1>Registro</h1>
             <div class="input-box">
                 <div class="input-field">
-                    <input type="text" placeholder="Nombre" required>
-                    <i class="ri-user-fill"></i>
+                    {{ form.nombre }}
+                   
                 </div>
                 <div class="input-field">
-                    <input type="text" placeholder="Apellido" required>
-                    <i class="ri-user-fill"></i>
-                </div>
-            </div>
-            <div class="input-box">
-                <div class="input-field">
-                    <input type="email" placeholder="Email" required>
-                    <i class="ri-mail-fill"></i>
-                </div>
-                <div class="input-field">
-                    <input type="number" placeholder="Telefono" required>
-                    <i class="ri-phone-fill"></i>
+                    {{ form.apellido }}
+                    
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-                    <input type="password" placeholder="Contraseña" required>
-                    <i class="ri-lock-password-fill"></i>
+                    {{ form.email }}
+                    
                 </div>
                 <div class="input-field">
-                    <input type="password" placeholder="Repita contraseña" required>
-                    <i class="ri-lock-password-fill"></i>
+                    {{ form.telefono }}
+                    
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    {{ form.contraseña }}
+                    
+                </div>
+                <div class="input-field">
+                    {{ form.repetir_contraseña }}
+                    
                 </div>
             </div>
             
             <button type="submit" class="btn">Registrar</button>
-            
-            
         </form>
+        {% if error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %}
     </div>
 {% endblock %}
 
