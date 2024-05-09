@@ -1,5 +1,6 @@
-{% extends 'index.html' %}
 
+{% load static %}
+<link rel="stylesheet" href="{% static 'css' %}/listado_colaboradores.css">
 {% block contenido %} 
 <div class="header">
     <h1>Colaboradores</h1>
@@ -14,5 +15,5 @@
     </div>
     {% endfor %}
 </div>
-
+<button>Registro Colaboradores</button>
 {% endblock %}
