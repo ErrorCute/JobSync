@@ -10,7 +10,7 @@ urlpatterns = [
     path('', views.custom_login, name='custom_login'),
     path('registro/', views.registro, name='registro'), 
     
-    
+    path('custom_logout/', views.custom_logout, name='custom_logout'),
     # admin ---- 
     path('home/', views.home, name='home'), 
     path('colaboradores/', views.lista_colaboradores, name='colaboradores'),

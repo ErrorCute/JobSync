@@ -29,6 +29,10 @@ def custom_login(request):
 def index(request):
     return render(request,'index.html')
 
+def custom_logout(request):
+    logout(request)
+  
+    return redirect('/')
 
 def registro(request):
     if request.method == 'POST':
