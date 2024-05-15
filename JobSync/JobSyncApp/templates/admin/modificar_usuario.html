@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+{% load  static  %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/admin/modificar_usuario.css' %}">
+    <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+{% endblock extra_css %}
+{% block contenido %}
+<div class="wrapper">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <h1>Modificar Usuario</h1>
+        <div class="input-box">
+            <div class="input-field">
+                <label class="input-label" for="id_username">Nombre de usuario:</label>
+                {{ form.username }}
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="id_first_name">Nombre:</label>
+                {{ form.first_name }}
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-field">
+                <label class="input-label" for="id_last_name">Apellido:</label>
+                {{ form.last_name }}
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="id_email">Correo electrónico:</label>
+                {{ form.email }}
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-field">
+                <label class="input-label" for="id_telefono">Teléfono:</label>
+                {{ form.telefono }}
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-field">
+                <label class="input-label" for="id_contraseña">Contraseña:</label>
+                {{ form.contraseña }}
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="id_repetir_contraseña">Repetir contraseña:</label>
+                {{ form.repetir_contraseña }}
+            </div>
+        </div>
+        
+        <button type="submit" class="btn">Guardar cambios</button>
+    </form>
+</div>
+{% endblock %}

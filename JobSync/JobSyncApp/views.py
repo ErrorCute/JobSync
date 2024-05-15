@@ -1,9 +1,9 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 
 from .models import CustomUser  # Cambia el nombre de la función login
-from .forms import  UsuarioUserForm,RegistroForm
+from .forms import  UsuarioUserForm,RegistroForm, ModificarUsuarioForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -82,7 +82,16 @@ def eliminar_usuario(request, user_id):
     else:
         return render(request, 'admin/eliminar_usuario.html', {'user_id': user_id})
 
-
+def modificar_usuario(request, user_id):
+    usuario = get_object_or_404(CustomUser, id=user_id)
+    if request.method == 'POST':
+        form = ModificarUsuarioForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return redirect('colaboradores')
+    else:
+        form = ModificarUsuarioForm(instance=usuario)
+    return render(request, 'admin/modificar_usuario.html', {'form': form, 'usuario_id': user_id})
 
 
 def home(request):

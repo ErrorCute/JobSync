@@ -15,6 +15,7 @@ urlpatterns = [
     path('home/', views.home, name='home'), 
     path('colaboradores/', views.lista_colaboradores, name='colaboradores'),
     path('eliminar_usuario/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
+     path('modificar_usuario/<int:user_id>/', views.modificar_usuario, name='modificar_usuario'),
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
 ]
