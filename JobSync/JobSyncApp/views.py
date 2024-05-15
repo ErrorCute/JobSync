@@ -70,10 +70,17 @@ def registro(request):
         return render(request, 'registro.html',{'form': form})
 
 
-def lista_colaboradores(request):
+def lista_colaboradores(request ):
     colaboradores = CustomUser.objects.filter(rol=True)
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
 
+def eliminar_usuario(request, user_id):
+    if request.method == 'POST':
+        user = CustomUser.objects.get(id=user_id)
+        user.delete()
+        return redirect('colaboradores')  # Redirige a la página de la lista de usuarios después de eliminar
+    else:
+        return render(request, 'admin/eliminar_usuario.html', {'user_id': user_id})
 
 
 def home(request):

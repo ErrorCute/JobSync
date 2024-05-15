@@ -12,15 +12,23 @@
 <div class="card-container">
     {% for colaborador in colaboradores %}
     <div class="card">
+        <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 10px;">Eliminar</button>
         <h2>{{ colaborador.username }}</h2>
         <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
         <p><strong>Email:</strong> {{ colaborador.email }}</p>
         <p><strong>Teléfono:</strong> {{ colaborador.telefono }}</p>
+        
     </div>
     {% endfor %}
 </div>
 
 <script>
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const url = this.dataset.url;
+        window.location.href = url;
+    });
+});
     document.addEventListener("DOMContentLoaded", function() {
        
         var cardContainer = document.querySelector(".card-container");

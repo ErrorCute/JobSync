@@ -14,6 +14,7 @@ urlpatterns = [
     # admin ---- 
     path('home/', views.home, name='home'), 
     path('colaboradores/', views.lista_colaboradores, name='colaboradores'),
+    path('eliminar_usuario/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
 ]
