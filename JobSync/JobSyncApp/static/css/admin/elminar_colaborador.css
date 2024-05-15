@@ -1,0 +1,65 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+#eliminar-usuario-container {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+#eliminar-usuario-container h1 {
+    color: #d9534f;
+    margin-bottom: 20px;
+}
+
+#eliminar-usuario-container p {
+    color: #555;
+    margin-bottom: 20px;
+}
+
+#eliminar-usuario-container .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#eliminar-usuario-container input[type="submit"] {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#eliminar-usuario-container input[type="submit"]:hover {
+    background-color: #c9302c;
+}
+
+#eliminar-usuario-container .cancel-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+#eliminar-usuario-container .cancel-btn:hover {
+    background-color: #5a6268;
+}

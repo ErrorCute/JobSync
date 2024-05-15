@@ -60,7 +60,7 @@ def registro(request):
                 # Puedes guardar cualquier otro campo personalizado aquí si es necesario
               
                 nuevo_usuario.save()
-                return redirect('home')  # Redirigir a una página de éxito
+                return redirect('colaboradores')  # Redirigir a una página de éxito
             else:
                 # El usuario ya existe, mostrar un mensaje de error
                 mensaje_error = "Ya existe un usuario con este correo electrónico"
@@ -78,9 +78,11 @@ def eliminar_usuario(request, user_id):
     if request.method == 'POST':
         user = CustomUser.objects.get(id=user_id)
         user.delete()
-        return redirect('colaboradores')  # Redirige a la página de la lista de usuarios después de eliminar
+        return redirect('colaboradores')  
     else:
         return render(request, 'admin/eliminar_usuario.html', {'user_id': user_id})
+
+
 
 
 def home(request):

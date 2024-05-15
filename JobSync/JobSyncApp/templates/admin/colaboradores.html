@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css' %}/listado_colaboradores.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock extra_css %}
 {% block contenido %}
 
@@ -12,7 +13,7 @@
 <div class="card-container">
     {% for colaborador in colaboradores %}
     <div class="card">
-        <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 10px;">Eliminar</button>
+        <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 10px; background-color: rgb(235, 93, 93);" > <i class="fas fa-trash-alt"></i></button>
         <h2>{{ colaborador.username }}</h2>
         <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
         <p><strong>Email:</strong> {{ colaborador.email }}</p>

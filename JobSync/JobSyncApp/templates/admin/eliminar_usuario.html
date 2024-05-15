@@ -2,18 +2,24 @@
 {% load  static  %}
 
 
-{% block extra_css %} 
-<link rel="stylesheet" href="{% static 'css' %}/login.css">
+{% block extra_css %}
+ <link rel="stylesheet" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin/elminar_colaborador.css' %}">
+
+
 {% endblock extra_css %}    
 {% block contenido %} 
 
-    <div class="conteiner" style="background-color: aliceblue;">
+<div id="eliminar-usuario-container" class="container">
     <h1>Eliminar Usuario</h1>
     <p>¿Estás seguro de que deseas eliminar este usuario?</p>
     <br>
     <form method="post">
         {% csrf_token %}
-        <input type="submit" value="Eliminar">
+        <div class="form-actions">
+            <a href="{% url 'colaboradores' %}" class="cancel-btn">Cancelar</a>
+            <input type="submit" value="Eliminar">
+        </div>
     </form>
 </div>
 {% endblock %}
