@@ -18,7 +18,11 @@
     <navbar class="navbar-container">
         <div class="logo-container" >
             <a href=""><img src="" alt="" style="margin-top: 1px; margin-right: 10px;"></a>
+            {%if user.is_authenticated%}
             <a href="{% url 'home' %}">JobSync</a>
+            {% else %}
+            <a href="">JobSync</a>
+            {%endif%}
         </div>
         <div class="bars">
           <div class="bar"></div>
