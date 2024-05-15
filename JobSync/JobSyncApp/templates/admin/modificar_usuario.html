@@ -4,10 +4,11 @@
     <link rel="stylesheet" href="{% static 'css/admin/modificar_usuario.css' %}">
     <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 {% endblock extra_css %}
 {% block contenido %}
 <div class="wrapper">
-    <form action="" method="POST">
+    <form id="modificarUsuarioForm" action="" method="POST">
         {% csrf_token %}
         <h1>Modificar Usuario</h1>
         <div class="input-box">
@@ -47,7 +48,54 @@
             </div>
         </div>
         
-        <button type="submit" class="btn">Guardar cambios</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmarModal">
+            Guardar cambios
+        </button>
     </form>
 </div>
+
+<div class="modal fade" id="confirmarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Confirmar Acción</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas realizar esta acción?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" id="confirmarCambiosBtn" class="btn btn-primary">Confirmar</button> <!-- Añade un ID aquí -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var confirmarBtn = document.getElementById("confirmarBtn");
+        var confirmarCambiosBtn = document.getElementById("confirmarCambiosBtn");
+    
+        if (confirmarBtn) {
+            confirmarBtn.addEventListener("click", function() {
+                $('#confirmarModal').modal('show');
+            });
+        }
+    
+        if (confirmarCambiosBtn) {
+            confirmarCambiosBtn.addEventListener("click", function() {
+                document.getElementById("modificarUsuarioForm").submit();
+            });
+        }
+    });
+    </script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
