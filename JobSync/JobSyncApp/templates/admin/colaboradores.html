@@ -1,5 +1,5 @@
 {% extends 'index.html' %}
-{% load  static  %}
+{% load static %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css' %}/listado_colaboradores.css">
@@ -13,47 +13,45 @@
 <div class="card-container">
     {% for colaborador in colaboradores %}
     <div class="card">
-        <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 10px; background-color: rgb(235, 122, 93);" > <i class="fas fa-trash-alt"></i></button>
-        <button class="edit-btn" data-url="{% url 'modificar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 40px; background-color: rgb(21, 122, 236);"> <i class="fas fa-edit"></i>
-        </button>
+        <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 10px; background-color: rgb(235, 122, 93);"> <i class="fas fa-trash-alt"></i></button>
+        <button class="edit-btn" data-url="{% url 'modificar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 40px; background-color: rgb(21, 122, 236);"> <i class="fas fa-edit"></i></button>
         <h2>{{ colaborador.username }}</h2>
         <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
         <p><strong>Email:</strong> {{ colaborador.email }}</p>
         <p><strong>Teléfono:</strong> {{ colaborador.telefono }}</p>
-        
     </div>
     {% endfor %}
+    <a href="{% url 'registro' %}" class="register-button" id="registerButton">+</a>
 </div>
 
 <script>
     document.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const url = this.dataset.url;
-        window.location.href = url;
+        btn.addEventListener('click', function() {
+            const url = this.dataset.url;
+            window.location.href = url;
+        });
     });
-});
+
     document.addEventListener("DOMContentLoaded", function() {
-       
         var cardContainer = document.querySelector(".card-container");
-        var lastCard = cardContainer.lastElementChild;
-    
-       
-        var registerButton = document.createElement("a");
-        registerButton.setAttribute("href", "{% url 'registro' %}");
-        registerButton.classList.add("register-button");
-        registerButton.innerText = "+";
-    
-       
-        var buttonTop = lastCard.offsetTop + lastCard.offsetHeight / 3 - registerButton.offsetHeight / 2;
-        var buttonLeft = lastCard.offsetLeft + lastCard.offsetWidth + 100; 
-    
-       
-        registerButton.style.position = "absolute";
-        registerButton.style.top = buttonTop + "px";
-        registerButton.style.left = buttonLeft + "px";
-    
-       
-        cardContainer.appendChild(registerButton);
+        var registerButton = document.getElementById("registerButton");
+
+        if (cardContainer.children.length > 1) {  
+            var lastCard = cardContainer.querySelector(".card:last-child");
+
+         
+            var buttonTop = lastCard.offsetTop + lastCard.offsetHeight / 3 - registerButton.offsetHeight / 2;
+            var buttonLeft = lastCard.offsetLeft + lastCard.offsetWidth + 20; 
+
+            registerButton.style.position = "absolute";
+            registerButton.style.top = buttonTop + "px";
+            registerButton.style.left = buttonLeft + "px";
+        } else {
+           
+            registerButton.style.position = "relative";
+            registerButton.style.top = "20px"; 
+            registerButton.style.left = "0";
+        }
     });
 
     document.querySelectorAll('.edit-btn').forEach(btn => {
@@ -62,5 +60,5 @@
             window.location.href = url;
         });
     });
-    </script>
+</script>
 {% endblock %}
