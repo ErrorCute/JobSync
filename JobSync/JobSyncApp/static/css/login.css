@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+
 * {
     padding: 0;
     margin: 0;
@@ -95,4 +98,22 @@ input::placeholder{
     box-shadow: 0 0 5px rgba(0, 0, 0, .1);
     cursor: pointer;
     margin-bottom: 30px;
+}
+.text-center {
+    text-align: center;
+  }
+
+.back-button {
+    display: inline-block;
+    width: 102px; /* Reducido un 15% */
+    height: 51px; /* Reducido un 15% */
+    line-height: 51px; /* Ajustado proporcionalmente */
+    text-align: center; 
+    background-color: #248f8f;  /* Cambiado el color a azul marino */
+    color: #fff;
+    font-size: 20px; /* Ajustado proporcionalmente */
+    border-radius: 15px; /* Ajustado el radio para bordes redondeados */
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin: auto; /* Alineado al centro */
 }
