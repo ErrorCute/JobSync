@@ -44,31 +44,25 @@ class ModificarUsuarioForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'first_name', 'last_name', 'email', 'telefono']
+        fields = ['first_name', 'last_name', 'email', 'telefono']
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Nombre de usuario'}),
             'first_name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Correo electrónico'}),
             'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super(ModificarUsuarioForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs['readonly'] = False  # Permitir editar el username
-
     # Sobreescribir clean_username para asegurarse de que el username no esté duplicado
     def clean_username(self):
-        username = self.cleaned_data['username']
-        if CustomUser.objects.exclude(id=self.instance.id).filter(username=username).exists():
-            raise forms.ValidationError("Este nombre de usuario ya está en uso")
-        return username
+        # No necesitas validar este campo ya que está oculto
+        return self.cleaned_data['username']
 
     # Validación de contraseña y repetir contraseña
     def clean(self):
         cleaned_data = super().clean()
         contraseña = cleaned_data.get("contraseña")
         repetir_contraseña = cleaned_data.get("repetir_contraseña")
+        email = cleaned_data.get("email")
 
         # Verificar si se ingresó al menos una contraseña
         if contraseña or repetir_contraseña:
@@ -76,4 +70,12 @@ class ModificarUsuarioForm(forms.ModelForm):
             if contraseña != repetir_contraseña:
                 raise forms.ValidationError("Las contraseñas no coinciden")
 
+        # Establecer el username como el valor del email
+        cleaned_data["username"] = email
+
         return cleaned_data
+
+    def save(self, commit=True):
+        # Actualizar el valor del username con el nuevo valor del email
+        self.instance.username = self.cleaned_data['email']
+        return super(ModificarUsuarioForm, self).save(commit)
