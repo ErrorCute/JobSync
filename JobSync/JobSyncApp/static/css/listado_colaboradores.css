@@ -67,22 +67,25 @@ body {
     background-color: #08a3a3; /* Cambia el color de fondo cuando se pasa el mouse */
 }
 
-
-.text-center {
-    text-align: center;
-  }
-
-.back-button {
-    display: inline-block;
-    width: 102px; /* Reducido un 15% */
-    height: 51px; /* Reducido un 15% */
-    line-height: 51px; /* Ajustado proporcionalmente */
-    text-align: center; 
-    background-color: #248f8f;  /* Cambiado el color a azul marino */
-    color: #fff;
-    font-size: 20px; /* Ajustado proporcionalmente */
-    border-radius: 15px; /* Ajustado el radio para bordes redondeados */
-    text-decoration: none;
-    transition: background-color 0.3s;
-    margin: auto; /* Alineado al centro */
+.header {
+    position: relative;
 }
+.header .left-button {
+    position: absolute;
+    left: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgb(1, 77, 82);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none; 
+    display: flex;
+    align-items: center;
+}
+.header .left-button i {
+    margin-right: 8px;
+}
+

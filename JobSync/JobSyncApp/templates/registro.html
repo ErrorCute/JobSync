@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/admin/modificar_usuario.css' %}">
     <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
     <navbar class="navbar-container">
@@ -67,7 +68,9 @@
                 </div>
             </div>
             
-            <button type="submit" class="btn">Registrar</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+
+            <a href="{% url 'colaboradores' %}" class="btn btn-danger" >Regresar</a>
         </form>
         {% if error_message %}
         <p>{{ error_message }}</p>

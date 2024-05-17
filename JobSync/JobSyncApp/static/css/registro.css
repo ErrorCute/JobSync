@@ -89,3 +89,25 @@ body {
     font-weight: 600;
     margin-top: 10px;
 }
+
+.header {
+    position: relative;
+}
+.header .left-button {
+    position: absolute;
+    left: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgb(1, 77, 82);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none; 
+    display: flex;
+    align-items: center;
+}
+.header .left-button i {
+    margin-right: 8px;
+}

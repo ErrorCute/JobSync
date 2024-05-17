@@ -4,12 +4,19 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css' %}/listado_colaboradores.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
 {% endblock extra_css %}
 {% block contenido %}
 
+
+
+
 <div class="header">
+    <a href="{% url 'home' %}" class="left-button" id="leftButton"><i class="fas fa-arrow-left"></i>VOLVER</a>
     <h1>Colaboradores</h1>
 </div>
+
 <div class="card-container">
     {% for colaborador in colaboradores %}
     <div class="card">
@@ -24,45 +31,7 @@
     <a href="{% url 'registro' %}" class="register-button" id="registerButton">+</a>
 </div>
 
-<script>
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const url = this.dataset.url;
-            window.location.href = url;
-        });
-    });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        var cardContainer = document.querySelector(".card-container");
-        var registerButton = document.getElementById("registerButton");
+<script src="{% static 'css/admin/colaboradores.js' %}" ></script>
 
-        if (cardContainer.children.length > 1) {  
-            var lastCard = cardContainer.querySelector(".card:last-child");
-
-         
-            var buttonTop = lastCard.offsetTop + lastCard.offsetHeight / 3 - registerButton.offsetHeight / 2;
-            var buttonLeft = lastCard.offsetLeft + lastCard.offsetWidth + 20; 
-
-            registerButton.style.position = "absolute";
-            registerButton.style.top = buttonTop + "px";
-            registerButton.style.left = buttonLeft + "px";
-        } else {
-           
-            registerButton.style.position = "relative";
-            registerButton.style.top = "20px"; 
-            registerButton.style.left = "0";
-        }
-    });
-
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const url = this.dataset.url;
-            window.location.href = url;
-        });
-    });
-</script>
-
-<div class="text-center">
-    <a href="{% url 'home' %}" class="back-button">Volver</a>
-    </div>
 {% endblock %}

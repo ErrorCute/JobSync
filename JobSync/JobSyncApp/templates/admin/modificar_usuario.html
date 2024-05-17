@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 {% endblock extra_css %}
+
 {% block contenido %}
 <div class="wrapper">
     <form id="modificarUsuarioForm" action="" method="POST">
@@ -13,33 +14,33 @@
         <h1>Modificar Usuario</h1>
         <div class="input-box">
             <div class="input-field">
-                <label class="input-label" for="id_first_name">Nombre:</label>
+                <label class="input-label" for="id_first_name"></label>
                 {{ form.first_name }}
             </div>
         </div>
         <div class="input-box">
             <div class="input-field">
-                <label class="input-label" for="id_last_name">Apellido:</label>
+                <label class="input-label" for="id_last_name"></label>
                 {{ form.last_name }}
             </div>
             <div class="input-field">
-                <label class="input-label" for="id_email">Correo electrónico:</label>
+                <label class="input-label" for="id_email"></label>
                 {{ form.email }}
             </div>
         </div>
         <div class="input-box">
             <div class="input-field">
-                <label class="input-label" for="id_telefono">Teléfono:</label>
+                <label class="input-label" for="id_telefono"></label>
                 {{ form.telefono }}
             </div>
         </div>
         <div class="input-box">
             <div class="input-field">
-                <label class="input-label" for="id_contraseña">Contraseña:</label>
+                <label class="input-label" for="id_contraseña"></label>
                 {{ form.contraseña }}
             </div>
             <div class="input-field">
-                <label class="input-label" for="id_repetir_contraseña">Repetir contraseña:</label>
+                <label class="input-label" for="id_repetir_contraseña"></label>
                 {{ form.repetir_contraseña }}
             </div>
         </div>
@@ -47,6 +48,7 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmarModal">
             Guardar cambios
         </button>
+        <a href="{% url 'colaboradores' %}" class="btn btn-danger" >Regresar</a>
     </form>
 </div>
 
@@ -70,6 +72,7 @@
     </div>
   </div>
   
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
         var confirmarBtn = document.getElementById("confirmarBtn");
