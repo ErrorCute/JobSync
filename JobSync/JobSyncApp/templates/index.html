@@ -8,13 +8,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
     
     {% block extra_css %} {% endblock extra_css %}   
 </head>
-
 <body>
     <navbar class="navbar-container">
         <div class="logo-container" >
@@ -25,11 +21,11 @@
             <a href="">JobSync</a>
             {%endif%}
         </div>
-        <div class="bars">
+       <div class="bars">
           <div class="bar"></div>
           <div class="bar"></div>
           <div class="bar"></div>
-      </div>
+       </div>
         <ul class="nav-items">
             <li class="nav-link"><a href="{% url 'home' %}">Inicio</a></li>
            
