@@ -16,6 +16,12 @@ urlpatterns = [
     path('colaboradores/', views.lista_colaboradores, name='colaboradores'),
     path('eliminar_usuario/<int:user_id>/', views.eliminar_usuario, name='eliminar_usuario'),
      path('modificar_usuario/<int:user_id>/', views.modificar_usuario, name='modificar_usuario'),
+
+    # gestion de trabajos admin 
+    path('index_trabajo/', views.index_trabajo, name='index_trabajo'),
+    path('trabajos/', views.trabajos, name='trabajos'),
+    
+
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
 ]

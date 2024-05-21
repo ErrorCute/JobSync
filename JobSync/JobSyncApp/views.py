@@ -103,3 +103,13 @@ def index_colaborador(request):
 @login_required
 def sobre_nosotros(request):
     return render(request, 'sobrenosotros.html')
+
+
+
+# ------------------------------------------------ gestion de trabajos como administrador ----------------------
+
+def index_trabajo(request):
+    return render (request,'admin/gestion_trabajos/index_trabajo.html')
+
+def trabajos(request):
+    return render (request,'admin/gestion_trabajos/trabajos.html')

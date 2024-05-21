@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% load static %}
+        
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/admin/trabajos.css' %}">
+
+
+
+{% endblock extra_css %}
+
+
+{% block contenido %}
+
+<div class="header">
+    <a href="{% url 'index_trabajo' %}" id="btn-volver" class="btn btn-back">Volver</a>
+    <h1 id="titulo-trabajos">Trabajos</h1>
+    <a href="" id="btn-registrar" class="btn">Registrar Trabajo</a>
+</div> 
+
+<div class="container"> 
+    <h1>la listas de trabajos </h1>
+</div>
+
+
+{% endblock %}
+
+
