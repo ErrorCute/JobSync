@@ -2,13 +2,8 @@
 {% load static %}
         
 {% block extra_css %}
-
 <link rel="stylesheet" href="{% static 'css/admin/trabajos.css' %}">
-
-
-
 {% endblock extra_css %}
-
 
 {% block contenido %}
 
@@ -19,10 +14,38 @@
 </div> 
 
 <div class="container"> 
-    <h1>la listas de trabajos </h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre del Trabajo</th>
+                <th>Nombre del Titular</th>
+                <th>RUT del Titular</th>
+                <th>Comuna</th>
+                <th>Dirección</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Valor</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trabajo in trabajos %}
+            <tr>
+                <td>{{ trabajo.id }}</td>
+                <td>{{ trabajo.nombre_trabajo }}</td>
+                <td>{{ trabajo.nombre_titular }}</td>
+                <td>{{ trabajo.rut_titular }}</td>
+                <td>{{ trabajo.comuna }}</td>
+                <td>{{ trabajo.direccion }}</td>
+                <td>{{ trabajo.fecha }}</td>
+                <td>{{ trabajo.hora }}</td>
+                <td>{{ trabajo.valor }}</td>
+                <td>{{ trabajo.get_estado_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
-
 {% endblock %}
-
-

@@ -82,3 +82,7 @@ class TrabajoForm(forms.ModelForm):
     class Meta:
         model = Trabajo
         fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'comuna', 'direccion', 'fecha', 'hora', 'valor']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'type': 'date'}),
+            'hora': forms.TimeInput(attrs={'type': 'time'}),
+        }

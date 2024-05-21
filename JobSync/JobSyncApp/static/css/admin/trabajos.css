@@ -21,7 +21,6 @@ body {
     background-size: cover;
 }
 
-
 .header {
     width: 100%;
     display: flex;
@@ -31,13 +30,13 @@ body {
     color: rgba(255, 255, 255, 0.8);
     position: fixed;
     top: 80px; /* Ajusta el margen superior según sea necesario */
-
 }
 
 #titulo-trabajos {
     margin: 0;
     flex-grow: 1;
     text-align: center;
+    color: #f3f3f3;
 }
 
 .btn {
@@ -49,5 +48,59 @@ body {
 }
 
 .btn-back {
-    background-color:  #248f8f;
+    background-color: #248f8f;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+    border-radius: 10px;
+    overflow: hidden; /* Para que el borde redondeado se aplique a todo */
+}
+
+.table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.table tbody tr:nth-of-type(odd) {
+    background-color: #ffffff;
+}
+
+.table tbody tr:nth-of-type(even):hover {
+    background-color: #e0e0e0;
+}
+
+.table tbody tr:nth-of-type(odd):hover {
+    background-color: #e9e9e9;
+}
+
+.table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.container {
+    margin-top: 150px; /* Ajusta este margen superior según sea necesario */
+    width: 90%;
+    max-width: 1200px;
 }

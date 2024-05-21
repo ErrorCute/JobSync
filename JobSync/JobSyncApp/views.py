@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, Comuna
+from .models import CustomUser, Comuna, Trabajo
 from .forms import UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 
@@ -111,7 +111,8 @@ def index_trabajo(request):
     return render (request,'admin/gestion_trabajos/index_trabajo.html')
 
 def trabajos(request):
-    return render (request,'admin/gestion_trabajos/trabajos.html')
+    trabajos = Trabajo.objects.all()  # Obtener todos los trabajos
+    return render(request, 'admin/gestion_trabajos/trabajos.html', {'trabajos': trabajos})
 
 
 def crear_trabajo(request):
@@ -120,7 +121,7 @@ def crear_trabajo(request):
         if form.is_valid():
             trabajo = form.save(commit=False)
             trabajo.save()
-            return redirect('admin/gestion_trabajos/trabajos.html')  # Redirigir a la página de lista de trabajos
+            return redirect('trabajos')  # Redirigir a la página de lista de trabajos
     else:
         form = TrabajoForm()
-    return render(request, 'crear_trabajo.html', {'form': form})
+    return render(request, 'admin/gestion_trabajos/crear_trabajo.html', {'form': form})
