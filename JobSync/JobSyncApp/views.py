@@ -45,6 +45,7 @@ def registro(request):
             telefono = form.cleaned_data['telefono']
             contraseña = form.cleaned_data['contraseña']
             repetir_contraseña = form.cleaned_data['repetir_contraseña']
+            comuna = form.cleaned_data['comuna']  # Obtener el campo 'comuna'
 
             # Verificar si el usuario ya existe
             if not CustomUser.objects.filter(email=email).exists():
@@ -55,10 +56,9 @@ def registro(request):
                     first_name=nombre,
                     last_name=apellido,
                     telefono=telefono,
+                    comuna=comuna,  # Asignar el campo 'comuna'
                     password=contraseña
                 )
-                # Puedes guardar cualquier otro campo personalizado aquí si es necesario
-              
                 nuevo_usuario.save()
                 return redirect('colaboradores')  # Redirigir a una página de éxito
             else:
@@ -66,8 +66,8 @@ def registro(request):
                 mensaje_error = "Ya existe un usuario con este correo electrónico"
                 return render(request, 'registro.html', {'form': form, 'error_message': mensaje_error})
     else:
-        form = RegistroForm() 
-        return render(request, 'registro.html',{'form': form})
+        form = RegistroForm()
+    return render(request, 'registro.html', {'form': form})
 
 
 def lista_colaboradores(request ):

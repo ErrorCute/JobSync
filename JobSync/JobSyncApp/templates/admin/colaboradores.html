@@ -19,6 +19,8 @@
         <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
         <p><strong>Email:</strong> {{ colaborador.email }}</p>
         <p><strong>Teléfono:</strong> {{ colaborador.telefono }}</p>
+        <p><strong>Comuna:</strong> {{ colaborador.comuna }}</p>
+        
     </div>
     {% endfor %}
     <a href="{% url 'registro' %}" class="register-button" id="registerButton">+</a>

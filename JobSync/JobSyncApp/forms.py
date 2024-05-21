@@ -14,7 +14,7 @@ class RegistroForm(forms.Form):
     telefono = forms.CharField(max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Teléfono'}))
     contraseña = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
     repetir_contraseña = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Repetir contraseña'}))
-
+    comuna = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Comuna'}))  # Añadir el campo 'comuna'
 
     def clean(self):
         cleaned_data = super().clean()
@@ -32,32 +32,28 @@ class RegistroForm(forms.Form):
             first_name=self.cleaned_data['nombre'],
             last_name=self.cleaned_data['apellido'],
             telefono=self.cleaned_data['telefono'],
+            comuna=self.cleaned_data['comuna'],  # Añadir el campo 'comuna'
             password=self.cleaned_data['contraseña']
         )
         usuario.save()
         return usuario
-    
 
 class ModificarUsuarioForm(forms.ModelForm):
     contraseña = forms.CharField(label='Contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}), required=False)
     repetir_contraseña = forms.CharField(label='Repetir contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Repetir contraseña'}), required=False)
+    comuna = forms.CharField(label='Comuna', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Comuna'}), required=False)
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'telefono']
+        fields = ['first_name', 'last_name', 'email', 'telefono', 'comuna']  # Añadir 'comuna' a los campos
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Correo electrónico'}),
             'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
+            'comuna': forms.TextInput(attrs={'placeholder': 'Comuna'}),  # Añadir el widget para 'comuna'
         }
 
-    # Sobreescribir clean_username para asegurarse de que el username no esté duplicado
-    def clean_username(self):
-        # No necesitas validar este campo ya que está oculto
-        return self.cleaned_data['username']
-
-    # Validación de contraseña y repetir contraseña
     def clean(self):
         cleaned_data = super().clean()
         contraseña = cleaned_data.get("contraseña")
@@ -78,4 +74,5 @@ class ModificarUsuarioForm(forms.ModelForm):
     def save(self, commit=True):
         # Actualizar el valor del username con el nuevo valor del email
         self.instance.username = self.cleaned_data['email']
+        self.instance.comuna = self.cleaned_data.get('comuna', self.instance.comuna)  # Actualizar 'comuna' si se proporciona
         return super(ModificarUsuarioForm, self).save(commit)

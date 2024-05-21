@@ -11,3 +11,4 @@ class CustomUser(AbstractUser):
     ]
     
     rol = models.BooleanField(choices=ROL_CHOICES, default=True)
+    comuna = models.CharField(max_length=100, blank=True, null=True)  # Añadir el campo 'comuna'
