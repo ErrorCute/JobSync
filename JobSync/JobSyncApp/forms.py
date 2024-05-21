@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from .models import CustomUser, Comuna # Importa tu modelo de usuario personalizado
+from .models import CustomUser, Comuna, Trabajo # Importa tu modelo de usuario personalizado
 
 class UsuarioUserForm(AuthenticationForm):
     class Meta:
@@ -76,3 +76,9 @@ class ModificarUsuarioForm(forms.ModelForm):
         self.instance.username = self.cleaned_data['email']
         self.instance.comuna = self.cleaned_data.get('comuna', self.instance.comuna)  # Actualizar 'comuna' si se proporciona
         return super(ModificarUsuarioForm, self).save(commit)
+    
+
+class TrabajoForm(forms.ModelForm):
+    class Meta:
+        model = Trabajo
+        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'comuna', 'direccion', 'fecha', 'hora', 'valor']

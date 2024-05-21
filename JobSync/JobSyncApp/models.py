@@ -19,17 +19,22 @@ class CustomUser(AbstractUser):
     rol = models.BooleanField(choices=ROL_CHOICES, default=True)
     comuna = models.ForeignKey(Comuna, on_delete=models.SET_NULL, null=True, blank=True)  
 
-# class Trabajo(models.Model):
-#     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-#     nombre_trabajo = models.CharField(max_length=100)
-#     nombre_titular = models.CharField(max_length=100)
-#     rut_titular = models.CharField(max_length=20)
-#     comuna_titular = models.CharField(max_length=100)
-#     direccion  = models.CharField(max_length=200)
-#     fecha = models.DateField()
-#     hora = models.TimeField()
-#     valor = models.IntegerField(default=0)
-#     estado = models.CharField(max_length=20, default='Pendiente')
+class Trabajo(models.Model):
+    colaborador = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
+    nombre_trabajo = models.CharField(max_length=100)
+    nombre_titular = models.CharField(max_length=100)
+    rut_titular = models.CharField(max_length=12)
+    comuna = models.ForeignKey(Comuna, on_delete=models.SET_NULL, null=True)
+    direccion = models.CharField(max_length=255)
+    fecha = models.DateField()
+    hora = models.TimeField()
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    ESTADO_CHOICES = [
+        ('sin_asignar', 'Sin asignar'),
+        ('pendiente', 'Pendiente'),
+        ('completado', 'Completado'),
+    ]
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='sin_asignar')
 
-#     def __str__(self):
-#         return self.nombre_trabajo
+    def __str__(self):
+        return self.nombre_trabajo
