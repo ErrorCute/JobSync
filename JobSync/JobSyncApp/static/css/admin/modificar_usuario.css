@@ -79,4 +79,35 @@ body {
     margin-top: 10px;
 }
 
+.input-box .input-field select {
+    width: 100%;
+    height: 54px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255, .2);
+    outline: none;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 6px;
+    padding: 15px 15px 15px 40px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7 10l5 5 5-5z"/></svg>'); /* Agrega un ícono de flecha desplegable personalizado */
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 24px;
+}
 
+
+.input-box .input-field select option[disabled] {
+    color: #ccc; 
+}
+
+.input-box .input-field select option {
+    color: #333; 
+}
+
+/* Cambia el color del fondo de las opciones al pasar el mouse sobre ellas */
+.input-box .input-field select option:hover {
+    background-color: #f0f0f0; 
+}

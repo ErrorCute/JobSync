@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from .models import CustomUser  # Importa tu modelo de usuario personalizado
+from .models import CustomUser, Comuna # Importa tu modelo de usuario personalizado
 
 class UsuarioUserForm(AuthenticationForm):
     class Meta:
@@ -14,7 +14,7 @@ class RegistroForm(forms.Form):
     telefono = forms.CharField(max_length=15, widget=forms.TextInput(attrs={'placeholder': 'Teléfono'}))
     contraseña = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}))
     repetir_contraseña = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Repetir contraseña'}))
-    comuna = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Comuna'}))  # Añadir el campo 'comuna'
+    comuna = forms.ModelChoiceField(queryset=Comuna.objects.all(), widget=forms.Select(attrs={'placeholder': 'Comuna'}))
 
     def clean(self):
         cleaned_data = super().clean()
@@ -41,7 +41,7 @@ class RegistroForm(forms.Form):
 class ModificarUsuarioForm(forms.ModelForm):
     contraseña = forms.CharField(label='Contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Contraseña'}), required=False)
     repetir_contraseña = forms.CharField(label='Repetir contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Repetir contraseña'}), required=False)
-    comuna = forms.CharField(label='Comuna', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Comuna'}), required=False)
+    comuna = forms.ModelChoiceField(queryset=Comuna.objects.all(), widget=forms.Select(attrs={'placeholder': 'Comuna'}))
 
     class Meta:
         model = CustomUser
@@ -51,7 +51,7 @@ class ModificarUsuarioForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
             'email': forms.EmailInput(attrs={'placeholder': 'Correo electrónico'}),
             'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
-            'comuna': forms.TextInput(attrs={'placeholder': 'Comuna'}),  # Añadir el widget para 'comuna'
+            'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
         }
 
     def clean(self):

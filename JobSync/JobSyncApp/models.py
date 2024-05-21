@@ -3,6 +3,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+class Comuna(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.nombre
+
 class CustomUser(AbstractUser):
     telefono = models.CharField(max_length=15)
     ROL_CHOICES = [
@@ -11,8 +17,7 @@ class CustomUser(AbstractUser):
     ]
     
     rol = models.BooleanField(choices=ROL_CHOICES, default=True)
-    comuna = models.CharField(max_length=100, blank=True, null=True)  # Añadir el campo 'comuna'
-
+    comuna = models.ForeignKey(Comuna, on_delete=models.SET_NULL, null=True, blank=True)  
 
 # class Trabajo(models.Model):
 #     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

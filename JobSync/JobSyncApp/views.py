@@ -1,9 +1,8 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-
-from .models import CustomUser  # Cambia el nombre de la función login
-from .forms import  UsuarioUserForm,RegistroForm, ModificarUsuarioForm
+from .models import CustomUser, Comuna
+from .forms import UsuarioUserForm, RegistroForm, ModificarUsuarioForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -13,15 +12,15 @@ def custom_login(request):
         if formulario.is_valid():
             username = formulario.cleaned_data.get('username')  
             password = formulario.cleaned_data.get('password')
-            user = authenticate(request,username=username, password=password)  
+            user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user) 
+                login(request, user)
                 if user.rol:
                     return redirect('index_colaborador')
                 else:
-                    return redirect('home') 
+                    return redirect('home')
     else:
-        formulario = UsuarioUserForm()    
+        formulario = UsuarioUserForm()
         
     return render(request, 'registration/login.html', {'formulario': formulario})
 
