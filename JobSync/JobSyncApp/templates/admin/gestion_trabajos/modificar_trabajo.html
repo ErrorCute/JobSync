@@ -63,9 +63,12 @@
             <button type="button" class="btn btn-danger" id="regresarBtn">Regresar</button>
         </form>
     </div>
+    
     <script>
     document.getElementById("regresarBtn").addEventListener("click", function() {
         window.location.href = "{% url 'trabajos' %}";
     });
     </script>
+{% endblock %}
+{% block extra_js %}
 {% endblock %}

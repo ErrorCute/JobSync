@@ -51,6 +51,11 @@ body {
     background-color: #248f8f;
 }
 
+.btn-danger {
+    background-color: #dc3545; /* Rojo para el botón de eliminar */
+    color: white;
+}
+
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -62,11 +67,13 @@ body {
     overflow: hidden; /* Para que el borde redondeado se aplique a todo */
 }
 
-.table thead tr {
+.table thead {
     background-color: #009879;
-    color: #ffffff;
-    text-align: left;
-    font-weight: bold;
+}
+
+.table thead th {
+    background-color: #009879; /* Asegura que todas las celdas de thead tengan el mismo color */
+    color: #ffffff; /* Asegura que el texto del encabezado sea blanco */
 }
 
 .table th,
@@ -100,7 +107,8 @@ body {
 }
 
 .container {
-    margin-top: 150px; /* Ajusta este margen superior según sea necesario */
+    margin-top: 150px;
     width: 90%;
     max-width: 1200px;
 }
+

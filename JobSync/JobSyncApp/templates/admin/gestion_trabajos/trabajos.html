@@ -7,7 +7,6 @@
 {% endblock extra_css %}
 
 {% block contenido %}
-
 <div class="header">
     <a href="{% url 'index_trabajo' %}" id="btn-volver" class="btn btn-back">Volver</a>
     <h1 id="titulo-trabajos">Trabajos</h1>
@@ -29,6 +28,7 @@
                 <th>Valor</th>
                 <th>Estado</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -47,10 +47,37 @@
                 <td>
                     <a href="{% url 'modificar_trabajo' trabajo.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                 </td>
+                <td>
+                    <button class="btn btn-danger delete-button" data-id="{{ trabajo.id }}"><i class="fas fa-trash-alt"></i></button>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
 
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estas seguro que deseas eliminar?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
 {% endblock %}
