@@ -83,6 +83,28 @@ class TrabajoForm(forms.ModelForm):
         model = Trabajo
         fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'comuna', 'direccion', 'fecha', 'hora', 'valor']
         widgets = {
-            'fecha': forms.DateInput(attrs={'type': 'date'}),
-            'hora': forms.TimeInput(attrs={'type': 'time'}),
+            'nombre_trabajo': forms.TextInput(attrs={'placeholder': 'Nombre del trabajo'}),
+            'nombre_titular': forms.TextInput(attrs={'placeholder': 'Nombre del titular'}),
+            'rut_titular': forms.TextInput(attrs={'placeholder': 'RUT del titular'}),
+            'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
+            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
+            'fecha': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Fecha (YYYY-MM-DD)'}),
+            'hora': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora (HH:MM)'}),
+            'valor': forms.NumberInput(attrs={'placeholder': 'Valor'}),
         }
+
+
+class ModificarTrabajoForm(forms.ModelForm):
+    class Meta:
+        model = Trabajo
+        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'comuna', 'direccion', 'fecha', 'hora', 'valor']      
+        widgets = {
+            'nombre_trabajo': forms.TextInput(attrs={'placeholder': 'Nombre del trabajo'}),
+            'nombre_titular': forms.TextInput(attrs={'placeholder': 'Nombre del titular'}),
+            'rut_titular': forms.TextInput(attrs={'placeholder': 'RUT del titular'}),
+            'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
+            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
+            'fecha': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Fecha (YYYY-MM-DD)'}),
+            'hora': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora (HH:MM)'}),
+            'valor': forms.NumberInput(attrs={'placeholder': 'Valor'}),
+        }  

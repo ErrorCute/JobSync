@@ -21,6 +21,7 @@ urlpatterns = [
     path('index_trabajo/', views.index_trabajo, name='index_trabajo'),
     path('trabajos/', views.trabajos, name='trabajos'),
     path('crear_trabajo/', views.crear_trabajo, name='crear_trabajo'),
+    path('modificar_trabajo/<int:trabajo_id>/', views.modificar_trabajo, name='modificar_trabajo'),
 
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),

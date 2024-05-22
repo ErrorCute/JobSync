@@ -2,20 +2,24 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css' %}/listado_colaboradores.css">
+<link rel="stylesheet" href="{% static 'css/listado_colaboradores.css' %}">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock extra_css %}
 {% block contenido %}
 
 <div class="header">
+    <a href="{% url 'home' %}" id="btn-volver" class="btn btn-back">Volver</a>
     <h1>Colaboradores</h1>
+    <a href="{% url 'registro' %}" id="btn-registrar" class="btn">Registrar</a>
 </div>
+
 <div class="card-container">
     {% for colaborador in colaboradores %}
     <div class="card">
         <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 10px; background-color: rgb(235, 122, 93);"> <i class="fas fa-trash-alt"></i></button>
         <button class="edit-btn" data-url="{% url 'modificar_usuario' colaborador.id %}" style="position: absolute; top: 10px; right: 40px; background-color: rgb(21, 122, 236);"> <i class="fas fa-edit"></i></button>
-        <h2>{{ colaborador.username }}</h2>
+        <!-- <h2>{{ colaborador.username }}</h2> -->
         <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
         <p><strong>Email:</strong> {{ colaborador.email }}</p>
         <p><strong>Teléfono:</strong> {{ colaborador.telefono }}</p>
@@ -23,7 +27,7 @@
         
     </div>
     {% endfor %}
-    <a href="{% url 'registro' %}" class="register-button" id="registerButton">+</a>
+
 </div>
 
 <script>
@@ -34,28 +38,7 @@
         });
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        var cardContainer = document.querySelector(".card-container");
-        var registerButton = document.getElementById("registerButton");
-
-        if (cardContainer.children.length > 1) {  
-            var lastCard = cardContainer.querySelector(".card:last-child");
-
-         
-            var buttonTop = lastCard.offsetTop + lastCard.offsetHeight / 3 - registerButton.offsetHeight / 2;
-            var buttonLeft = lastCard.offsetLeft + lastCard.offsetWidth + 20; 
-
-            registerButton.style.position = "absolute";
-            registerButton.style.top = buttonTop + "px";
-            registerButton.style.left = buttonLeft + "px";
-        } else {
-           
-            registerButton.style.position = "relative";
-            registerButton.style.top = "20px"; 
-            registerButton.style.left = "0";
-        }
-    });
-
+   
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const url = this.dataset.url;

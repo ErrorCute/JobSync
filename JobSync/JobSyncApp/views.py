@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .models import CustomUser, Comuna, Trabajo
-from .forms import UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
+from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -116,6 +116,7 @@ def trabajos(request):
 
 
 def crear_trabajo(request):
+
     if request.method == 'POST':
         form = TrabajoForm(request.POST)
         if form.is_valid():
@@ -125,3 +126,17 @@ def crear_trabajo(request):
     else:
         form = TrabajoForm()
     return render(request, 'admin/gestion_trabajos/crear_trabajo.html', {'form': form})
+
+
+
+def modificar_trabajo(request, trabajo_id):
+    trabajo = Trabajo.objects.get(id=trabajo_id)
+    if request.method == 'POST':
+        form = ModificarTrabajoForm(request.POST, instance=trabajo)
+        if form.is_valid():
+            form.save()
+            return redirect('trabajos')  # Redirige a donde sea necesario después de la modificación
+    else:
+        form = ModificarTrabajoForm(instance=trabajo)
+    
+    return render(request, 'admin/gestion_trabajos/modificar_trabajo.html', {'form': form})

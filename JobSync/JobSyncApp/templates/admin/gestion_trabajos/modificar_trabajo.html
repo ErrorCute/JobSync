@@ -12,53 +12,53 @@
     <div class="wrapper">
         <form action="" method="POST">
             {% csrf_token %}
-            <h1>Crear Trabajo</h1>
+            <h1>Modificar Trabajo</h1>
             <div class="input-box">
                 <div class="input-field">
-             
+                 
                     {{ form.nombre_trabajo }}
                 </div>
                 <div class="input-field">
-   
+            
                     {{ form.nombre_titular }}
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-          
+                 
                     {{ form.rut_titular }}
                 </div>
                 <div class="input-box">
                     <div class="input-field">
-              
+                     
                         {{ form.direccion }}
                     </div>
                 </div>
                 <div class="input-field">
-        
+               
                     {{ form.comuna }}
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-
+                  
                     {{ form.fecha }}
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-
+                
                     {{ form.hora }}
                 </div>
             </div>
             <div class="input-box">
                 <div class="input-field">
-           
+               
                     {{ form.valor }}
                 </div>
             </div>
             
-            <button type="submit" class="btn btn-primary">Crear Trabajo</button>
+            <button type="submit" class="btn btn-primary" >Guardar Cambios</button>
 
             <button type="button" class="btn btn-danger" id="regresarBtn">Regresar</button>
         </form>
@@ -69,4 +69,3 @@
     });
     </script>
 {% endblock %}
-

@@ -3,6 +3,7 @@
         
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/admin/trabajos.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock extra_css %}
 
 {% block contenido %}
@@ -27,6 +28,7 @@
                 <th>Hora</th>
                 <th>Valor</th>
                 <th>Estado</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +44,9 @@
                 <td>{{ trabajo.hora }}</td>
                 <td>{{ trabajo.valor }}</td>
                 <td>{{ trabajo.get_estado_display }}</td>
+                <td>
+                    <a href="{% url 'modificar_trabajo' trabajo.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
