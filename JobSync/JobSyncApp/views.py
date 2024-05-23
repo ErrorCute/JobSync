@@ -141,6 +141,7 @@ def modificar_trabajo(request, trabajo_id):
     
     return render(request, 'admin/gestion_trabajos/modificar_trabajo.html', {'form': form})
 
+
 def eliminar_trabajo(request, trabajo_id):
     trabajo= Trabajo.objects.get(id=trabajo_id)
     trabajo.delete()
