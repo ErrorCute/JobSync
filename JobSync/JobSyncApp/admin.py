@@ -6,7 +6,9 @@ class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'telefono', 'is_active', 'is_staff', 'is_superuser')
 
 
-admin.site.register(CustomUser, CustomUserAdmin, Trabajo, Agenda)
+admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Trabajo)
+admin.site.register(Agenda)
 
 @admin.register(Comuna)
 class ComunaAdmin(admin.ModelAdmin):

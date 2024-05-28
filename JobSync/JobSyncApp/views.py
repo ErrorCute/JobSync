@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from .models import CustomUser, Comuna, Trabajo
 from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
-
+from django.urls import reverse
 
 def custom_login(request):
     if request.method == 'POST':
@@ -146,3 +146,12 @@ def eliminar_trabajo(request, trabajo_id):
     trabajo= Trabajo.objects.get(id=trabajo_id)
     trabajo.delete()
     return redirect ('trabajos')
+
+def seleccionar_colaborador(request):
+    colaboradores = CustomUser.objects.filter(rol=True)
+    return render(request, 'admin/gestion_trabajos/seleccionar_colaborador.html', {'colaboradores': colaboradores})
+
+def ver_agenda(request, colaborador_id):
+    colaborador = get_object_or_404(CustomUser, id=colaborador_id)
+    agenda = colaborador.agenda_set.all()
+    return render(request, 'admin/gestion_trabajos/ver_agenda.html', {'colaborador': colaborador, 'agenda': agenda})

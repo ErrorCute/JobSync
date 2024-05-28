@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/listado_colaboradores.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock extra_css %}
+
+{% block contenido %}
+
+<div class="header">
+    <a href="{% url 'home' %}" id="btn-volver" class="btn btn-back">Volver</a>
+    <h1>Seleccionar Colaborador</h1>
+</div>
+
+<div class="card-container">
+    {% for colaborador in colaboradores %}
+    <div class="card">
+        <button class="select-btn" data-url="{% url 'ver_agenda' colaborador.id %}" style="position: absolute; top: 10px; right: 10px; background-color: rgb(21, 122, 236);"> <i class="fas fa-calendar-alt"></i> Ver Agenda</button>
+        <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
+        <p><strong>Email:</strong> {{ colaborador.email }}</p>
+        <p><strong>Teléfono:</strong> {{ colaborador.telefono }}</p>
+        <p><strong>Comuna:</strong> {{ colaborador.comuna }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.querySelectorAll('.select-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const url = this.dataset.url;
+            window.location.href = url;
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/agenda.css' %}">
+{% endblock extra_css %}
+
+{% block contenido %}
+
+<div class="header">
+    <a href="{% url 'seleccionar_colaborador' %}" id="btn-volver" class="btn btn-back">Volver</a>
+    <h1>Agenda de {{ colaborador.first_name }} {{ colaborador.last_name }}</h1>
+</div>
+
+<div class="agenda-container">
+    {% for trabajo in agenda %}
+    <div class="agenda-item">
+        <h3>{{ trabajo.nombre_trabajo }}</h3>
+        <p><strong>Fecha:</strong> {{ trabajo.fecha }}</p>
+        <p><strong>Hora:</strong> {{ trabajo.hora }}</p>
+        <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+        <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
