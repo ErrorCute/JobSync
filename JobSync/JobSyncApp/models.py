@@ -38,3 +38,13 @@ class Trabajo(models.Model):
 
     def __str__(self):
         return self.nombre_trabajo
+    
+
+class Agenda(models.Model):
+    colaborador = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    trabajos = models.ManyToManyField(Trabajo)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Agenda de {self.colaborador.username}"
