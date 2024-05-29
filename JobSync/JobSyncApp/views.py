@@ -167,6 +167,8 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
     
     return render(request, 'admin/gestion_trabajos/trabajos_sin_asignar.html', {'trabajos': trabajos, 'fecha': fecha, 'colaborador': colaborador})
 
+
+
 def asignar_trabajo(request, user_id, trabajo_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
