@@ -147,6 +147,9 @@ def eliminar_trabajo(request, trabajo_id):
     trabajo.delete()
     return redirect ('trabajos')
 
+
+
+
 def seleccionar_colaborador(request):
     colaboradores = CustomUser.objects.filter(rol=True)
     return render(request, 'admin/gestion_trabajos/seleccionar_colaborador.html', {'colaboradores': colaboradores})
@@ -156,7 +159,23 @@ def ver_agenda(request, colaborador_id):
     agenda = colaborador.agenda_set.all()
     return render(request, 'admin/gestion_trabajos/ver_agenda.html', {'colaborador': colaborador, 'agenda': agenda})
 
+
 def trabajos_sin_asignar(request, colaborador_id, fecha):
-    trabajos = Trabajo.objects.filter(fecha=fecha, estado='sin asignar', colaborador_id=colaborador_id)
+
+    trabajos = Trabajo.objects.filter(fecha=fecha, estado='sin_asignar')
     colaborador = CustomUser.objects.get(id=colaborador_id)
+    
     return render(request, 'admin/gestion_trabajos/trabajos_sin_asignar.html', {'trabajos': trabajos, 'fecha': fecha, 'colaborador': colaborador})
+
+def asignar_trabajo(request, user_id, trabajo_id):
+    colaborador = get_object_or_404(CustomUser, id=user_id)
+    trabajo = get_object_or_404(Trabajo, id=trabajo_id)
+    trabajo.colaborador = colaborador
+    trabajo.estado = 'pendiente'
+    trabajo.save()
+    # Obtener la URL de la página anterior usando el referer del encabezado HTTP
+    previous_page = request.META.get('HTTP_REFERER')
+    # Si no hay página anterior, redirigir a la página de inicio
+    if not previous_page:
+        return redirect('inicio')
+    return redirect(previous_page)
