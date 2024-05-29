@@ -156,8 +156,8 @@ def seleccionar_colaborador(request):
 
 def ver_agenda(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
-    agenda = colaborador.agenda_set.all()
-    return render(request, 'admin/gestion_trabajos/ver_agenda.html', {'colaborador': colaborador, 'agenda': agenda})
+  
+    return render(request, 'admin/gestion_trabajos/ver_agenda.html', {'colaborador': colaborador})
 
 
 def trabajos_sin_asignar(request, colaborador_id, fecha):

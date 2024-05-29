@@ -8,11 +8,11 @@
 body {
     min-height: 100vh;
     width: 100%;
-    flex-direction: column;
+    color: #fff;
     align-items: center;
-    background: url(../css/img/fondo.png) no-repeat center center fixed;
+    justify-content: center;
+    background: url("/static/css/img/fondo.png") no-repeat center center fixed;  
     background-size: cover;
-    color: #f3f3f3;
 }
 
 .card{
