@@ -25,6 +25,7 @@ urlpatterns = [
     path('eliminar_trabajo/<int:trabajo_id>/', views.eliminar_trabajo, name= 'eliminar_trabajo'),
     path('seleccionar_colaborador/', views.seleccionar_colaborador, name='seleccionar_colaborador'),
     path('ver_agenda/<int:colaborador_id>/', views.ver_agenda, name='ver_agenda'),
+    path('trabajos_sin_asignar/<int:colaborador_id>/<str:fecha>/', views.trabajos_sin_asignar, name='trabajos_sin_asignar'),
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
 ]

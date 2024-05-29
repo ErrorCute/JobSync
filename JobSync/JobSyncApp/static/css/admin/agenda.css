@@ -1,137 +1,65 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
-    border: none;
-    outline: none;
+   
     font-family: "Poppins", sans-serif;
 }
 
 body {
     min-height: 100vh;
     width: 100%;
-    display: flex;
     flex-direction: column;
     align-items: center;
     background: url(../css/img/fondo.png) no-repeat center center fixed;
     background-size: cover;
-    color: #fff;
+    color: #f3f3f3;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
+.card{
+    margin-bottom: 20px;
+    padding: 2%;
+}
+
+#calendar {
     width: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    height: 100vh; /* Ocupar toda la altura de la ventana */
+    margin-top: 20px; /* Ajustar según sea necesario */
+    margin-bottom: 20px; /* Ajustar según sea necesario */
+    background-color: rgba(12, 11, 11, 0.952); /* Color de fondo oscuro */
 }
 
-.header a {
-    color: #fff;
-    font-weight: 500;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background: #248f8f;
-    transition: background 0.3s;
+:root {
+    --fc-small-font-size: .85em;
+    --fc-page-bg-color: #141414;
+    --fc-neutral-bg-color: hsla(0, 0%, 82%, .3);
+    --fc-neutral-text-color: grey;
+    --fc-border-color: #0b9b9b;
+    --fc-button-text-color: #fff;
+    --fc-button-bg-color: #107577;
+    --fc-button-border-color: #245253;
+    --fc-button-hover-bg-color: #03565c;
+    --fc-button-hover-border-color: #1ee4a5;
+    --fc-button-active-bg-color: #1a252f;
+    --fc-button-active-border-color: #152627;
+    --fc-event-bg-color: #52b5b9;
+    --fc-event-border-color: #16d798;
+    --fc-event-text-color: #fff;
+    --fc-event-selected-overlay-color: rgba(0, 0, 0, .25);
+    --fc-more-link-bg-color: #d0d0d0;
+    --fc-more-link-text-color: inherit;
+    --fc-event-resizer-thickness: 8px;
+    --fc-event-resizer-dot-total-width: 8px;
+    --fc-event-resizer-dot-border-width: 1px;
+    --fc-non-business-color: hsla(0, 0%, 84%, .3);
+    --fc-bg-event-color: #8fdf82;
+    --fc-bg-event-opacity: 0.3;
+    --fc-highlight-color: rgba(188, 232, 241, .3);
+    --fc-today-bg-color: rgba(255, 220, 40, .15);
+    --fc-now-indicator-color: red;
 }
 
-.header a:hover {
-    background: #1b6666;
-}
-
-.header h1 {
-    font-size: 2rem;
-}
-
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.card {
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    width: 280px;
-    margin: 15px;
-    padding: 20px;
-    position: relative;
+.fc .fc-toolbar-title {
+    font-size: 1.75em;
+    margin: 0px;
     text-align: center;
-    color: #fff;
-    transition: transform 0.3s;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-.card p {
-    margin: 10px 0;
-}
-
-.card .delete-btn, .card .edit-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    position: absolute;
-    top: 10px;
-    cursor: pointer;
-}
-
-.card .delete-btn {
-    right: 10px;
-    background-color: rgba(235, 122, 93, 0.8);
-    border-radius: 50%;
-    padding: 5px;
-}
-
-.card .edit-btn {
-    right: 40px;
-    background-color: rgba(21, 122, 236, 0.8);
-    border-radius: 50%;
-    padding: 5px;
-}
-
-.card .delete-btn:hover, .card .edit-btn:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #000;
-}
-
-.card a {
-    color: #fff;
-    font-weight: 500;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background: #248f8f;
-    transition: background 0.3s;
-    display: block;
-    margin-top: 10px;
-}
-
-.card a:hover {
-    background: #1b6666;
-}
-
-.footer {
-    width: 100%;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-}
-
-.footer p {
-    color: #fff;
-    font-size: 0.9rem;
 }

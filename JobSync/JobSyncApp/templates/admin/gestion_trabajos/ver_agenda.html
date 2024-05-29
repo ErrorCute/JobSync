@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/agenda.css' %}">
+<link rel="stylesheet" href="{% static 'css/admin/agenda.css' %}">
 {% endblock extra_css %}
 
 {% block contenido %}
@@ -12,16 +12,28 @@
     <h1>Agenda de {{ colaborador.first_name }} {{ colaborador.last_name }}</h1>
 </div>
 
-<div class="agenda-container">
-    {% for trabajo in agenda %}
-    <div class="agenda-item">
-        <h3>{{ trabajo.nombre_trabajo }}</h3>
-        <p><strong>Fecha:</strong> {{ trabajo.fecha }}</p>
-        <p><strong>Hora:</strong> {{ trabajo.hora }}</p>
-        <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
-        <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
-    </div>
-    {% endfor %}
+<div class="card">              
+    <div id="calendar"></div>   
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            dateClick: function(info) {
+                var fechaSeleccionada = info.dateStr;
+                var colaboradorId = "{{ colaborador.id }}"; 
+                var url = "{% url 'trabajos_sin_asignar' '0000' '0000-00-00' %}".replace('0000', colaboradorId).replace('0000-00-00', fechaSeleccionada);
+                window.location.href = url;
+            }
+        });
+        calendar.render();
+    });
+</script>
 {% endblock %}
