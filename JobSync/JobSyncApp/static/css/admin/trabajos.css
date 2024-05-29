@@ -29,7 +29,7 @@ body {
     padding: 20px;
     color: rgba(255, 255, 255, 0.8);
     position: fixed;
-    top: 80px; /* Ajusta el margen superior según sea necesario */
+    top: 80px; 
 }
 
 #titulo-trabajos {
@@ -51,64 +51,109 @@ body {
     background-color: #248f8f;
 }
 
-.btn-danger {
-    background-color: #dc3545; /* Rojo para el botón de eliminar */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.card {
+    width: 350px;
+    margin: 10px;
+    padding: 20px;
+    background: rgba(22, 22, 22, 0.61);
+    border: 2px solid rgba(3, 207, 163, 0.76);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    color: #fff;
+    backdrop-filter: blur(50px);
+    border-radius: 15px;
+}
+
+.card h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin: 5px 0;
+}
+
+.card .delete-btn, .card .edit-btn {
+    background: transparent; 
+    color: white;  
+    border: none; 
+    padding: 10px;  
+    border-radius: 10%; 
+    cursor: pointer; 
+}
+
+.card .delete-btn i, .card .edit-btn i {
+    color: white;  
+    font-size: 1.2em;  
+}
+
+.card .edit-btn:hover {
+    background: rgba(3, 184, 160, 0.247);  
+}
+
+.card .delete-btn:hover {
+    background: rgba(219, 14, 14, 0.315);  
+}
+
+.card {
+    position: relative;  
+}
+
+.card .delete-btn, .card .edit-btn {
+    position: absolute;  
+    top: 10px; 
+    right: 10px;  
+}
+
+.card .edit-btn {
+    right: 50px; 
+}
+
+.botones {
+    padding: 1px;
+    margin-bottom: 10px;
+}
+
+.botones h1{
+    align-items: center;
+}
+
+
+.boton {
+    padding: 10px 20px;
+    background-color: #007bff;
     color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 16px;
-    text-align: left;
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
-    border-radius: 10px;
-    overflow: hidden; /* Para que el borde redondeado se aplique a todo */
+.boton.volver {
+    background-color: #248f8f; 
 }
 
-.table thead {
-    background-color: #009879;
+.boton.regresar {
+    background-color: #279da1; 
 }
 
-.table thead th {
-    background-color: #009879; /* Asegura que todas las celdas de thead tengan el mismo color */
-    color: #ffffff; /* Asegura que el texto del encabezado sea blanco */
+.boton:hover {
+    background-color: #00b31e; 
 }
 
-.table th,
-.table td {
-    padding: 12px 15px;
-    border: 1px solid #dddddd;
+/* Media Queries para hacer la página responsive */
+@media screen and (max-width: 768px) {
+    .header {
+        top: 70px; 
+    }
+    
+    .card {
+        width: 100%; 
+        max-width: 400px; 
+    }
 }
-
-.table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-.table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-.table tbody tr:nth-of-type(odd) {
-    background-color: #ffffff;
-}
-
-.table tbody tr:nth-of-type(even):hover {
-    background-color: #e0e0e0;
-}
-
-.table tbody tr:nth-of-type(odd):hover {
-    background-color: #e9e9e9;
-}
-
-.table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-}
-
-.container {
-    margin-top: 150px;
-    width: 90%;
-    max-width: 1200px;
-}
-

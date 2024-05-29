@@ -3,62 +3,50 @@
         
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/admin/trabajos.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock extra_css %}
 
 {% block contenido %}
-<div class="header">
-    <a href="{% url 'index_trabajo' %}" id="btn-volver" class="btn btn-back">Volver</a>
-    <h1 id="titulo-trabajos">Trabajos</h1>
-    <a href="{% url 'crear_trabajo' %}" id="btn-registrar" class="btn">Registrar Trabajo</a>
-</div> 
-
-<div class="container"> 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre del Trabajo</th>
-                <th>Nombre del Titular</th>
-                <th>RUT del Titular</th>
-                <th>Comuna</th>
-                <th>Dirección</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Valor</th>
-                <th>Estado</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for trabajo in trabajos %}
-            <tr>
-                <td>{{ trabajo.id }}</td>
-                <td>{{ trabajo.nombre_trabajo }}</td>
-                <td>{{ trabajo.nombre_titular }}</td>
-                <td>{{ trabajo.rut_titular }}</td>
-                <td>{{ trabajo.comuna }}</td>
-                <td>{{ trabajo.direccion }}</td>
-                <td>{{ trabajo.fecha }}</td>
-                <td>{{ trabajo.hora }}</td>
-                <td>{{ trabajo.valor }}</td>
-                <td>{{ trabajo.get_estado_display }}</td>
-                <td>
-                    <a href="{% url 'modificar_trabajo' trabajo.id %}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                </td>
-                <td>
-                    <a href="{% url 'eliminar_trabajo' trabajo.id %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="card-container">
+    <div class="header">
+        <a href="{% url 'index_trabajo' %}"  class="boton volver">Volver</a>
+        <h1 id="titulo-trabajos">Trabajos</h1>
+        <a href="{% url 'crear_trabajo' %}"  class="boton regresar">Registrar Trabajo</a>
+    </div> 
+    {% for trabajo in trabajos %}
+    <div class="card">
+        <div class="botones">
+        <button class="delete-btn" data-url="{% url 'eliminar_usuario' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
+        <button class="edit-btn" data-url="{% url 'modificar_usuario' trabajo.id %}" > <i class="fas fa-edit"></i></button>
+        <h2> {{ trabajo.nombre_trabajo }}</h2>
+        </div>
+        
+        <p><strong>Nombre del Titular:</strong> {{ trabajo.nombre_titular }}</p>
+        <p><strong>RUT del Titular:</strong> {{ trabajo.rut_titular }}</p>
+        <p><strong>Comuna:</strong> {{ trabajo.comuna }}</p>
+        <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+        <p><strong>Fecha:</strong> {{ trabajo.fecha }}</p>
+        <p><strong>Hora:</strong> {{ trabajo.hora }}</p>
+        <p><strong>Valor:</strong> {{ trabajo.valor }}</p>
+        <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+    </div>
+    {% endfor %}
 </div>
 
+<script>
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const url = this.dataset.url;
+            window.location.href = url;
+        });
+    });
 
-
+   
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const url = this.dataset.url;
+            window.location.href = url;
+        });
+    });
+</script>
 {% endblock %}
 
-{% block extra_js %}
-{% endblock %}
