@@ -6,6 +6,11 @@
 {% endblock extra_css %}
 
 {% block contenido %}
+<div>
+
+    <a href="{% url 'ver_agenda' colaborador.id %}" id="btn-volver" class="btn btn-back">Volver</a>
+</div>
+
 <div class="header">
     
     <h1>Trabajos sin asignar para {{ fecha }}</h1>
