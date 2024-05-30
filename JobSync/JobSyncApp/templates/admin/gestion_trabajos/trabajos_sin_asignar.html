@@ -6,22 +6,20 @@
 {% endblock extra_css %}
 
 {% block contenido %}
-<div>
-
-    <a href="{% url 'ver_agenda' colaborador.id %}" id="btn-volver" class="btn btn-back">Volver</a>
-</div>
 
 <div class="header">
-    
+    <a href="{% url 'ver_agenda' colaborador.id %}" id="btn-volver" class="btn btn-back">Volver</a>
     <h1>Trabajos sin asignar para {{ fecha }}</h1>
 </div>
+
 
 <div class="trabajos-sin-asignar">
     <ul>
         {% for trabajo in trabajos %}
             <li>{{ trabajo.nombre_trabajo }}</li>
             <li>{{ trabajo.fecha}}</li>
-            <a href="{% url 'asignar_trabajo' colaborador.id trabajo.id %}">Asignar este trabajo</a>
+            <br>
+            <a href="{% url 'asignar_trabajo' colaborador.id trabajo.id %}" id="btn-volver" class="btn btn-asignar">Asignar este trabajo</a>
         {% empty %}
             <li>No hay trabajos sin asignar para esta fecha.</li>
         {% endfor %}
