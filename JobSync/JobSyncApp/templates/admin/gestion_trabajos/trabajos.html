@@ -14,10 +14,10 @@
         <a href="{% url 'crear_trabajo' %}"  class="boton regresar">Registrar Trabajo</a>
     </div> 
     {% for trabajo in trabajos %}
-    <div class="card">
+    <div class="card" id="trabajo">
         <div class="botones">
-        <button class="delete-btn" data-url="{% url 'eliminar_usuario' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
-        <button class="edit-btn" data-url="{% url 'modificar_usuario' trabajo.id %}" > <i class="fas fa-edit"></i></button>
+        <button class="delete-btn" data-url="{% url 'eliminar_trabajo' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
+        <button class="edit-btn" data-url="{% url 'modificar_trabajo' trabajo.id %}" > <i class="fas fa-edit"></i></button>
         <h2> {{ trabajo.nombre_trabajo }}</h2>
         </div>
         
@@ -41,13 +41,25 @@
         });
     });
 
-   
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const url = this.dataset.url;
             window.location.href = url;
         });
     });
+
+    // Scroll down when a new card is added
+    function scrollToBottom() {
+        const container = document.getElementById('card-container');
+        container.scrollTop = container.scrollHeight;
+    }
+
+    // Simulate card addition
+    const observer = new MutationObserver(scrollToBottom);
+    observer.observe(document.getElementById('card-container'), { childList: true });
+
+    // Call scrollToBottom on page load to ensure it's at the bottom
+    scrollToBottom();
 </script>
 {% endblock %}
 
