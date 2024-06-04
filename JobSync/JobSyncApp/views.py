@@ -109,11 +109,11 @@ def sobre_nosotros(request):
 # ------------------------------------------------ gestion de trabajos como administrador ----------------------
 
 def index_trabajo(request):
-    return render (request,'admin/gestion_trabajos/index_trabajo.html')
+    return render (request,'admin/gestion_trabajos/trabajos/index_trabajo.html')
 
 def trabajos(request):
     trabajos = Trabajo.objects.all()  # Obtener todos los trabajos
-    return render(request, 'admin/gestion_trabajos/trabajos.html', {'trabajos': trabajos})
+    return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos})
 
 
 def crear_trabajo(request):
@@ -123,10 +123,10 @@ def crear_trabajo(request):
         if form.is_valid():
             trabajo = form.save(commit=False)
             trabajo.save()
-            return redirect('trabajos')  # Redirigir a la página de lista de trabajos
+            return redirect('trabajos')  
     else:
         form = TrabajoForm()
-    return render(request, 'admin/gestion_trabajos/crear_trabajo.html', {'form': form})
+    return render(request, 'admin/gestion_trabajos/trabajos/crear_trabajo.html', {'form': form})
 
 
 
@@ -136,11 +136,11 @@ def modificar_trabajo(request, trabajo_id):
         form = ModificarTrabajoForm(request.POST, instance=trabajo)
         if form.is_valid():
             form.save()
-            return redirect('trabajos')  # Redirige a donde sea necesario después de la modificación
+            return redirect('trabajos')  
     else:
         form = ModificarTrabajoForm(instance=trabajo)
     
-    return render(request, 'admin/gestion_trabajos/modificar_trabajo.html', {'form': form})
+    return render(request, 'admin/gestion_trabajos/trabajos/modificar_trabajo.html', {'form': form})
 
 
 def eliminar_trabajo(request, trabajo_id):
@@ -152,12 +152,12 @@ def eliminar_trabajo(request, trabajo_id):
 
 def seleccionar_colaborador(request):
     colaboradores = CustomUser.objects.filter(rol=True)
-    return render(request, 'admin/gestion_trabajos/seleccionar_colaborador.html', {'colaboradores': colaboradores})
+    return render(request, 'admin/gestion_trabajos/Asignar_trabajos/seleccionar_colaborador.html', {'colaboradores': colaboradores})
 
 def ver_agenda(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
   
-    return render(request, 'admin/gestion_trabajos/ver_agenda.html', {'colaborador': colaborador})
+    return render(request, 'admin/gestion_trabajos/Asignar_trabajos/ver_agenda.html', {'colaborador': colaborador})
 
 
 def trabajos_sin_asignar(request, colaborador_id, fecha):
@@ -174,13 +174,13 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
         'fecha': fecha_formateada
     }
 
-    return render(request, 'admin/gestion_trabajos/trabajos_sin_asignar.html', context)
+    return render(request, 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html', context)
 
 def asignar_trabajo(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
     trabajos_ids = request.POST.get('trabajos', '').split(',')
     
-    # Filtra valores vacíos
+   
     trabajos_ids = [trabajo_id for trabajo_id in trabajos_ids if trabajo_id]
 
     if not trabajos_ids:
@@ -193,4 +193,4 @@ def asignar_trabajo(request, user_id):
         trabajo.save()
 
     
-    return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/trabajos_sin_asignar.html'))
+    return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
