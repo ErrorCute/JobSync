@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin/trabajos_sin_asignar.css' %}">
+{% endblock extra_css %}
+
+{% block contenido %}
+
+<div class="header">
+    <a href="{% url 'mi_agenda'  %}" id="btn-volver" class="btn btn-back">Volver</a>
+    <h1> Mis Trabajos  {{ fecha }}</h1>
+
+</div>
+<div class="trabajos-sin-asignar">
+    <ul>
+        {% for trabajo in trabajos %}
+            <li>{{ trabajo.nombre_trabajo }}</li>
+            <li>{{ trabajo.fecha}}</li>
+            <li>{{ trabajo.estado}}</li>
+            <li>{{ trabajo.colaborador.first_name}}</li>
+            <br>
+            
+        {% empty %}
+            <li>No hay trabajos sin asignar para esta fecha.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

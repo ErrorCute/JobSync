@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+{% load static %}
+        {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'css/admin/agenda.css' %}">
+
+        {% endblock extra_css %}
+
+        
+{% block contenido %}
+
+
+<div class="button-container">
+
+</div>
+
+<div class="header">
+    <a href="{% url 'index_colaborador' %}" id="btn-volver" class="btn btn-back">Volver</a>
+    <h1>Mi Agenda {{ colaborador.first_name }} {{ colaborador.last_name }}</h1>
+</div>
+
+<div class="card">              
+    <div id="calendar"></div>   
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'es',
+            selectable: true,
+            dateClick: function(info) {
+                var fechaSeleccionada = info.dateStr;
+                var colaboradorId = "{{ colaborador.id }}";
+                var url = "{% url 'mi_trabajos' colaborador_id=colaborador.id fecha='fecha_value' %}"
+                    .replace('fecha_value', fechaSeleccionada);
+                window.location.href = url;
+            }
+        });
+        calendar.render();
+    });
+</script>
+
+{% endblock %}

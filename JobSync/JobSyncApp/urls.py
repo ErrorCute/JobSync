@@ -1,5 +1,5 @@
 from django.urls import path
-from .import views
+from .import views,views_colaborador
 
 
 urlpatterns = [
@@ -30,6 +30,9 @@ urlpatterns = [
     
     path('trabajos_sin_asignar/<int:colaborador_id>/<str:fecha>/', views.trabajos_sin_asignar, name='trabajos_sin_asignar'),
     path('asignar-trabajo/<int:user_id>/<int:trabajo_id>/', views.asignar_trabajo, name='asignar_trabajo'),
+    
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
+    path('mi_agenda/',views_colaborador.mi_agenda,name='mi_agenda'),
+    path('mi_trabajos/<int:colaborador_id>/<str:fecha>/', views_colaborador.mi_trabajos, name='mi_trabajos')
 ]
