@@ -31,9 +31,7 @@ body {
     color: rgba(255, 255, 255, 0.8);
     position: fixed;
     top: 70px; 
-    z-index: 1000; /* Asegura que el header esté siempre encima de otros elementos */
-    background: rgba(0, 0, 0, 0.575); /* Agrega un fondo semitransparente si es necesario */
-    
+    z-index: 1000; 
 }
 
 #titulo-trabajos {
@@ -66,11 +64,11 @@ body {
 .card-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 150px; 
     width: 100%;
     padding-top: 60px; 
-    
+    padding-left: 5%;
 }
 
 .card {
@@ -144,11 +142,22 @@ body {
 /* Media Queries para hacer la página responsive */
 @media screen and (max-width: 768px) {
     .header {
-        top: 0; 
+        top: 0;
+        padding-top: 20%;
+       
     }
     
     .card {
         width: 100%; 
         max-width: 400px; 
+    }
+
+    .boton {
+        font-size: 10px;
+        padding: 5px 15px;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        
     }
 }

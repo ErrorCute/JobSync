@@ -7,12 +7,13 @@
 {% endblock extra_css %}
 
 {% block contenido %}
-<div class="card-container">
+
     <div class="header">
         <a href="{% url 'index_trabajo' %}"  class="boton volver">Volver</a>
         <h1 id="titulo-trabajos">Trabajos</h1>
         <a href="{% url 'crear_trabajo' %}"  class="boton regresar">Registrar Trabajo</a>
-    </div> 
+    </div>
+<div class="card-container">
     {% for trabajo in trabajos %}
     <div class="card" id="trabajo">
         <div class="botones">
