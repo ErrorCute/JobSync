@@ -15,7 +15,7 @@ body {
     min-height: 100vh;
     width: 100%;
     display: flex;
-    color: #ffff;
+    color: #ffffff;
     align-items: center;
     justify-content: center;
     background: url("/static/css/img/fondo.png") no-repeat center center fixed;  
@@ -25,26 +25,166 @@ body {
 .header {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 20px;
     color: rgba(255, 255, 255, 0.8);
     position: fixed;
-    top: 80px; 
+    top: 80px;
+    justify-content: space-between;
 }
+
+.header h1{
+    padding-right: 37%;
+    color: #f0f0f0;
+}
+
 
 
 .btn {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #248f8f; 
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    cursor: pointer;
+    width: 160px; 
+    text-align: center; 
+    margin: 10px; 
+    font-size: 16px; 
+    transition: background-color 0.3s; 
+}
+
+.btn:hover {
+    background-color: #00b31e; 
 }
 
 .btn-back {
     background-color: #248f8f;
 }
-.btn-asignar {
-    background-color: #24738f;
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    width: 100%; 
+}
+
+.container .trabajos-list {
+    width: 45%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 500px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.1);  
+    border-radius: 15px;
+    border: 2px solid rgba(3, 207, 163, 0.76);
+}
+.container .trabajos-list h2{
+    padding-left: 30%;
+    margin-bottom: 5%;
+
+}
+.container .trabajos-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.container .trabajos-list ul li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);  
+    transition: background-color 0.3s;
+    border: 2px solid rgba(8, 219, 131, 0.658); 
+    border-radius: 15px;
+}
+
+.container .trabajos-list ul li.selected {
+    background-color: rgba(38, 221, 21, 0.685); 
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons button {
+    width: 160px; 
+    padding: 15px 30px;
+    text-align: center; 
+    margin: 10px;
+    background-color: #248f8f; 
+    color: white;
+    font-size: 16px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s;
+}
+
+.buttons #btn-confirmar{
+    background-color: #cf2d04;
+}
+.buttons #btn-confirmar:hover{
+    background-color: #fc2d09;
+}
+.buttons button:hover {
+    background-color: #00b31e; 
+}
+
+.buttons button.transfer {
+    background-color: #248f8f; 
+}
+
+.buttons button.save {
+    background-color: #248f8f;  
+}
+
+/*   css del modal*/
+body.modal-open {
+    pointer-events: none;
+    user-select: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(235, 240, 238, 0.534);
+    padding-top: 18%;
+    pointer-events: all;
+}
+
+.modal-content {
+    background-color: #0f0f0faf;
+    margin: 5% auto;
+    padding: 20px;
+    border: 3px solid #0adaa6;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    text-align: center;
+    color: #cccccc;
+    pointer-events: auto;
+}
+
+.close {
+    color: #a1d6c0;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

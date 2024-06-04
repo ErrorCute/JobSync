@@ -1,11 +1,12 @@
-
+import locale
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .models import CustomUser, Comuna, Trabajo
 from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-
+from django.http import HttpResponseBadRequest
+from datetime import datetime
 def custom_login(request):
     if request.method == 'POST':
         formulario = UsuarioUserForm(data=request.POST)
@@ -160,26 +161,36 @@ def ver_agenda(request, colaborador_id):
 
 
 def trabajos_sin_asignar(request, colaborador_id, fecha):
+    colaborador = get_object_or_404(CustomUser, id=colaborador_id)
+    trabajos = Trabajo.objects.filter(fecha=fecha, colaborador__isnull=True)
+    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    # Formatear la fecha
+    fecha_obj = datetime.strptime(fecha, '%Y-%m-%d')
+    fecha_formateada = fecha_obj.strftime('%A, %d de %B')
 
-    trabajos = Trabajo.objects.filter(fecha=fecha, estado='sin_asignar')
-    colaborador = CustomUser.objects.get(id=colaborador_id)
-    
-    return render(request, 'admin/gestion_trabajos/trabajos_sin_asignar.html', {'trabajos': trabajos, 'fecha': fecha, 'colaborador': colaborador})
+    context = {
+        'colaborador': colaborador,
+        'trabajos': trabajos,
+        'fecha': fecha_formateada
+    }
 
+    return render(request, 'admin/gestion_trabajos/trabajos_sin_asignar.html', context)
 
-
-def asignar_trabajo(request, user_id, trabajo_id):
-
+def asignar_trabajo(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
-    trabajo = get_object_or_404(Trabajo, id=trabajo_id)
-    trabajo.colaborador = colaborador
-    trabajo.estado = 'pendiente'
-    trabajo.save()
-    # Obtener la URL de la página anterior usando el referer del encabezado HTTP
-    previous_page = request.META.get('HTTP_REFERER')
-    # Si no hay página anterior, redirigir a la página de inicio
-    if not previous_page:
-        return redirect('inicio')
-    return redirect(previous_page)
+    trabajos_ids = request.POST.get('trabajos', '').split(',')
+    
+    # Filtra valores vacíos
+    trabajos_ids = [trabajo_id for trabajo_id in trabajos_ids if trabajo_id]
 
+    if not trabajos_ids:
+        return HttpResponseBadRequest("No se han asignado trabajos.")
 
+    for trabajo_id in trabajos_ids:
+        trabajo = get_object_or_404(Trabajo, id=trabajo_id)
+        trabajo.colaborador = colaborador
+        trabajo.estado = 'pendiente'
+        trabajo.save()
+
+    
+    return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/trabajos_sin_asignar.html'))

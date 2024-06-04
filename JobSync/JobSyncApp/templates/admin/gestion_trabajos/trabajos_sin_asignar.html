@@ -3,26 +3,125 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/admin/trabajos_sin_asignar.css' %}">
+
 {% endblock extra_css %}
 
 {% block contenido %}
-
 <div class="header">
     <a href="{% url 'ver_agenda' colaborador.id %}" id="btn-volver" class="btn btn-back">Volver</a>
     <h1>Trabajos sin asignar para {{ fecha }}</h1>
 </div>
 
-
-<div class="trabajos-sin-asignar">
-    <ul>
-        {% for trabajo in trabajos %}
-            <li>{{ trabajo.nombre_trabajo }}</li>
-            <li>{{ trabajo.fecha}}</li>
-            <br>
-            <a href="{% url 'asignar_trabajo' colaborador.id trabajo.id %}" id="btn-volver" class="btn btn-asignar">Asignar este trabajo</a>
-        {% empty %}
+<div class="container">
+    <div class="trabajos-list" id="trabajos-sin-asignar">
+        <h2>Trabajos sin asignar</h2>
+        <ul>
+            {% for trabajo in trabajos %}
+            <li data-id="{{ trabajo.id }}">{{ trabajo.nombre_trabajo }} - {{ trabajo.direccion }}  - {{ trabajo.hora }} </li>
+            {% empty %}
             <li>No hay trabajos sin asignar para esta fecha.</li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="buttons">
+        <button id="btn-asignar">Asignar &gt;&gt;</button>
+        <button id="btn-desasignar">&lt;&lt; Desasignar</button>
+        <button id="btn-confirmar" >Guardar</button>
+    </div>
+
+    <div class="trabajos-list" id="trabajos-asignados">
+        <h2> Agenda</h2>
+        <ul>
+            <!-- Aquí se añadirán los trabajos seleccionados -->
+        </ul>
+    </div>
 </div>
+
+<form id="form-asignar" method="post" action="{% url 'asignar_trabajo' colaborador.id %}" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="trabajos" id="trabajos-input">
+</form>
+
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>¡Trabajos asignados con éxito!</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+    const btnAsignar = document.getElementById('btn-asignar');
+    const btnDesasignar = document.getElementById('btn-desasignar');
+    const btnConfirmar = document.getElementById('btn-confirmar');
+    const trabajosSinAsignar = document.getElementById('trabajos-sin-asignar').querySelector('ul');
+    const trabajosAsignados = document.getElementById('trabajos-asignados').querySelector('ul');
+    const trabajosInput = document.getElementById('trabajos-input');
+    const modal = document.getElementById('confirmation-modal');
+    const closeModal = modal.querySelector('.close');
+
+    // Función para verificar si hay trabajos asignados y habilitar/deshabilitar el botón "Guardar"
+    function checkTrabajosAsignados() {
+        if (trabajosAsignados.querySelectorAll('li').length > 0) {
+            btnConfirmar.disabled = false;
+        } else {
+            btnConfirmar.disabled = true;
+        }
+    }
+
+    // Inicialmente, el botón "Guardar" está deshabilitado
+    btnConfirmar.disabled = true;
+
+    btnAsignar.addEventListener('click', function () {
+        const selectedItems = [...trabajosSinAsignar.querySelectorAll('li.selected')];
+        selectedItems.forEach(item => {
+            item.classList.remove('selected');
+            trabajosAsignados.appendChild(item);
+        });
+        checkTrabajosAsignados(); // Verificar después de asignar
+    });
+
+    btnDesasignar.addEventListener('click', function () {
+        const selectedItems = [...trabajosAsignados.querySelectorAll('li.selected')];
+        selectedItems.forEach(item => {
+            item.classList.remove('selected');
+            trabajosSinAsignar.appendChild(item);
+        });
+        checkTrabajosAsignados(); // Verificar después de desasignar
+    });
+
+    document.querySelectorAll('.trabajos-list ul').forEach(list => {
+        list.addEventListener('click', function (e) {
+            if (e.target.tagName === 'LI') {
+                e.target.classList.toggle('selected');
+            }
+        });
+    });
+
+    btnConfirmar.addEventListener('click', function (e) {
+        e.preventDefault(); // Evita el envío del formulario inmediato
+        const trabajosAsignadosIds = [...trabajosAsignados.querySelectorAll('li')].map(item => item.dataset.id);
+        trabajosInput.value = trabajosAsignadosIds.join(',');
+        modal.style.display = 'block'; // Muestra el modal
+    });
+
+    closeModal.addEventListener('click', function () {
+        modal.style.display = 'none';
+        document.getElementById('form-asignar').submit(); // Envía el formulario después de cerrar el modal
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+            document.getElementById('form-asignar').submit(); // Envía el formulario si se hace clic fuera del modal
+        }
+    });
+
+    // Verificar el estado inicial por si hay trabajos asignados desde el inicio
+    checkTrabajosAsignados();
+});
+</script>
 {% endblock %}
