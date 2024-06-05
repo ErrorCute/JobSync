@@ -108,3 +108,7 @@ class ModificarTrabajoForm(forms.ModelForm):
             'hora': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora (HH:MM)'}),
             'valor': forms.NumberInput(attrs={'placeholder': 'Valor'}),
         }  
+
+
+class RutForm(forms.Form):
+    rut_titular = forms.CharField(max_length=12, label='RUT del titular')

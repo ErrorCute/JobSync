@@ -1,0 +1,23 @@
+<!-- actualizar_estado_trabajo.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actualizar estado del trabajo</title>
+</head>
+<body>
+    <h1>Actualizar estado del trabajo</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Actualizar estado del trabajo</button>
+    </form>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

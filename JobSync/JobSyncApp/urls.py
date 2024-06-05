@@ -34,5 +34,8 @@ urlpatterns = [
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
     path('mi_agenda/',views_colaborador.mi_agenda,name='mi_agenda'),
-    path('mi_trabajos/<int:colaborador_id>/<str:fecha>/', views_colaborador.mi_trabajos, name='mi_trabajos')
+    path('mi_trabajos/<int:colaborador_id>/<str:fecha>/', views_colaborador.mi_trabajos, name='mi_trabajos'),
+
+    path('actualizar_estado_trabajo/', views.actualizar_estado_trabajo, name='actualizar_estado_trabajo')
+
 ]
