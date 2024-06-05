@@ -19,8 +19,16 @@
             <li>{{ trabajo.fecha}}</li>
             <li>{{ trabajo.estado}}</li>
             <li>{{ trabajo.colaborador.first_name}}</li>
+            {% if trabajo.estado == 'pendiente' %}
+                <li>
+                    <form action="{% url 'actualizar_estado_trabajo' trabajo.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="rut_titular" value="{{ trabajo.rut_titular }}">
+                        <button type="submit" class="btn btn-success">Confirmar trabajo</button>
+                    </form>
+                </li>
+            {% endif %}
             <br>
-            
         {% empty %}
             <li>No hay trabajos sin asignar para esta fecha.</li>
         {% endfor %}

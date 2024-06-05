@@ -36,6 +36,6 @@ urlpatterns = [
     path('mi_agenda/',views_colaborador.mi_agenda,name='mi_agenda'),
     path('mi_trabajos/<int:colaborador_id>/<str:fecha>/', views_colaborador.mi_trabajos, name='mi_trabajos'),
 
-    path('actualizar_estado_trabajo/', views.actualizar_estado_trabajo, name='actualizar_estado_trabajo')
+    path('actualizar_estado_trabajo/<int:trabajo_id>', views_colaborador.actualizar_estado_trabajo, name='actualizar_estado_trabajo')
 
 ]

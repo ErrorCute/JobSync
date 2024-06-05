@@ -16,18 +16,12 @@
 
 <div>
 
+    <h1>Confirmar trabajo</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Actualizar estado del trabajo</button>
+        <button type="submit" class="btn btn-success">Confirmar trabajo</button>
     </form>
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 </div>
     
 

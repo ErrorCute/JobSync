@@ -1,9 +1,8 @@
 import locale
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import CustomUser, Comuna, Trabajo
-from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm, RutForm
+from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseBadRequest
@@ -196,22 +195,3 @@ def asignar_trabajo(request, user_id):
     
     return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
 
-def actualizar_estado_trabajo(request):
-
-    if request.method == 'POST':
-        form = RutForm(request.POST)
-        if form.is_valid():
-            rut_titular = form.cleaned_data['rut_titular']
-            trabajo = Trabajo.objects.filter(rut_titular=rut_titular).first()
-            if trabajo:
-                trabajo.estado = 'completado'
-                trabajo.save()
-                messages.success(request, 'Estado del trabajo actualizado con éxito')
-                return redirect('trabajos')  # Redirigir a la página de trabajos
-            else:
-                messages.error(request, 'No se encontró un trabajo asociado a ese RUT')
-                return redirect('actualizar_estado_trabajo')  # Redirigir a la misma página
-    else:
-
-        form = RutForm()
-    return render(request, 'admin/gestion_trabajos/trabajos/actualizar_estado_trabajo.html', {'form': form})
