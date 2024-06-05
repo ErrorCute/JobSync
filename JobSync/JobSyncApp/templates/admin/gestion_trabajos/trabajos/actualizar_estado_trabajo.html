@@ -1,12 +1,21 @@
-<!-- actualizar_estado_trabajo.html -->
+{% extends 'index.html' %}
+{% load  static  %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/admin/modificar_usuario.css' %}">
+    <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+{% endblock extra_css %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Actualizar estado del trabajo</title>
-</head>
-<body>
+{% block contenido %}
+
+<div class="header">
     <h1>Actualizar estado del trabajo</h1>
+
+</div>
+
+<div>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
@@ -19,5 +28,8 @@
             {% endfor %}
         </ul>
     {% endif %}
-</body>
-</html>
+</div>
+    
+
+
+{% endblock %}
