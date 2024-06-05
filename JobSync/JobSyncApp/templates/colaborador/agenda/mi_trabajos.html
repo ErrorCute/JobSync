@@ -2,33 +2,96 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/admin/trabajos_sin_asignar.css' %}">
+<link rel="stylesheet" href="{% static 'css/colaborador/mis_trabajos.css' %}">
 {% endblock extra_css %}
 
 {% block contenido %}
-
 <div class="header">
-    <a href="{% url 'mi_agenda'  %}" id="btn-volver" class="btn btn-back">Volver</a>
+    <a href="{% url 'mi_agenda' %}" id="btn-volver" class="btn btn-back">Volver</a>
     <h1> Mis Trabajos  {{ fecha }}</h1>
-
-</div>
-<div class="trabajos-sin-asignar">
-    <ul>
-        {% for trabajo in trabajos %}
-            <li>{{ trabajo.nombre_trabajo }}</li>
-            <li>{{ trabajo.fecha}}</li>
-            <li>{{ trabajo.estado}}</li>
-            <li>{{ trabajo.colaborador.first_name}}</li>
-            {% if trabajo.estado == 'pendiente' %}
-                <li>
-                    <a href="{% url 'actualizar_estado_trabajo' trabajo.id %}" id="btn-volver" class="btn btn-back">Volver</a>
-                </li>
-            {% endif %}
-            <br>
-        {% empty %}
-            <li>No hay trabajos sin asignar para esta fecha.</li>
-        {% endfor %}
-    </ul>
 </div>
 
-{% endblock %} 
+<div class="container">
+    <div class="trabajos-list" id="trabajos-pendientes">
+        <h2>Trabajos Pendientes</h2>
+        <ul>
+            {% for trabajo in trabajos %}
+                {% if trabajo.estado == 'pendiente' %}
+                    <li>
+                       {{ trabajo.nombre_trabajo }} - {{ trabajo.nombre_titular }} - {{ trabajo.direccion }} - {{ trabajo.fecha }}- {{ trabajo.hora }}
+                        <form method="post" action="{% url 'actualizar_estado_trabajo' trabajo.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-confirmar" onclick="openModal('{{ trabajo.id }}')">Confirmar Trabajo</button>
+                        </form>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="trabajos-list" id="trabajos-completados">
+        <h2>Trabajos Completados</h2>
+        <ul>
+            {% for trabajo in trabajos %}
+                {% if trabajo.estado == 'completado' %}
+                    <li>
+                        {{ trabajo.nombre_trabajo }} - {{ trabajo.direccion }} - {{ trabajo.fecha }} - {{ trabajo.hora}}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal-confirmar-trabajo" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Confirmar Trabajo</h2>
+        <form method="post" id="confirmar-form">
+            {% csrf_token %}
+            <input type="hidden" id="trabajo-id" name="trabajo_id">
+            <label for="rut_titular">RUT del Titular:</label>
+            <input type="text" id="rut_titular" name="rut_titular" required>
+            <button type="submit" class="btn btn-confirmar">Confirmar trabajo</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openModal(trabajoId) {
+    document.getElementById('trabajo-id').value = trabajoId;
+    document.getElementById('modal-confirmar-trabajo').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('modal-confirmar-trabajo').style.display = 'none';
+}
+
+document.getElementById('confirmar-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var trabajoId = document.getElementById('trabajo-id').value;
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = "{% url 'actualizar_estado_trabajo' 0 %}".replace('0', trabajoId);
+    
+    var csrfToken = document.createElement('input');
+    csrfToken.type = 'hidden';
+    csrfToken.name = 'csrfmiddlewaretoken';
+    csrfToken.value = '{{ csrf_token }}';
+    form.appendChild(csrfToken);
+
+    var rutTitular = document.createElement('input');
+    rutTitular.type = 'hidden';
+    rutTitular.name = 'rut_titular';
+    rutTitular.value = document.getElementById('rut_titular').value;
+    form.appendChild(rutTitular);
+
+    document.body.appendChild(form);
+    form.submit();
+});
+</script>
+{% endblock extra_js %}

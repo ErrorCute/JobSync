@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseBadRequest
 from datetime import datetime
+from babel.dates import format_date, parse_date
 def custom_login(request):
     if request.method == 'POST':
         formulario = UsuarioUserForm(data=request.POST)
@@ -164,9 +165,10 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(fecha=fecha, colaborador__isnull=True)
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+
     # Formatear la fecha
     fecha_obj = datetime.strptime(fecha, '%Y-%m-%d')
-    fecha_formateada = fecha_obj.strftime('%A, %d de %B')
+    fecha_formateada = format_date(fecha_obj, format="full", locale="es")
 
     context = {
         'colaborador': colaborador,

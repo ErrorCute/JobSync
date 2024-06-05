@@ -1,10 +1,11 @@
-
-from django.shortcuts import render, redirect
+import locale
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser,Trabajo
+from .models import CustomUser, Trabajo
 from .forms import RutForm
 from django.contrib import messages
-
+from datetime import datetime
+from babel.dates import format_date, parse_date
 @login_required
 def mi_agenda(request):
     # Asegúrate de que request.user es una instancia de CustomUser
@@ -15,26 +16,37 @@ def mi_agenda(request):
     return render(request, 'colaborador/agenda/mi_agenda.html', {'colaborador': colaborador})
 
 
-from django.shortcuts import get_object_or_404
+
 
 def mi_trabajos(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(fecha=fecha, colaborador_id=colaborador_id)
-    return render(request, 'colaborador/agenda/mi_trabajos.html', {'trabajos': trabajos, 'fecha': fecha, 'colaborador': colaborador})
+    
+    # Establecer la configuración local a español
+    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+
+    # Formatear la fecha
+    fecha_obj = datetime.strptime(fecha, '%Y-%m-%d')
+    fecha_formateada = format_date(fecha_obj, format="full", locale="es")
+
+    context = {
+        'colaborador': colaborador,
+        'trabajos': trabajos,
+        'fecha': fecha_formateada
+    }
+    return render(request, 'colaborador/agenda/mi_trabajos.html', context)
 
 def actualizar_estado_trabajo(request, trabajo_id):
-    trabajo = Trabajo.objects.get(id=trabajo_id)
+    trabajo = get_object_or_404(Trabajo, id=trabajo_id)
     if request.method == 'POST':
-        form = RutForm(request.POST)
-        if form.is_valid():
-            rut_titular = form.cleaned_data['rut_titular']
-            if trabajo.rut_titular == rut_titular:
-                trabajo.estado = 'completado'
-                trabajo.save()
-                messages.success(request, 'Estado del trabajo actualizado con éxito')
-                return redirect('mi_trabajos', colaborador_id=trabajo.colaborador.id, fecha=trabajo.fecha)
-            else:
-                messages.error(request, 'El RUT no coincide con el titular del trabajo')
-    else:
-        form = RutForm()
-    return render(request, 'colaborador/agenda/actualizar_estado_trabajo.html', {'form': form, 'trabajo': trabajo})
+        rut_titular = request.POST.get('rut_titular')
+        if trabajo.rut_titular == rut_titular:
+            trabajo.estado = 'completado'
+            trabajo.save()
+            messages.success(request, 'Estado del trabajo actualizado con éxito')
+        else:
+            messages.error(request, 'El RUT no coincide con el titular del trabajo')
+        
+        return redirect('mi_trabajos', colaborador_id=trabajo.colaborador.id, fecha=trabajo.fecha)
+
+    return render(request, 'colaborador/agenda/mi_trabajos.html', {'trabajo': trabajo})

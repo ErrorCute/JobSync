@@ -3,7 +3,6 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/admin/trabajos_sin_asignar.css' %}">
-
 {% endblock extra_css %}
 
 {% block contenido %}
@@ -19,7 +18,7 @@
             {% for trabajo in trabajos %}
             <li data-id="{{ trabajo.id }}">{{ trabajo.nombre_trabajo }} - {{ trabajo.direccion }}  - {{ trabajo.hora }} </li>
             {% empty %}
-            <li>No hay trabajos sin asignar para esta fecha.</li>
+            <li class="no-trabajos">No hay trabajos sin asignar para esta fecha.</li>
             {% endfor %}
         </ul>
     </div>
@@ -53,7 +52,7 @@
 
 {% block extra_js %}
 <script>
-   document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const btnAsignar = document.getElementById('btn-asignar');
     const btnDesasignar = document.getElementById('btn-desasignar');
     const btnConfirmar = document.getElementById('btn-confirmar');
@@ -95,7 +94,7 @@
 
     document.querySelectorAll('.trabajos-list ul').forEach(list => {
         list.addEventListener('click', function (e) {
-            if (e.target.tagName === 'LI') {
+            if (e.target.tagName === 'LI' && !e.target.classList.contains('no-trabajos')) {
                 e.target.classList.toggle('selected');
             }
         });
