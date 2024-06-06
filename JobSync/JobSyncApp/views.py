@@ -73,6 +73,7 @@ def registro(request):
 
 def lista_colaboradores(request ):
     colaboradores = CustomUser.objects.filter(rol=True)
+   
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
 
 def eliminar_usuario(request, user_id):
@@ -113,8 +114,9 @@ def index_trabajo(request):
     return render (request,'admin/gestion_trabajos/trabajos/index_trabajo.html')
 
 def trabajos(request):
+    comuna = Comuna.objects.all()
     trabajos = Trabajo.objects.all()  # Obtener todos los trabajos
-    return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos})
+    return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos,'comuna':comuna})
 
 
 def crear_trabajo(request):

@@ -13,10 +13,14 @@
     <h1>Colaboradores</h1>
     <a href="{% url 'registro' %}" id="btn-registrar" class="btn">Registrar</a>
 </div>
+    <div class="search-container" >
+    <input type="text" id="search-input" placeholder="Buscar por nombre..." >
+</div>
 
 <div class="card-container">
+
     {% for colaborador in colaboradores %}
-    <div class="card">
+    <div class="card"  data-comuna="{{ colaborador.comuna }}">
         <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}"> <i class="fas fa-trash-alt"></i></button>
         <button class="edit-btn" data-url="{% url 'modificar_usuario' colaborador.id %}" > <i class="fas fa-edit"></i></button>
         <!-- <h2>{{ colaborador.username }}</h2> -->
@@ -30,20 +34,10 @@
 
 </div>
 
-<script>
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const url = this.dataset.url;
-            window.location.href = url;
-        });
-    });
 
-   
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const url = this.dataset.url;
-            window.location.href = url;
-        });
-    });
-</script>
+
+<script src="{% static 'js/colaboradores.js' %}"></script>
+
+
+
 {% endblock %}

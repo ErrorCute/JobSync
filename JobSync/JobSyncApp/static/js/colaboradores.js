@@ -5,6 +5,7 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
     });
 });
 
+
 document.querySelectorAll('.edit-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         const url = this.dataset.url;
@@ -13,25 +14,19 @@ document.querySelectorAll('.edit-btn').forEach(btn => {
 });
 
 
-
 document.addEventListener("DOMContentLoaded", function() {
-    var cardContainer = document.querySelector(".card-container");
-    var registerButton = document.getElementById("registerButton");
+    const searchInput = document.getElementById("search-input");
+    const cards = document.querySelectorAll(".card");
 
-    if (cardContainer.children.length > 1) {
-        var lastCard = cardContainer.querySelector(".card:last-child");
-
-
-        var buttonTop = lastCard.offsetTop + lastCard.offsetHeight / 3 - registerButton.offsetHeight / 2;
-        var buttonLeft = lastCard.offsetLeft + lastCard.offsetWidth + 20; 
-
-        registerButton.style.position = "absolute";
-        registerButton.style.top = buttonTop + "px";
-        registerButton.style.left = buttonLeft + "px";
-    } else {
-
-        registerButton.style.position = "relative";
-        registerButton.style.top = "20px"; 
-        registerButton.style.left = "0";
-    }
+    searchInput.addEventListener("input", function() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        cards.forEach(card => {
+            const nombre = card.querySelector("p strong:first-of-type").nextSibling.textContent.toLowerCase();
+            if (nombre.includes(searchTerm)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
 });

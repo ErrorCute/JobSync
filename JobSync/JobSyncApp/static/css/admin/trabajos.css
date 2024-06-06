@@ -162,3 +162,17 @@ body {
     }
 }
 
+.filter-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  #comuna-filter {
+    width: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid rgba(3, 207, 163, 0.76);;
+    border-radius: 5px;
+    color: #fff;
+    background:rgba(22, 22, 22, 0.61);
+  }
