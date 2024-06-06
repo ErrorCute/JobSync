@@ -137,7 +137,7 @@ body {
 
 .search-container {
     position: fixed;
-    top: 18%; /* Ajusta este valor según la altura de tu header */
+    top: 18%; 
     right: 4%;
     z-index: 1001;
     background: rgba(22, 22, 22, 0.61);
