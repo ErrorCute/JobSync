@@ -52,46 +52,53 @@
             {% csrf_token %}
             <input type="hidden" id="trabajo-id" name="trabajo_id">
             <label for="rut_titular">RUT del Titular:</label>
-            <input type="text" id="rut_titular" name="rut_titular" required>
+            <input type="text" id="rut_titular" name="rut_titular" required maxlength="9" onchange="formatRut(this)">
             <button type="submit" class="btn btn-confirmar">Confirmar trabajo</button>
         </form>
     </div>
 </div>
 
 {% endblock %}
-
 {% block extra_js %}
 <script>
-function openModal(trabajoId) {
-    document.getElementById('trabajo-id').value = trabajoId;
-    document.getElementById('modal-confirmar-trabajo').style.display = 'block';
-}
-
-function closeModal() {
-    document.getElementById('modal-confirmar-trabajo').style.display = 'none';
-}
-
-document.getElementById('confirmar-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    var trabajoId = document.getElementById('trabajo-id').value;
-    var form = document.createElement('form');
-    form.method = 'POST';
-    form.action = "{% url 'actualizar_estado_trabajo' 0 %}".replace('0', trabajoId);
+    function openModal(trabajoId) {
+        document.getElementById('trabajo-id').value = trabajoId;
+        document.getElementById('modal-confirmar-trabajo').style.display = 'block';
+    }
     
-    var csrfToken = document.createElement('input');
-    csrfToken.type = 'hidden';
-    csrfToken.name = 'csrfmiddlewaretoken';
-    csrfToken.value = '{{ csrf_token }}';
-    form.appendChild(csrfToken);
-
-    var rutTitular = document.createElement('input');
-    rutTitular.type = 'hidden';
-    rutTitular.name = 'rut_titular';
-    rutTitular.value = document.getElementById('rut_titular').value;
-    form.appendChild(rutTitular);
-
-    document.body.appendChild(form);
-    form.submit();
-});
-</script>
+    function closeModal() {
+        document.getElementById('modal-confirmar-trabajo').style.display = 'none';
+    }
+    
+    document.getElementById('confirmar-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var trabajoId = document.getElementById('trabajo-id').value;
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{% url 'actualizar_estado_trabajo' 0 %}".replace('0', trabajoId);
+        
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';
+        form.appendChild(csrfToken);
+    
+        var rutTitular = document.createElement('input');
+        rutTitular.type = 'hidden';
+        rutTitular.name = 'rut_titular';
+        rutTitular.value = document.getElementById('rut_titular').value;
+        form.appendChild(rutTitular);
+    
+        document.body.appendChild(form);
+        form.submit();
+    });
+    
+    function formatRut(input) {
+        var rut = input.value.replace(/\./g, '').replace(/\-/g, '').trim();
+        if (rut.length > 1) {
+            var formattedRut = rut.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '-' + rut.slice(-1);
+            input.value = formattedRut;
+        }
+    }
+    </script>
 {% endblock extra_js %}
