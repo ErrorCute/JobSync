@@ -61,6 +61,7 @@ body {
 }
 
 .container {
+    margin-top: 15%;
     display: flex;
     justify-content: space-between;
     padding: 20px;

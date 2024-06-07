@@ -28,8 +28,9 @@ body {
     padding: 20px;
     color: rgba(255, 255, 255, 0.8);
     position: fixed;
-    top: 80px; 
-}
+    top: 70px;
+    background-color: #0c0b0b; 
+}   
 
 #titulo-trabajos {
     margin: 0;
@@ -137,7 +138,7 @@ body {
 
 .search-container {
     position: fixed;
-    top: 18%; 
+    top: 22%; 
     right: 4%;
     z-index: 1001;
     background: rgba(22, 22, 22, 0.61);

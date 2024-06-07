@@ -24,7 +24,7 @@ body {
 
 .header {
     width: 100%;
-    display: flex;
+    display:inline-flex;
     align-items: center;
     padding: 20px;
     color: rgba(255, 255, 255, 0.8);
@@ -34,7 +34,7 @@ body {
 }
 
 .header h1{
-    padding-right: 37%;
+    padding-right: 25%;
     color: #f0f0f0;
 }
 
@@ -63,6 +63,7 @@ body {
 }
 
 .container {
+    margin-top: 15%;
     display: flex;
     justify-content: space-between;
     padding: 20px;
