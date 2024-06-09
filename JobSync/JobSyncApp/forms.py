@@ -116,17 +116,7 @@ class TrabajoForm(forms.ModelForm):
         if fecha < datetime.now().date():
             raise ValidationError("La fecha no puede ser anterior a la fecha actual")
         return fecha
-
-    def clean(self):
-        cleaned_data = super().clean()
-        hora_inicio = cleaned_data.get('hora_inicio')
-        hora_termino = cleaned_data.get('hora_termino')
-        
-        if hora_inicio and hora_termino and hora_termino <= hora_inicio:
-            raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
-        
-        return cleaned_data
-    
+   
     def clean_hora_inicio(self):
         hora_inicio = self.cleaned_data['hora_inicio']
         hora_minima = time(8, 0)  # Hora mínima: 8:00 AM
@@ -141,6 +131,9 @@ class TrabajoForm(forms.ModelForm):
         hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
         if hora_termino < hora_minima or hora_termino > hora_maxima:
             raise ValidationError("La hora de término debe estar entre las 8:00 AM y las 7:00 PM")
+        hora_inicio = self.cleaned_data.get('hora_inicio')
+        if hora_inicio and hora_termino and hora_termino <= hora_inicio:
+            raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
         return hora_termino
     
     def clean_rut_titular(self):
@@ -168,21 +161,6 @@ class ModificarTrabajoForm(forms.ModelForm):
             'valor': forms.NumberInput(attrs={'placeholder': 'Valor'}),
         }
 
-    def clean_fecha(self):
-        fecha = self.cleaned_data['fecha']
-        if fecha < datetime.now().date():
-            raise ValidationError("La fecha no puede ser anterior a la fecha actual")
-        return fecha
-
-    def clean(self):
-        cleaned_data = super().clean()
-        hora_inicio = cleaned_data.get('hora_inicio')
-        hora_termino = cleaned_data.get('hora_termino')
-        
-        if hora_inicio and hora_termino and hora_termino <= hora_inicio:
-            raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
-        
-        return cleaned_data
     
     def clean_hora_inicio(self):
         hora_inicio = self.cleaned_data['hora_inicio']
@@ -198,6 +176,9 @@ class ModificarTrabajoForm(forms.ModelForm):
         hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
         if hora_termino < hora_minima or hora_termino > hora_maxima:
             raise ValidationError("La hora de término debe estar entre las 8:00 AM y las 7:00 PM")
+        hora_inicio = self.cleaned_data.get('hora_inicio')
+        if hora_inicio and hora_termino and hora_termino <= hora_inicio:
+            raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
         return hora_termino
 
     def clean_rut_titular(self):

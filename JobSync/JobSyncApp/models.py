@@ -1,5 +1,3 @@
-
-# Create your models here
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -10,7 +8,7 @@ class Comuna(models.Model):
         return self.nombre
 
 class CustomUser(AbstractUser):
-    telefono = models.CharField(max_length=15, blank=True, null=True)  # Permitir valores nulos y en blanco
+    telefono = models.CharField(max_length=15)  
     ROL_CHOICES = [
         (True, 'Colaborador'),
         (False, 'Admin'),
@@ -24,7 +22,7 @@ class Trabajo(models.Model):
     nombre_trabajo = models.CharField(max_length=100)
     nombre_titular = models.CharField(max_length=100)
     rut_titular = models.CharField(max_length=12)
-    telefono = models.CharField(max_length=15)  # Campo para el teléfono del titular
+    telefono = models.CharField(max_length=15, blank=True, null=True)  # Agregado para el titular, si es necesario
     comuna = models.ForeignKey(Comuna, on_delete=models.SET_NULL, null=True)
     direccion = models.CharField(max_length=255)
     fecha = models.DateField()
