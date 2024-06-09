@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="{% static 'css/admin/crear_trabajo.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
 {% endblock extra_css %}
 
 {% block contenido %}    
@@ -34,13 +33,19 @@
                         <p class="text-danger">{{ error }}</p>
                     {% endfor %}
                 </div>
-                <div class="input-box">
-                    <div class="input-field">
-                        {{ form.direccion }}
-                        {% for error in form.direccion.errors %}
-                            <p class="text-danger">{{ error }}</p>
-                        {% endfor %}
-                    </div>
+                <div class="input-field">
+                    {{ form.telefono }}
+                    {% for error in form.telefono.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="input-box">
+                <div class="input-field">
+                    {{ form.direccion }}
+                    {% for error in form.direccion.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
                 </div>
                 <div class="input-field">
                     {{ form.comuna }}
@@ -56,11 +61,15 @@
                         <p class="text-danger">{{ error }}</p>
                     {% endfor %}
                 </div>
-            </div>
-            <div class="input-box">
                 <div class="input-field">
-                    {{ form.hora }}
-                    {% for error in form.hora.errors %}
+                    {{ form.hora_inicio }}
+                    {% for error in form.hora_inicio.errors %}
+                        <p class="text-danger">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="input-field">
+                    {{ form.hora_termino }}
+                    {% for error in form.hora_termino.errors %}
                         <p class="text-danger">{{ error }}</p>
                     {% endfor %}
                 </div>
@@ -101,22 +110,23 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-    // Selecciona el campo del RUT del titular
-    const rutInput = document.querySelector('#id_rut_titular');
+        // Selecciona el campo del RUT del titular
+        const rutInput = document.querySelector('#id_rut_titular');
 
-    rutInput.addEventListener('input', function(event) {
-        let rut = event.target.value;      
-        rut = rut.replace(/\./g, '').replace(/-/g, '');
-        if (!rut) {
-            return;
-        }
-        rut = rut.replace(/^(\d{1,2})(\d{3})(\d{3})(\w{1})$/, '$1.$2.$3-$4');
-        event.target.value = rut;
+        rutInput.addEventListener('input', function(event) {
+            let rut = event.target.value;      
+            rut = rut.replace(/\./g, '').replace(/-/g, '');
+            if (!rut) {
+                return;
+            }
+            rut = rut.replace(/^(\d{1,2})(\d{3})(\d{3})(\w{1})$/, '$1.$2.$3-$4');
+            event.target.value = rut;
+        });
+
+        document.getElementById("regresarBtn").addEventListener("click", function() {
+            window.location.href = "{% url 'trabajos' %}";
         });
     });    
-    document.getElementById("regresarBtn").addEventListener("click", function() {
-        window.location.href = "{% url 'trabajos' %}";
-    });
     </script>
 {% endblock %}
 {% block extra_js %}

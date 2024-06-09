@@ -97,15 +97,17 @@ class ModificarUsuarioForm(forms.ModelForm):
 class TrabajoForm(forms.ModelForm):
     class Meta:
         model = Trabajo
-        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'comuna', 'direccion', 'fecha', 'hora', 'valor']
+        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'telefono', 'comuna', 'direccion', 'fecha', 'hora_inicio', 'hora_termino', 'valor']
         widgets = {
             'nombre_trabajo': forms.TextInput(attrs={'placeholder': 'Nombre del trabajo'}),
             'nombre_titular': forms.TextInput(attrs={'placeholder': 'Nombre del titular'}),
             'rut_titular': forms.TextInput(attrs={'placeholder': 'RUT del titular'}),
+            'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
             'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
             'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
             'fecha': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Fecha (YYYY-MM-DD)'}),
-            'hora': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora (HH:MM)'}),
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de inicio (HH:MM)'}),
+            'hora_termino': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de término (HH:MM)'}),
             'valor': forms.NumberInput(attrs={'placeholder': 'Valor'}),
         }
 
@@ -115,13 +117,31 @@ class TrabajoForm(forms.ModelForm):
             raise ValidationError("La fecha no puede ser anterior a la fecha actual")
         return fecha
 
-    def clean_hora(self):
-        hora = self.cleaned_data['hora']
+    def clean(self):
+        cleaned_data = super().clean()
+        hora_inicio = cleaned_data.get('hora_inicio')
+        hora_termino = cleaned_data.get('hora_termino')
+        
+        if hora_inicio and hora_termino and hora_termino <= hora_inicio:
+            raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
+        
+        return cleaned_data
+    
+    def clean_hora_inicio(self):
+        hora_inicio = self.cleaned_data['hora_inicio']
         hora_minima = time(8, 0)  # Hora mínima: 8:00 AM
         hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
-        if hora < hora_minima or hora > hora_maxima:
-            raise ValidationError("La hora debe estar entre las 8:00 AM y las 7:00 PM")
-        return hora
+        if hora_inicio < hora_minima or hora_inicio > hora_maxima:
+            raise ValidationError("La hora de inicio debe estar entre las 8:00 AM y las 7:00 PM")
+        return hora_inicio
+
+    def clean_hora_termino(self):
+        hora_termino = self.cleaned_data['hora_termino']
+        hora_minima = time(8, 0)  # Hora mínima: 8:00 AM
+        hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
+        if hora_termino < hora_minima or hora_termino > hora_maxima:
+            raise ValidationError("La hora de término debe estar entre las 8:00 AM y las 7:00 PM")
+        return hora_termino
     
     def clean_rut_titular(self):
         rut_titular = self.cleaned_data.get('rut_titular')
@@ -130,34 +150,55 @@ class TrabajoForm(forms.ModelForm):
         if not re.match(r'^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$', rut_titular):
             raise forms.ValidationError("El RUT debe estar en el formato 12.345.678-9.")
         return rut_titular
+
 class ModificarTrabajoForm(forms.ModelForm):
     class Meta:
         model = Trabajo
-        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'comuna', 'direccion', 'fecha', 'hora', 'valor']
+        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'telefono', 'comuna', 'direccion', 'fecha', 'hora_inicio', 'hora_termino', 'valor']
         widgets = {
             'nombre_trabajo': forms.TextInput(attrs={'placeholder': 'Nombre del trabajo'}),
             'nombre_titular': forms.TextInput(attrs={'placeholder': 'Nombre del titular'}),
             'rut_titular': forms.TextInput(attrs={'placeholder': 'RUT del titular'}),
+            'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
             'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
             'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
             'fecha': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Fecha (YYYY-MM-DD)'}),
-            'hora': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora (HH:MM)'}),
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de inicio (HH:MM)'}),
+            'hora_termino': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de término (HH:MM)'}),
             'valor': forms.NumberInput(attrs={'placeholder': 'Valor'}),
         }
+
     def clean_fecha(self):
         fecha = self.cleaned_data['fecha']
         if fecha < datetime.now().date():
             raise ValidationError("La fecha no puede ser anterior a la fecha actual")
         return fecha
 
-    def clean_hora(self):
-        hora = self.cleaned_data['hora']
+    def clean(self):
+        cleaned_data = super().clean()
+        hora_inicio = cleaned_data.get('hora_inicio')
+        hora_termino = cleaned_data.get('hora_termino')
+        
+        if hora_inicio and hora_termino and hora_termino <= hora_inicio:
+            raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
+        
+        return cleaned_data
+    
+    def clean_hora_inicio(self):
+        hora_inicio = self.cleaned_data['hora_inicio']
         hora_minima = time(8, 0)  # Hora mínima: 8:00 AM
         hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
-        if hora < hora_minima or hora > hora_maxima:
-            raise ValidationError("La hora debe estar entre las 8:00 AM y las 7:00 PM")
-        return hora
-    
+        if hora_inicio < hora_minima or hora_inicio > hora_maxima:
+            raise ValidationError("La hora de inicio debe estar entre las 8:00 AM y las 7:00 PM")
+        return hora_inicio
+
+    def clean_hora_termino(self):
+        hora_termino = self.cleaned_data['hora_termino']
+        hora_minima = time(8, 0)  # Hora mínima: 8:00 AM
+        hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
+        if hora_termino < hora_minima or hora_termino > hora_maxima:
+            raise ValidationError("La hora de término debe estar entre las 8:00 AM y las 7:00 PM")
+        return hora_termino
 
     def clean_rut_titular(self):
         rut_titular = self.cleaned_data.get('rut_titular')
@@ -166,6 +207,7 @@ class ModificarTrabajoForm(forms.ModelForm):
         if not re.match(r'^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$', rut_titular):
             raise forms.ValidationError("El RUT debe estar en el formato 12.345.678-9.")
         return rut_titular
+
 
 class RutForm(forms.Form):
     rut_titular = forms.CharField(max_length=12, label='RUT del titular')
