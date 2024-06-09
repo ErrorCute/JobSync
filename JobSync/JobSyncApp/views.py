@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.http import HttpResponseBadRequest
 from datetime import datetime
 from babel.dates import format_date, parse_date
+from django.http import  HttpResponseBadRequest
+from django.contrib import messages
 def custom_login(request):
     if request.method == 'POST':
         formulario = UsuarioUserForm(data=request.POST)
@@ -185,20 +187,30 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
 
 def asignar_trabajo(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
-    trabajos_ids = request.POST.get('trabajos', '').split(',')
+    nuevos_trabajos_ids = request.POST.get('trabajos', '').split(',')
     
-   
-    trabajos_ids = [trabajo_id for trabajo_id in trabajos_ids if trabajo_id]
+    nuevos_trabajos_ids = [trabajo_id for trabajo_id in nuevos_trabajos_ids if trabajo_id]
 
-    if not trabajos_ids:
-        return HttpResponseBadRequest("No se han asignado trabajos.")
+    if not nuevos_trabajos_ids:
+        messages.error(request, "No se han asignado trabajos.")
+        return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
 
-    for trabajo_id in trabajos_ids:
+    # Verificar si hay trabajos conflictivos en el mismo rango horario
+    for trabajo_id in nuevos_trabajos_ids:
+        trabajo = get_object_or_404(Trabajo, id=trabajo_id)
+        trabajos_conflictivos = Trabajo.objects.filter(colaborador=colaborador, fecha=trabajo.fecha, hora_inicio__lt=trabajo.hora_termino, hora_termino__gt=trabajo.hora_inicio).exclude(id=trabajo_id)
+        if trabajos_conflictivos.exists():
+            messages.error(request, f"Ya hay un trabajo asignado para este colaborador en este rango horario: {trabajo.nombre_trabajo}")
+            trabajo.error = True  # Añadir una marca al trabajo que presenta un error
+            trabajo.save()
+            return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
+
+    # Asignar los nuevos trabajos si no hay conflictos
+    for trabajo_id in nuevos_trabajos_ids:
         trabajo = get_object_or_404(Trabajo, id=trabajo_id)
         trabajo.colaborador = colaborador
         trabajo.estado = 'pendiente'
         trabajo.save()
 
-    
+    messages.success(request, "Trabajos asignados con éxito.")
     return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
-

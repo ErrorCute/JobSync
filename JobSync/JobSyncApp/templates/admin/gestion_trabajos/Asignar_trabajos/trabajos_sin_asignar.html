@@ -10,12 +10,13 @@
     <a href="{% url 'ver_agenda' colaborador.id %}" id="btn-volver" class="btn btn-back">Volver</a>
     <h1>Trabajos sin asignar para {{ fecha }}</h1>
 </div>
+
 <div class="container">
     <div class="trabajos-list" id="trabajos-sin-asignar">
         <h2>Trabajos sin asignar</h2>
         <ul>
             {% for trabajo in trabajos_sin_asignar %}
-            <li data-id="{{ trabajo.id }}">
+            <li data-id="{{ trabajo.id }}" {% if trabajo.error %}class="error"{% endif %}>
                 <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                 <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
                 <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
@@ -27,6 +28,15 @@
             <li class="no-trabajos">No hay trabajos sin asignar para esta fecha.</li>
             {% endfor %}
         </ul>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 
     <div class="buttons">
@@ -36,7 +46,7 @@
     </div>
 
     <div class="trabajos-list" id="trabajos-asignados">
-        <h2> Agenda de {{ colaborador.first_name }} {{ colaborador.last_name }}</h2>
+        <h2> Agenda</h2>
         <ul>
             {% for trabajo in trabajos_asignados %}
             <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }}">
@@ -56,26 +66,17 @@
     {% csrf_token %}
     <input type="hidden" name="trabajos" id="trabajos-input">
 </form>
-
-<div id="confirmation-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>¡Trabajos asignados con éxito!</p>
-    </div>
-</div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+ document.addEventListener('DOMContentLoaded', function () {
     const btnAsignar = document.getElementById('btn-asignar');
     const btnDesasignar = document.getElementById('btn-desasignar');
     const btnConfirmar = document.getElementById('btn-confirmar');
     const trabajosSinAsignar = document.getElementById('trabajos-sin-asignar').querySelector('ul');
     const trabajosAsignados = document.getElementById('trabajos-asignados').querySelector('ul');
     const trabajosInput = document.getElementById('trabajos-input');
-    const modal = document.getElementById('confirmation-modal');
-    const closeModal = modal.querySelector('.close');
 
     function checkTrabajosAsignados() {
         if (trabajosAsignados.querySelectorAll('li').length > 0) {
@@ -107,36 +108,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.trabajos-list ul').forEach(list => {
         list.addEventListener('click', function (e) {
-            let target = e.target;
-            while (target && target.tagName !== 'LI') {
-                target = target.parentElement;
-            }
-            if (target && !target.classList.contains('no-trabajos') && !target.classList.contains('pendiente')) {
-                target.classList.toggle('selected');
+            const li = e.target.closest('li');
+            if (li && !li.classList.contains('no-trabajos') && !li.classList.contains('pendiente')) {
+                li.classList.toggle('selected');
             }
         });
     });
 
     btnConfirmar.addEventListener('click', function (e) {
         e.preventDefault();
-        const trabajosAsignadosIds = [...trabajosAsignados.querySelectorAll('li')].map(item => item.dataset.id);
+        const trabajosAsignadosIds = [...trabajosAsignados.querySelectorAll('li:not([data-id^="existing"])')].map(item => item.dataset.id);
         trabajosInput.value = trabajosAsignadosIds.join(',');
-        modal.style.display = 'block';
-    });
-
-    closeModal.addEventListener('click', function () {
-        modal.style.display = 'none';
         document.getElementById('form-asignar').submit();
-    });
-
-    window.addEventListener('click', function (event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-            document.getElementById('form-asignar').submit();
-        }
     });
 
     checkTrabajosAsignados();
 });
+
+
 </script>
 {% endblock %}

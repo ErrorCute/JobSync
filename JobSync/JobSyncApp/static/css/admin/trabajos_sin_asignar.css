@@ -197,3 +197,7 @@ body.modal-open {
     cursor: pointer;
 }
 
+.error {
+    background-color: rgba(255, 0, 0, 0.5); 
+    transition: background-color 4s ease;/* Color rojo semi-transparente */
+}
