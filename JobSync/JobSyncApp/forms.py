@@ -138,7 +138,7 @@ class TrabajoForm(forms.ModelForm):
     
     def clean_rut_titular(self):
         rut_titular = self.cleaned_data.get('rut_titular')
-        if len(rut_titular) < 12:
+        if len(rut_titular) < 11:
             raise forms.ValidationError("El RUT es incorrecto")
         if not re.match(r'^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$', rut_titular):
             raise forms.ValidationError("El RUT debe estar en el formato 12.345.678-9.")
@@ -183,7 +183,7 @@ class ModificarTrabajoForm(forms.ModelForm):
 
     def clean_rut_titular(self):
         rut_titular = self.cleaned_data.get('rut_titular')
-        if len(rut_titular) < 12:
+        if len(rut_titular) < 11:
             raise forms.ValidationError("El RUT es incorrecto.")
         if not re.match(r'^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$', rut_titular):
             raise forms.ValidationError("El RUT debe estar en el formato 12.345.678-9.")
@@ -195,7 +195,7 @@ class RutForm(forms.Form):
 
     def clean_rut_titular(self):
         rut_titular = self.cleaned_data.get('rut_titular')
-        if len(rut_titular) < 12:
+        if len(rut_titular) < 11:
             raise forms.ValidationError("El RUT es incorrecto.")
         if not re.match(r'^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$', rut_titular):
             raise forms.ValidationError("El RUT debe estar en el formato 12.345.678-9.")
