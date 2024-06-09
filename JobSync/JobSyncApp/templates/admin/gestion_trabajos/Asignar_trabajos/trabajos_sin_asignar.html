@@ -10,13 +10,19 @@
     <a href="{% url 'ver_agenda' colaborador.id %}" id="btn-volver" class="btn btn-back">Volver</a>
     <h1>Trabajos sin asignar para {{ fecha }}</h1>
 </div>
-
 <div class="container">
     <div class="trabajos-list" id="trabajos-sin-asignar">
         <h2>Trabajos sin asignar</h2>
         <ul>
-            {% for trabajo in trabajos %}
-            <li data-id="{{ trabajo.id }}">{{ trabajo.nombre_trabajo }} - {{ trabajo.direccion }}  - {{ trabajo.hora }} </li>
+            {% for trabajo in trabajos_sin_asignar %}
+            <li data-id="{{ trabajo.id }}">
+                <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
+                <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
+                <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+                <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
+                <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
+                <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+            </li>
             {% empty %}
             <li class="no-trabajos">No hay trabajos sin asignar para esta fecha.</li>
             {% endfor %}
@@ -26,13 +32,22 @@
     <div class="buttons">
         <button id="btn-asignar">Asignar &gt;&gt;</button>
         <button id="btn-desasignar">&lt;&lt; Desasignar</button>
-        <button id="btn-confirmar" >Guardar</button>
+        <button id="btn-confirmar">Guardar</button>
     </div>
 
     <div class="trabajos-list" id="trabajos-asignados">
-        <h2> Agenda</h2>
+        <h2> Agenda de {{ colaborador.first_name }} {{ colaborador.last_name }}</h2>
         <ul>
-            <!-- Aquí se añadirán los trabajos seleccionados -->
+            {% for trabajo in trabajos_asignados %}
+            <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }}">
+                <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
+                <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
+                <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+                <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
+                <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
+                <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+            </li>
+            {% endfor %}
         </ul>
     </div>
 </div>
@@ -62,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('confirmation-modal');
     const closeModal = modal.querySelector('.close');
 
-    // Función para verificar si hay trabajos asignados y habilitar/deshabilitar el botón "Guardar"
     function checkTrabajosAsignados() {
         if (trabajosAsignados.querySelectorAll('li').length > 0) {
             btnConfirmar.disabled = false;
@@ -71,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Inicialmente, el botón "Guardar" está deshabilitado
     btnConfirmar.disabled = true;
 
     btnAsignar.addEventListener('click', function () {
@@ -80,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
             item.classList.remove('selected');
             trabajosAsignados.appendChild(item);
         });
-        checkTrabajosAsignados(); // Verificar después de asignar
+        checkTrabajosAsignados();
     });
 
     btnDesasignar.addEventListener('click', function () {
@@ -89,37 +102,40 @@ document.addEventListener('DOMContentLoaded', function () {
             item.classList.remove('selected');
             trabajosSinAsignar.appendChild(item);
         });
-        checkTrabajosAsignados(); // Verificar después de desasignar
+        checkTrabajosAsignados();
     });
 
     document.querySelectorAll('.trabajos-list ul').forEach(list => {
         list.addEventListener('click', function (e) {
-            if (e.target.tagName === 'LI' && !e.target.classList.contains('no-trabajos')) {
-                e.target.classList.toggle('selected');
+            let target = e.target;
+            while (target && target.tagName !== 'LI') {
+                target = target.parentElement;
+            }
+            if (target && !target.classList.contains('no-trabajos') && !target.classList.contains('pendiente')) {
+                target.classList.toggle('selected');
             }
         });
     });
 
     btnConfirmar.addEventListener('click', function (e) {
-        e.preventDefault(); // Evita el envío del formulario inmediato
+        e.preventDefault();
         const trabajosAsignadosIds = [...trabajosAsignados.querySelectorAll('li')].map(item => item.dataset.id);
         trabajosInput.value = trabajosAsignadosIds.join(',');
-        modal.style.display = 'block'; // Muestra el modal
+        modal.style.display = 'block';
     });
 
     closeModal.addEventListener('click', function () {
         modal.style.display = 'none';
-        document.getElementById('form-asignar').submit(); // Envía el formulario después de cerrar el modal
+        document.getElementById('form-asignar').submit();
     });
 
     window.addEventListener('click', function (event) {
         if (event.target == modal) {
             modal.style.display = 'none';
-            document.getElementById('form-asignar').submit(); // Envía el formulario si se hace clic fuera del modal
+            document.getElementById('form-asignar').submit();
         }
     });
 
-    // Verificar el estado inicial por si hay trabajos asignados desde el inicio
     checkTrabajosAsignados();
 });
 </script>

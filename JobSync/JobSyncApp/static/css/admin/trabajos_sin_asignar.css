@@ -71,7 +71,7 @@ body {
 }
 
 .container .trabajos-list {
-    width: 45%;
+    width: 44%;
     border: 1px solid #ccc;
     padding: 10px;
     height: 500px;
@@ -196,3 +196,4 @@ body.modal-open {
     text-decoration: none;
     cursor: pointer;
 }
+

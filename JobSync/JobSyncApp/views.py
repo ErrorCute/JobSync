@@ -165,7 +165,8 @@ def ver_agenda(request, colaborador_id):
 
 def trabajos_sin_asignar(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
-    trabajos = Trabajo.objects.filter(fecha=fecha, colaborador__isnull=True)
+    trabajos_sin_asignar = Trabajo.objects.filter(fecha=fecha, colaborador__isnull=True)
+    trabajos_asignados = Trabajo.objects.filter(fecha=fecha, colaborador=colaborador)
     locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
 
     # Formatear la fecha
@@ -174,11 +175,13 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
 
     context = {
         'colaborador': colaborador,
-        'trabajos': trabajos,
+        'trabajos_sin_asignar': trabajos_sin_asignar,
+        'trabajos_asignados': trabajos_asignados,
         'fecha': fecha_formateada
     }
 
     return render(request, 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html', context)
+
 
 def asignar_trabajo(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
