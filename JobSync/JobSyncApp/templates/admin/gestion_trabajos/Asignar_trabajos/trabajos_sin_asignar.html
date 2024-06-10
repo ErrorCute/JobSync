@@ -16,7 +16,7 @@
         <h2>Trabajos sin asignar</h2>
         <ul>
             {% for trabajo in trabajos_sin_asignar %}
-            <li data-id="{{ trabajo.id }}" {% if trabajo.error %}class="error"{% endif %}>
+            <li data-id="{{ trabajo.id }}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" {% if trabajo.error %}class="error"{% endif %}>
                 <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                 <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
                 <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
@@ -49,7 +49,7 @@
         <h2> Agenda</h2>
         <ul>
             {% for trabajo in trabajos_asignados %}
-            <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }}">
+            <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                 <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                 <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
                 <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>

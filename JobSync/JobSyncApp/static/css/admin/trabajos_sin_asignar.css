@@ -24,7 +24,7 @@ body {
 
 .header {
     width: 100%;
-    display:inline-flex;
+    display: inline-flex;
     align-items: center;
     padding: 20px;
     color: rgba(255, 255, 255, 0.8);
@@ -33,12 +33,10 @@ body {
     justify-content: space-between;
 }
 
-.header h1{
+.header h1 {
     padding-right: 25%;
     color: #f0f0f0;
 }
-
-
 
 .btn {
     padding: 10px 20px;
@@ -80,11 +78,12 @@ body {
     border-radius: 15px;
     border: 2px solid rgba(3, 207, 163, 0.76);
 }
-.container .trabajos-list h2{
+
+.container .trabajos-list h2 {
     padding-left: 30%;
     margin-bottom: 5%;
-
 }
+
 .container .trabajos-list ul {
     list-style-type: none;
     padding: 0;
@@ -95,9 +94,8 @@ body {
     border: 1px solid #ddd;
     margin-bottom: 5px;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);  
+    
     transition: background-color 0.3s;
-    border: 2px solid rgba(8, 219, 131, 0.658); 
     border-radius: 15px;
 }
 
@@ -132,12 +130,14 @@ body {
     transition: background-color 0.3s;
 }
 
-.buttons #btn-confirmar{
+.buttons #btn-confirmar {
     background-color: #cf2d04;
 }
-.buttons #btn-confirmar:hover{
+
+.buttons #btn-confirmar:hover {
     background-color: #fc2d09;
 }
+
 .buttons button:hover {
     background-color: #00b31e; 
 }
@@ -150,9 +150,40 @@ body {
     background-color: #248f8f;  
 }
 
-
-
 .error {
     background-color: rgba(255, 0, 0, 0.5); 
     transition: background-color 4s ease;/* Color rojo semi-transparente */
 }
+
+/* Colores según estado */
+[data-estado="sin_asignar"] {
+    background-color: rgba(226, 221, 221, 0.836);
+    color: rgb(12, 11, 11);
+}
+
+[data-estado="pendiente"] {
+    background-color: rgba(91, 49, 190, 0.712);
+    color: white;
+}
+
+[data-estado="completado"] {
+    background-color: rgba(30, 206, 133, 0.733);
+    color: white;
+}
+
+
+[data-estado="reagendado"][data-reagendado-contador="1"] {
+    background-color: rgba(221, 177, 31, 0.815);
+    color: black;
+}
+
+[data-estado="reagendado"][data-reagendado-contador="2"] {
+    background-color: rgba(141, 9, 5, 0.781);
+    color: white;
+}
+
+[data-estado="cancelado"] {
+    background-color: rgba(0, 0, 0, 0.781);
+    color: white;
+}
+

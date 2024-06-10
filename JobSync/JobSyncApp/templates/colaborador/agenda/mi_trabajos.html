@@ -12,12 +12,12 @@
 </div>
 
 <div class="container">
-    <div class="trabajos-list" id="trabajos-pendientes">
+    <div class="trabajos-list" id="trabajos-pendientes" >
         <h2>Trabajos Pendientes</h2>
         <ul>
             {% for trabajo in trabajos %}
                 {% if trabajo.estado == 'pendiente' or trabajo.estado == 'reagendado' %}
-                    <li>
+                    <li data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                         <div class="trabajo-header">
                             <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                             <div class="trabajo-buttons">
@@ -45,7 +45,7 @@
         <ul>
             {% for trabajo in trabajos %}
                 {% if trabajo.estado == 'completado' %}
-                    <li>
+                    <li data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                     <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                     <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
                     <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
@@ -68,7 +68,7 @@
             {% csrf_token %}
             <input type="hidden" id="trabajo-id" name="trabajo_id">
             <label for="rut_titular">RUT del Titular:</label>
-            <input type="text" id="rut_titular" name="rut_titular" required maxlength="9" onchange="formatRut(this)">
+            <input type="text" id="rut_titular" name="rut_titular" required maxlength="12" onchange="formatRut(this)">
             <button type="submit" class="btn btn-confirmar">Confirmar trabajo</button>
         </form>
     </div>

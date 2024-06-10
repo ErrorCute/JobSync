@@ -25,11 +25,23 @@
 
 <div class="card-container">
     {% for trabajo in trabajos %}
-    <div class="card" id="trabajo" data-comuna="{{ trabajo.comuna }}">
+    <div class="card {% if trabajo.estado == 'sin_asignar' %}
+                        blanco
+                    {% elif trabajo.estado == 'pendiente' %}
+                        azul
+                    {% elif trabajo.estado == 'completado' %}
+                        verde
+                    {% elif trabajo.estado == 'reagendado' and trabajo.reagendado_contador == 1 %}
+                        amarillo
+                    {% elif trabajo.estado == 'reagendado' and trabajo.reagendado_contador >= 2 %}
+                        rojo
+                    {% elif trabajo.estado == 'cancelado' %}
+                        negro
+                    {% endif %}" id="trabajo" data-comuna="{{ trabajo.comuna }}">
         <div class="botones">
-        <button class="delete-btn" data-url="{% url 'eliminar_trabajo' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
-        <button class="edit-btn" data-url="{% url 'modificar_trabajo' trabajo.id %}" > <i class="fas fa-edit"></i></button>
-        <h2> {{ trabajo.nombre_trabajo }}</h2>
+            <button class="delete-btn" data-url="{% url 'eliminar_trabajo' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
+            <button class="edit-btn" data-url="{% url 'modificar_trabajo' trabajo.id %}"> <i class="fas fa-edit"></i></button>
+            <h2> {{ trabajo.nombre_trabajo }}</h2>
         </div>
         
         <p><strong>Nombre del Titular:</strong> {{ trabajo.nombre_titular }}</p>

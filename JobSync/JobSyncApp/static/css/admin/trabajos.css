@@ -18,7 +18,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url("/static/css/img/fondo.png") no-repeat center center fixed;  
+    background: url("/static/css/img/fondo.png") no-repeat center center fixed;
     background-size: cover;
 }
 
@@ -30,9 +30,9 @@ body {
     padding: 20px;
     color: rgba(255, 255, 255, 0.8);
     position: fixed;
-    top: 70px; 
+    top: 70px;
     z-index: 1000;
-    background-color: #0d0e0e; 
+    background-color: #0d0e0e;
 }
 
 #titulo-trabajos {
@@ -66,13 +66,14 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin-top: 220px; /* Ajusta este valor según la altura de tus headers y filtros */
+    margin-top: 220px;
     width: 100%;
-    padding-top: 60px; 
+    padding-top: 60px;
     padding-left: 5%;
 }
 
 .card {
+    
     width: 350px;
     margin: 10px;
     padding: 20px;
@@ -95,39 +96,35 @@ body {
 }
 
 .card .delete-btn, .card .edit-btn {
-    background: transparent; 
-    color: white;  
-    border: none; 
-    padding: 10px;  
-    border-radius: 10%; 
-    cursor: pointer; 
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10%;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
 }
 
-.card .delete-btn i, .card .edit-btn i {
-    color: white;  
-    font-size: 1.2em;  
-}
-
-.card .edit-btn:hover {
-    background: rgba(3, 184, 160, 0.247);  
-}
-
-.card .delete-btn:hover {
-    background: rgba(219, 14, 14, 0.315);  
-}
-
-.card {
-    position: relative;  
-}
-
-.card .delete-btn, .card .edit-btn {
-    position: absolute;  
-    top: 10px; 
-    right: 10px;  
+.card .delete-btn {
+    right: 10px;
 }
 
 .card .edit-btn {
-    right: 50px; 
+    right: 50px;
+}
+
+.card .delete-btn i, .card .edit-btn i {
+    color: white;
+    font-size: 1.2em;
+}
+
+.card .edit-btn:hover {
+    background: rgba(3, 184, 160, 0.247);
+}
+
+.card .delete-btn:hover {
+    background: rgba(219, 14, 14, 0.315);
 }
 
 .botones {
@@ -135,20 +132,19 @@ body {
     margin-bottom: 10px;
 }
 
-.botones h1{
+.botones h1 {
     align-items: center;
 }
 
-/* Media Queries para hacer la página responsive */
 @media screen and (max-width: 768px) {
     .header {
         top: 0;
         padding-top: 20%;
     }
-    
+
     .card {
-        width: 100%; 
-        max-width: 400px; 
+        width: 100%;
+        max-width: 400px;
     }
 
     .boton {
@@ -174,13 +170,13 @@ body {
         border: 1px solid rgba(3, 207, 163, 0.76);
         border-radius: 5px;
         color: #fff;
-        background:rgba(22, 22, 22, 0.61);
+        background: rgba(22, 22, 22, 0.61);
     }
 }
 
 .filter-container {
     position: fixed;
-    top: 22%; 
+    top: 22%;
     right: 4%;
     z-index: 1001;
     background: rgba(22, 22, 22, 0.61);
@@ -195,5 +191,36 @@ body {
     border: 1px solid rgba(3, 207, 163, 0.76);
     border-radius: 5px;
     color: #fff;
-    background:rgba(22, 22, 22, 0.315);
+    background: rgba(22, 22, 22, 0.315);
 }
+
+.card.blanco {
+    background-color: rgba(236, 236, 236, 0.767);
+    color: black;
+}
+
+.card.azul {
+    background-color: rgba(91, 49, 190, 0.712);
+    color: white;
+}
+
+.card.verde {
+    background-color: rgba(30, 206, 133, 0.733);
+    color: white;
+}
+
+.card.amarillo {
+    background-color: rgba(221, 177, 31, 0.815);
+    color: black;
+}
+
+.card.rojo {
+    background-color: rgba(141, 9, 5, 0.781);
+    color: white;
+}
+
+.card.negro {
+    background-color: rgba(0, 0, 0, 0.781);
+    color: white;
+}
+
