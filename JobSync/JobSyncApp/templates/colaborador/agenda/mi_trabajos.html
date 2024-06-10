@@ -68,7 +68,7 @@
             {% csrf_token %}
             <input type="hidden" id="trabajo-id" name="trabajo_id">
             <label for="rut_titular">RUT del Titular:</label>
-            <input type="text" id="rut_titular" name="rut_titular" required maxlength="12" onchange="formatRut(this)">
+            <input type="text" id="rut_titular" name="rut_titular" required maxlength="9" onchange="formatRut(this)">
             <button type="submit" class="btn btn-confirmar">Confirmar trabajo</button>
         </form>
     </div>
@@ -111,11 +111,11 @@
     });
     
     function formatRut(input) {
-        var value = input.value.replace(/[^\dkK]/g, '').toUpperCase();
-        if (value.length > 1) {
-            value = value.slice(0, -1) + '-' + value.slice(-1);
+        var rut = input.value.replace(/\./g, '').replace(/\-/g, '').trim();
+        if (rut.length > 1) {
+            var formattedRut = rut.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '-' + rut.slice(-1);
+            input.value = formattedRut;
         }
-        input.value = value;
     }
 </script>
 {% endblock extra_js %}
