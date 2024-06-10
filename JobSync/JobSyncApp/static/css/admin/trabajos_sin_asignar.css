@@ -91,10 +91,8 @@ body {
 
 .container .trabajos-list ul li {
     padding: 10px;
-    border: 1px solid #ddd;
     margin-bottom: 5px;
     cursor: pointer;
-    
     transition: background-color 0.3s;
     border-radius: 15px;
 }
