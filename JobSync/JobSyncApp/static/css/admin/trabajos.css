@@ -78,7 +78,7 @@ body {
     margin: 10px;
     padding: 20px;
     background: rgba(22, 22, 22, 0.61);
-    border: 2px solid rgba(3, 207, 163, 0.76);
+    
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     color: #fff;
     backdrop-filter: blur(50px);
@@ -197,30 +197,36 @@ body {
 .card.blanco {
     background-color: rgba(236, 236, 236, 0.767);
     color: black;
+    border: 2px solid rgb(255, 255, 255);
 }
 
 .card.azul {
-    background-color: rgba(91, 49, 190, 0.712);
+    background-color: rgba(56, 9, 163, 0.212);
     color: white;
+    border: 2px solid rgba(145, 28, 255, 0.76);
 }
 
 .card.verde {
-    background-color: rgba(30, 206, 133, 0.733);
+    background-color: rgba(4, 255, 150, 0.164);
     color: white;
+    border: 2px solid rgba(3, 207, 163, 0.863);
 }
 
 .card.amarillo {
-    background-color: rgba(221, 177, 31, 0.815);
-    color: black;
+    background-color: rgba(221, 177, 31, 0.274);
+    color: rgb(252, 252, 252);
+    border: 2px solid rgba(240, 218, 18, 0.76);
 }
 
 .card.rojo {
-    background-color: rgba(141, 9, 5, 0.781);
+    background-color: rgba(206, 19, 13, 0.103);
     color: white;
+    border: 2px solid rgba(230, 40, 15, 0.76);
 }
 
 .card.negro {
     background-color: rgba(0, 0, 0, 0.781);
     color: white;
+    border: 2px solid rgb(4, 5, 5);
 }
 
