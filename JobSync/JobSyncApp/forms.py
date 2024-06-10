@@ -200,3 +200,38 @@ class RutForm(forms.Form):
         if not re.match(r'^\d{1,2}\.\d{3}\.\d{3}-[\dkK]$', rut_titular):
             raise forms.ValidationError("El RUT debe estar en el formato 12.345.678-9.")
         return rut_titular
+
+class ReagendarTrabajoForm(forms.ModelForm):
+    class Meta:
+        model = Trabajo
+        fields = ['fecha', 'hora_inicio', 'hora_termino']
+        widgets = {
+            'fecha': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Fecha (YYYY-MM-DD)'}),
+            'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de inicio (HH:MM)'}),
+            'hora_termino': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de término (HH:MM)'}),
+        }
+
+    def clean_fecha(self):
+        fecha = self.cleaned_data['fecha']
+        if fecha < self.instance.fecha:
+            raise ValidationError("La fecha no puede ser anterior a la fecha original del trabajo.")
+        return fecha
+
+    def clean_hora_inicio(self):
+        hora_inicio = self.cleaned_data['hora_inicio']
+        hora_minima = time(8, 0)  # Hora mínima: 8:00 AM
+        hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
+        if hora_inicio < hora_minima or hora_inicio > hora_maxima:
+            raise ValidationError("La hora de inicio debe estar entre las 8:00 AM y las 7:00 PM")
+        return hora_inicio
+
+    def clean_hora_termino(self):
+        hora_termino = self.cleaned_data['hora_termino']
+        hora_minima = time(8, 0)  # Hora mínima: 8:00 AM
+        hora_maxima = time(19, 0)  # Hora máxima: 7:00 PM
+        if hora_termino < hora_minima or hora_termino > hora_maxima:
+            raise ValidationError("La hora de término debe estar entre las 8:00 AM y las 7:00 PM")
+        hora_inicio = self.cleaned_data.get('hora_inicio')
+        if hora_inicio and hora_termino and hora_termino <= hora_inicio:
+            raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
+        return hora_termino

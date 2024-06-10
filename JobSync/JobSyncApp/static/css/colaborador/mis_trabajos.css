@@ -69,7 +69,7 @@ body {
 }
 
 .container .trabajos-list {
-    width: 45%;
+    width: 44%;
     border: 1px solid #ccc;
     padding: 10px;
     height: 500px;
@@ -90,9 +90,6 @@ body {
 }
 
 .container .trabajos-list ul li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 10px;
     border: 1px solid #ddd;
     margin-bottom: 5px;
@@ -101,7 +98,21 @@ body {
     transition: background-color 0.3s;
     border: 2px solid rgba(8, 219, 131, 0.658); 
     border-radius: 15px;
+
 }
+
+.trabajo-buttons {
+    position: absolute;
+    top: 1px;
+    right: 5px;
+    display: flex;
+    gap: 10px; 
+}
+
+.trabajo-header {
+    position: relative;
+}
+
 
 .container .trabajos-list ul li .info {
     flex-grow: 1;
@@ -117,10 +128,9 @@ body {
 
 .btn-confirmar {
     padding: 5px 10px;
-    background-color: #34b614;
+    background-color: #2bddbfc0;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
     cursor: pointer;
     width: 100px;
     text-align: center;
@@ -129,7 +139,23 @@ body {
 }
 
 .btn-confirmar:hover {
-    background-color: #0fceaee0;
+    background-color: #0fac55e0;
+}
+
+.btn-reagendar {
+    padding: 15px 10px;
+    background-color: #f3e40bbb;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-reagendar:hover {
+    background-color: #a6a81cef;
 }
 
 .buttons {

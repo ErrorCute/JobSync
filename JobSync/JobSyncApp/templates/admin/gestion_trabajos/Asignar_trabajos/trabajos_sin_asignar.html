@@ -109,7 +109,7 @@
     document.querySelectorAll('.trabajos-list ul').forEach(list => {
         list.addEventListener('click', function (e) {
             const li = e.target.closest('li');
-            if (li && !li.classList.contains('no-trabajos') && !li.classList.contains('pendiente')) {
+            if (li && !li.classList.contains('no-trabajos') && !li.classList.contains('pendiente') && !li.classList.contains('reagendado') && !li.classList.contains('completado') && !li.classList.contains('cancelado')) {
                 li.classList.toggle('selected');
             }
         });

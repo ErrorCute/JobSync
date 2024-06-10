@@ -2,10 +2,10 @@ import locale
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser, Trabajo
-from .forms import RutForm
 from django.contrib import messages
 from datetime import datetime
 from babel.dates import format_date, parse_date
+from .forms import ReagendarTrabajoForm
 @login_required
 def mi_agenda(request):
     # Asegúrate de que request.user es una instancia de CustomUser
@@ -50,3 +50,17 @@ def actualizar_estado_trabajo(request, trabajo_id):
         return redirect('mi_trabajos', colaborador_id=trabajo.colaborador.id, fecha=trabajo.fecha)
 
     return render(request, 'colaborador/agenda/mi_trabajos.html', {'trabajo': trabajo})
+
+def reagendar_trabajo(request, trabajo_id):
+    trabajo = get_object_or_404(Trabajo, id=trabajo_id)
+    if request.method == 'POST':
+        form = ReagendarTrabajoForm(request.POST, instance=trabajo)
+        if form.is_valid():
+            form.save()
+            trabajo.reagendado_contador += 1
+            trabajo.estado = 'reagendado'
+            trabajo.save()
+            return redirect('mi_trabajos', colaborador_id=trabajo.colaborador.id, fecha=trabajo.fecha)
+    else:
+        form = ReagendarTrabajoForm(instance=trabajo)
+    return render(request, 'colaborador/agenda/reagendar_trabajo.html', {'form': form, 'trabajo': trabajo})

@@ -1,0 +1,74 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/colaborador/reagendar_trabajo.css' %}">
+{% endblock extra_css %}
+
+{% block contenido %}
+<div class="header">
+    <h1>Reagendar Trabajo</h1>
+</div>
+
+<div class="container">
+    <form method="post" action="{% url 'reagendar_trabajo' trabajo.id %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" value="{{ form.fecha.value|default_if_none:'' }}">
+            {% if form.fecha.errors %}
+                <div class="error">
+                    {{ form.fecha.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="hora_inicio">Hora Inicio:</label>
+            <input type="time" id="hora_inicio" name="hora_inicio" value="{{ form.hora_inicio.value|default_if_none:'' }}">
+            {% if form.hora_inicio.errors %}
+                <div class="error">
+                    {{ form.hora_inicio.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="hora_termino">Hora Termino:</label>
+            <input type="time" id="hora_termino" name="hora_termino" value="{{ form.hora_termino.value|default_if_none:'' }}">
+            {% if form.hora_termino.errors %}
+                <div class="error">
+                    {{ form.hora_termino.errors }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-confirmar">Reagendar</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('reagendar-form').addEventListener('submit', function(event) {
+        var fecha = new Date(document.getElementById('fecha').value);
+        var horaInicio = document.getElementById('hora_inicio').value;
+        var horaTermino = document.getElementById('hora_termino').value;
+
+        if (fecha < new Date("{{ trabajo.fecha }}")) {
+            alert('La nueva fecha no puede ser anterior a la fecha actual del trabajo.');
+            event.preventDefault();
+            return false;
+        }
+
+        if (horaTermino <= horaInicio) {
+            alert('La hora de término no puede ser menor o igual a la hora de inicio.');
+            event.preventDefault();
+            return false;
+        }
+
+        return true;
+    });
+</script>
+{% endblock extra_js %}
