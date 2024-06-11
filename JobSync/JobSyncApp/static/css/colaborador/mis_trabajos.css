@@ -70,7 +70,7 @@ body {
 
 .container .trabajos-list {
     width: 44%;
-    border: 1px solid #ccc;
+    border: 1px solid;
     padding: 10px;
     height: 500px;
     overflow-y: auto;
@@ -91,11 +91,9 @@ body {
 
 .container .trabajos-list ul li {
     padding: 10px;
-    border: 1px solid #ddd;
     margin-bottom: 5px;
     cursor: pointer; 
     transition: background-color 0.3s;
-    border: 2px solid rgba(8, 219, 131, 0.658); 
     border-radius: 15px;
 
 }
@@ -240,30 +238,31 @@ body.modal-open {
 [data-estado="sin_asignar"] {
     background-color: rgba(226, 221, 221, 0.836);
     color: rgb(12, 11, 11);
+    border: 2px solid rgb(255, 255, 255);
 }
 
 [data-estado="pendiente"] {
-    background-color: rgba(91, 49, 190, 0.712);
+    background-color: rgba(99, 32, 255, 0.137);
     color: white;
+    border: 2px solid rgba(117, 17, 233, 0.801);
 }
 
 [data-estado="completado"] {
     background-color: rgba(30, 206, 133, 0.733);
     color: white;
+    border: 2px solid rgba(12, 243, 193, 0.884);
 }
 
 
 [data-estado="reagendado"][data-reagendado-contador="1"] {
-    background-color: rgba(221, 177, 31, 0.815);
+    background-color: rgba(255, 197, 7, 0.274);
     color: black;
+    border: 2px solid rgba(243, 228, 14, 0.87);
 }
 
 [data-estado="reagendado"][data-reagendado-contador="2"] {
-    background-color: rgba(141, 9, 5, 0.781);
+    background-color: rgba(231, 28, 21, 0.199);
     color: white;
+    border: 2px solid rgba(212, 17, 17, 0.877);
 }
 
-[data-estado="cancelado"] {
-    background-color: rgba(0, 0, 0, 0.781);
-    color: white;
-}

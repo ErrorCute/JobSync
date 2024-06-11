@@ -216,12 +216,14 @@ def asignar_trabajo(request, user_id):
             return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
 
     # Asignar los nuevos trabajos si no hay conflictos
-    for trabajo_id in nuevos_trabajos_ids:
-        trabajo = get_object_or_404(Trabajo, id=trabajo_id)
+    for trabajo in nuevos_trabajos:
         trabajo.colaborador = colaborador
-        trabajo.estado = 'pendiente'
+        if trabajo.estado == 'sin_asignar':  # Solo cambiar estado si estaba sin asignar
+            trabajo.estado = 'pendiente'
         trabajo.save()
 
     messages.success(request, "Trabajos asignados con éxito.")
     return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
+
+
 

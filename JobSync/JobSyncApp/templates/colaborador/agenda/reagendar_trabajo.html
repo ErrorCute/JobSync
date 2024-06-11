@@ -14,6 +14,7 @@
     <form method="post" action="{% url 'reagendar_trabajo' trabajo.id %}">
         {% csrf_token %}
         
+
         <div class="form-group">
             <label for="fecha">Fecha:</label>
             <input type="date" id="fecha" name="fecha" value="{{ form.fecha.value|default_if_none:'' }}">
@@ -43,7 +44,11 @@
                 </div>
             {% endif %}
         </div>
-        
+        {% if form.non_field_errors %}
+            <div class="error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
         <button type="submit" class="btn btn-confirmar">Reagendar</button>
     </form>
 </div>

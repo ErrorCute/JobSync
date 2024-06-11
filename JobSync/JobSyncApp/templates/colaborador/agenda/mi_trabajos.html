@@ -21,7 +21,6 @@
                         <div class="trabajo-header">
                             <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                             <div class="trabajo-buttons">
-                                <!-- Botón de Reagendar -->
                                 <a href="{% url 'reagendar_trabajo' trabajo.id %}" class="btn btn-reagendar">Reagendar</a>
                                 <form method="post" action="{% url 'actualizar_estado_trabajo' trabajo.id %}" class="btn-form">
                                     {% csrf_token %}

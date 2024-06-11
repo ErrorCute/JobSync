@@ -4,7 +4,7 @@ from .models import CustomUser, Comuna, Trabajo
 import re
 from django.core.exceptions import ValidationError
 from datetime import datetime, time
-
+from django.utils.timezone import make_aware
 class UsuarioUserForm(AuthenticationForm):
     class Meta:
         model = CustomUser
@@ -201,6 +201,7 @@ class RutForm(forms.Form):
             raise forms.ValidationError("El RUT debe estar en el formato 12.345.678-9.")
         return rut_titular
 
+
 class ReagendarTrabajoForm(forms.ModelForm):
     class Meta:
         model = Trabajo
@@ -210,6 +211,35 @@ class ReagendarTrabajoForm(forms.ModelForm):
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de inicio (HH:MM)'}),
             'hora_termino': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de término (HH:MM)'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        fecha = cleaned_data.get('fecha')
+        hora_inicio = cleaned_data.get('hora_inicio')
+        hora_termino = cleaned_data.get('hora_termino')
+
+        if not fecha or not hora_inicio or not hora_termino:
+            return cleaned_data
+
+        # Convertir fecha y horas a datetime para comparaciones
+        fecha_inicio = make_aware(datetime.combine(fecha, hora_inicio))
+        fecha_termino = make_aware(datetime.combine(fecha, hora_termino))
+
+        # Obtener otros trabajos del colaborador en esa fecha
+        trabajos = Trabajo.objects.filter(
+            colaborador=self.instance.colaborador,
+            fecha=fecha
+        ).exclude(id=self.instance.id)
+
+        for trabajo in trabajos:
+            trabajo_inicio = make_aware(datetime.combine(trabajo.fecha, trabajo.hora_inicio))
+            trabajo_termino = make_aware(datetime.combine(trabajo.fecha, trabajo.hora_termino))
+
+            # Comprobar si hay solapamiento
+            if (fecha_inicio < trabajo_termino) and (fecha_termino > trabajo_inicio):
+                raise ValidationError("Ya tienes un trabajo asignado en ese horario.")
+
+        return cleaned_data
 
     def clean_fecha(self):
         fecha = self.cleaned_data['fecha']

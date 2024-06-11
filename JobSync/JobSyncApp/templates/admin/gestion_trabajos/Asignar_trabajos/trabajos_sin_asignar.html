@@ -8,7 +8,7 @@
 {% block contenido %}
 <div class="header">
     <a href="{% url 'ver_agenda' colaborador.id %}" id="btn-volver" class="btn btn-back">Volver</a>
-    <h1>Trabajos sin asignar para {{ fecha }}</h1>
+    <h1>Trabajos sin asignar {{ fecha }}</h1>
 </div>
 
 <div class="container">
@@ -109,7 +109,7 @@
     document.querySelectorAll('.trabajos-list ul').forEach(list => {
         list.addEventListener('click', function (e) {
             const li = e.target.closest('li');
-            if (li && !li.classList.contains('no-trabajos') && !li.classList.contains('pendiente') && !li.classList.contains('completado')) {
+            if (li && !li.classList.contains('no-trabajos') && !li.classList.contains('pendiente') && !li.classList.contains('completado') && !li.classList.contains('reagendado')) {
                 li.classList.toggle('selected');
             }
         });
@@ -122,6 +122,7 @@
         document.getElementById('form-asignar').submit();
     });
 
+    
     checkTrabajosAsignados();
 });
 
