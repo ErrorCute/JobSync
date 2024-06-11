@@ -21,6 +21,16 @@
             <option value="{{ c.nombre }}">{{ c.nombre }}</option>
         {% endfor %}
     </select>
+
+    <select id="estado-filter">
+        <option value="">Estado</option>
+        <option value="sin_asignar">Sin asignar</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="completado">Completado</option>
+        <option value="reagendado">Reagendado</option>
+        <option value="cancelado">Cancelado</option>
+    </select>
+    <input type="date" id="fecha-filter">
 </div>
 
 <div class="card-container">
@@ -37,7 +47,7 @@
                         rojo
                     {% elif trabajo.estado == 'cancelado' %}
                         negro
-                    {% endif %}" id="trabajo" data-comuna="{{ trabajo.comuna }}">
+                    {% endif %}" id="trabajo" data-comuna="{{ trabajo.comuna }}"  data-estado="{{ trabajo.estado }}"data-fecha="{{ trabajo.fecha|date:'Y-m-d' }}">
         <div class="botones">
             <button class="delete-btn" data-url="{% url 'eliminar_trabajo' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
             <button class="edit-btn" data-url="{% url 'modificar_trabajo' trabajo.id %}"> <i class="fas fa-edit"></i></button>
@@ -59,7 +69,26 @@
 </div>
 <script src="{% static 'js/filtro_trabajo.js' %}"></script>
 
+
+
 <script>
+  document.getElementById('fecha-filter').addEventListener('change', function() {
+        var fechaSeleccionada = this.value;
+        var cards = document.getElementsByClassName('card');
+
+        for (var i = 0; i < cards.length; i++) {
+            var fechaTrabajo = cards[i].getAttribute('data-fecha');
+
+            if (fechaSeleccionada === '' || fechaTrabajo === fechaSeleccionada) {
+                cards[i].style.display = 'block';
+            } else {
+                cards[i].style.display = 'none';
+            }
+        }
+    });
+</script>
+<script>
+
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const url = this.dataset.url;
@@ -86,6 +115,11 @@
 
     // Call scrollToBottom on page load to ensure it's at the bottom
     scrollToBottom();
+    
+ 
+
 </script>
+
+    
 
 {% endblock %}
