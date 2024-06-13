@@ -19,7 +19,7 @@
     <a href="{% url 'home' %}" class="boton volver">Volver</a>
     <h1 id="titulo-trabajos">Reporte general</h1>
     <div>
-        <button class="boton visualizar" onclick="visualizarPDF()">Visualizar PDF</button>
+
         <button class="boton descargar" onclick="generarPDF()">Descargar PDF</button>
     </div>
 </div>
@@ -102,22 +102,7 @@
       .save();
    
 }
-  function visualizarPDF() {
-    const contenido = document.getElementById('contenido').innerHTML;
-    const ventana = window.open('', '_blank');
-    ventana.document.open();
-    ventana.document.write(`
-      <html>
-          <head>
-            <title>Visualización del PDF</title>
-        </head>
-        <body>
-          ${contenido}
-        </body>
-      </html>
-    `);
-    ventana.document.close();
-  }
+
 
 </script>
 
