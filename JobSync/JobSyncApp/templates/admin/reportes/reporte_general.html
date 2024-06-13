@@ -1,0 +1,124 @@
+{% extends 'index.html' %}
+{% load static %}
+        {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+        <link rel="stylesheet" href="{% static 'css/admin/reporte.css' %}">
+        
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
+
+        {% endblock extra_css %}
+
+{% block contenido %}
+
+
+
+<div class="header">
+    <a href="{% url 'home' %}" class="boton volver">Volver</a>
+    <h1 id="titulo-trabajos">Reporte general</h1>
+    <div>
+        <button class="boton visualizar" onclick="visualizarPDF()">Visualizar PDF</button>
+        <button class="boton descargar" onclick="generarPDF()">Descargar PDF</button>
+    </div>
+</div>
+  
+  
+    <div >
+      <div id="contenido" >
+        
+        
+          <h1>Reporte General</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Total Trabajos</th>
+                <th>Total Recaudado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in usuarios_data %}
+            <tr>
+                <td>{{ data.username }}</td>
+                <td>{{ data.total_trabajos }}</td>
+                <td>${{ data.total_recaudado }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Totales Generales</h3>
+    <p>Total de Trabajos: {{ total_trabajos }}</p>
+    <p>Total Recaudado: ${{ total_recaudado }}</p>
+          
+      
+    </div>
+   
+  </div>
+
+
+<!--  -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+ 
+<script>
+  function generarPDF() {
+    const contenido = document.getElementById('contenido');
+    html2pdf()
+      .from(contenido)
+      .save();
+  }
+  function generarPDF() {
+    const contenido = document.getElementById('contenido');
+    
+    // Estilos para el PDF generado
+    const styles = `
+        <style>
+            body {
+                color: #000; /* Texto en negro */
+            }
+       
+        </style>
+    `;
+
+    // Contenido HTML completo para el PDF
+    const contentWithStyles = `
+        <html>
+            <head>
+                <title>Reporte General</title>
+                ${styles}
+            </head>
+            <body>
+                ${contenido.innerHTML}
+            </body>
+        </html>
+    `;
+    html2pdf()
+      .from(contentWithStyles)
+      .save();
+   
+}
+  function visualizarPDF() {
+    const contenido = document.getElementById('contenido').innerHTML;
+    const ventana = window.open('', '_blank');
+    ventana.document.open();
+    ventana.document.write(`
+      <html>
+          <head>
+            <title>Visualización del PDF</title>
+        </head>
+        <body>
+          ${contenido}
+        </body>
+      </html>
+    `);
+    ventana.document.close();
+  }
+
+</script>
+
+{% endblock %}
