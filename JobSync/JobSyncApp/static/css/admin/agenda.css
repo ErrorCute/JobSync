@@ -108,11 +108,11 @@ body {
 }
 
 #calendar {
-    width: 100%; /* Ajusta el ancho al 100% del contenedor */
-    max-width: 1200px; /* Puedes cambiar este valor al tamaño máximo deseado */
-    height: 750px; /* Ajusta la altura */
-    margin: 0 auto; /* Centra el calendario */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.589); /* Opcional: agrega una sombra para darle un poco de profundidad */
+    width: 100%; 
+    max-width: 1200px; 
+    height: 750px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.589);
 }
 
 
