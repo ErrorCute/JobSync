@@ -16,7 +16,7 @@
         <h2>Trabajos sin asignar</h2>
         <ul>
             {% for trabajo in trabajos_sin_asignar %}
-            <li data-id="{{ trabajo.id }}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" {% if trabajo.error %}class="error"{% endif %}>
+            <li data-id="{{ trabajo.id }}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha }}" data-hora-inicio="{{ trabajo.hora_inicio }}" data-hora-termino="{{ trabajo.hora_termino }}" class="{% if trabajo.estado == 'completado' %}completado{% endif %}">
                 <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                 <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
                 <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
@@ -49,7 +49,7 @@
         <h2> Agenda</h2>
         <ul>
             {% for trabajo in trabajos_asignados %}
-            <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
+            <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }} {% if trabajo.estado == 'completado' %}completado{% endif %}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha }}" data-hora-inicio="{{ trabajo.hora_inicio }}" data-hora-termino="{{ trabajo.hora_termino }}">
                 <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                 <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
                 <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
@@ -62,24 +62,29 @@
     </div>
 </div>
 
-<form id="form-asignar" method="post" action="{% url 'asignar_trabajo' colaborador.id %}" style="display: none;">
+<form id="form-asignar" method="post" action="{% url 'asignar_y_desasignar_trabajo' colaborador.id %}" style="display: none;">
     {% csrf_token %}
     <input type="hidden" name="trabajos" id="trabajos-input">
+    <input type="hidden" name="trabajos_desasignar" id="trabajos-desasignar-input">
 </form>
 {% endblock %}
 
 {% block extra_js %}
 <script>
- document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const btnAsignar = document.getElementById('btn-asignar');
     const btnDesasignar = document.getElementById('btn-desasignar');
     const btnConfirmar = document.getElementById('btn-confirmar');
     const trabajosSinAsignar = document.getElementById('trabajos-sin-asignar').querySelector('ul');
     const trabajosAsignados = document.getElementById('trabajos-asignados').querySelector('ul');
     const trabajosInput = document.getElementById('trabajos-input');
+    const trabajosDesasignarInput = document.getElementById('trabajos-desasignar-input');
 
-    function checkTrabajosAsignados() {
-        if (trabajosAsignados.querySelectorAll('li').length > 0) {
+    function checkChanges() {
+        const hasAssigned = trabajosAsignados.querySelectorAll('li').length > 0;
+        const hasUnassigned = trabajosSinAsignar.querySelectorAll('li').length > 0;
+
+        if (hasAssigned || hasUnassigned) {
             btnConfirmar.disabled = false;
         } else {
             btnConfirmar.disabled = true;
@@ -94,7 +99,7 @@
             item.classList.remove('selected');
             trabajosAsignados.appendChild(item);
         });
-        checkTrabajosAsignados();
+        checkChanges();
     });
 
     btnDesasignar.addEventListener('click', function () {
@@ -103,13 +108,13 @@
             item.classList.remove('selected');
             trabajosSinAsignar.appendChild(item);
         });
-        checkTrabajosAsignados();
+        checkChanges();
     });
 
     document.querySelectorAll('.trabajos-list ul').forEach(list => {
         list.addEventListener('click', function (e) {
             const li = e.target.closest('li');
-            if (li && !li.classList.contains('no-trabajos') && !li.classList.contains('pendiente') && !li.classList.contains('completado') && !li.classList.contains('reagendado')) {
+            if (li && !li.classList.contains('no-trabajos') && !li.classList.contains('completado')) {
                 li.classList.toggle('selected');
             }
         });
@@ -117,15 +122,36 @@
 
     btnConfirmar.addEventListener('click', function (e) {
         e.preventDefault();
-        const trabajosAsignadosIds = [...trabajosAsignados.querySelectorAll('li:not([data-id^="existing"])')].map(item => item.dataset.id);
+        
+        const trabajosAsignadosItems = [...trabajosAsignados.querySelectorAll('li')];
+        const trabajosDesasignarItems = [...trabajosSinAsignar.querySelectorAll('li')];
+        
+        // Validar solapamiento de horarios
+        for (let i = 0; i < trabajosAsignadosItems.length; i++) {
+            const trabajo1 = trabajosAsignadosItems[i];
+            for (let j = 0; j < trabajosAsignadosItems.length; j++) {
+                if (i !== j) {
+                    const trabajo2 = trabajosAsignadosItems[j];
+                    if (trabajo1.dataset.fecha === trabajo2.dataset.fecha &&
+                        trabajo1.dataset.horaInicio < trabajo2.dataset.horaTermino &&
+                        trabajo1.dataset.horaTermino > trabajo2.dataset.horaInicio) {
+                        alert(`Los trabajos '${trabajo1.querySelector('p').innerText}' y '${trabajo2.querySelector('p').innerText}' coinciden en el rango horario.`);
+                        return;
+                    }
+                }
+            }
+        }
+
+        const trabajosAsignadosIds = trabajosAsignadosItems.map(item => item.dataset.id);
+        const trabajosDesasignarIds = trabajosDesasignarItems.map(item => item.dataset.id);
+        
         trabajosInput.value = trabajosAsignadosIds.join(',');
+        trabajosDesasignarInput.value = trabajosDesasignarIds.join(',');
+        
         document.getElementById('form-asignar').submit();
     });
 
-    
-    checkTrabajosAsignados();
+    checkChanges();
 });
-
-
 </script>
 {% endblock %}
