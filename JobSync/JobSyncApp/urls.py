@@ -39,6 +39,6 @@ urlpatterns = [
     path('actualizar_estado_trabajo/<int:trabajo_id>', views_colaborador.actualizar_estado_trabajo, name='actualizar_estado_trabajo'),
 
     # reportes
-
+    path('index_reporte/', views_reporte.index_reporte, name='index_reporte'),
     path('reporte_general/', views_reporte.reporte_general, name='reporte_general'),
 ]

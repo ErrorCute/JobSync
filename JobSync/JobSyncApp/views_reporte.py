@@ -3,6 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser, Trabajo
 
+
+def index_reporte(request):
+    return render(request,'admin/reportes/index_reporte.html')
+
 def reporte_general(request):
     usuarios = CustomUser.objects.filter(rol=True)
     trabajos = Trabajo.objects.filter(estado='completado')
@@ -28,3 +32,4 @@ def reporte_general(request):
     }
 
     return render(request,'admin/reportes/reporte_general.html',context)
+

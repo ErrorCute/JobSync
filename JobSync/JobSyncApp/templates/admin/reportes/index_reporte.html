@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+<link rel="stylesheet" href="{% static 'css' %}/home.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
+
+{% endblock extra_css %}
+
+{% block contenido %}
+
+
+
+     <div class="registro">
+        <div class="container">
+            <a href="{% url 'reporte_general' %}">REPORTE GENERAL</a>
+            <i class="ri-file-list-line"></i>
+        </div>
+    </div>
+    <div class="gestion">
+        <div class="container">
+            <a href="{% url 'home' %}">HOME</a>
+            <i class="ri-home-3-line"></i>
+        </div>
+    </div>
+    <div class="gestion">
+        <div class="container">
+            <a href="#">REPORTE COLABORADOR</a>
+            <i class="ri-task-line"></i>
+        </div>
+    </div>
+    
+
+
+{% endblock %}
