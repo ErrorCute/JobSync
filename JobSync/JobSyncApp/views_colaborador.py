@@ -64,3 +64,4 @@ def reagendar_trabajo(request, trabajo_id):
     else:
         form = ReagendarTrabajoForm(instance=trabajo)
     return render(request, 'colaborador/agenda/reagendar_trabajo.html', {'form': form, 'trabajo': trabajo})
+

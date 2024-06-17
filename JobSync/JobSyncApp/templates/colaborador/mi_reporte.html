@@ -1,0 +1,96 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin/reporte.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block contenido %}
+
+<div class="header">
+    <a href="{% url 'index_colaborador' %}" class="boton volver">Volver</a>
+    <h1 id="titulo-trabajos">Reporte general</h1>
+    <div>
+        <button class="boton descargar" onclick="generarPDF()">Descargar PDF</button>
+    </div>
+</div>
+<div id="fecha-filter">
+    <form method="GET" action="{% url 'mi_reporte'%}">
+       <label for="month">Seleccionar Mes:</label>
+       <select name="month" id="month"class="filter-select">
+           {% for month in months %}
+           <option value="{{ month.value }}" {% if selected_month == month.value %}selected{% endif %}>{{ month.name }}</option>
+           {% endfor %}
+       </select>
+       <button type="submit"  class="filter-button">Filtrar</button>
+   </form>
+</div>
+
+<div id="contenido">
+    <h1>{{ colaborador.first_name }} {{colaborador.last_name}}</h1>
+<br>
+<h1>Reporte del Mes de {{selected_month_name}}</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre del Trabajo</th>
+                <th>Fecha Realizado</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles_trabajos %}
+                <tr>
+                    <td>{{ detalle.nombre }}</td>
+                    <td>{{ detalle.fecha_realizado }}</td>
+                    <td>{{ detalle.valor }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Totales Generales</h3>
+    <p>Total de Trabajos: {{ trabajos_completados }}</p>
+    <p>Total Recaudado: ${{ total_recaudado }}</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+<script>
+    function generarPDF() {
+        const contenido = document.getElementById('contenido');
+        
+        // Estilos para el PDF generado
+        const styles = `
+            <style>
+                body {
+                    color: #000; /* Texto en negro */
+                }
+                /* Agrega estilos adicionales aquí si es necesario */
+            </style>
+        `;
+        
+        // Contenido HTML completo para el PDF
+        const contentWithStyles = `
+            <html>
+                <head>
+                    <title>Reporte General</title>
+                    ${styles}
+                </head>
+                <body>
+                    ${contenido.innerHTML}
+                </body>
+            </html>
+        `;
+        
+        html2pdf()
+            .from(contentWithStyles)
+            .save();
+    }
+</script>
+
+{% endblock %}
