@@ -41,5 +41,7 @@ urlpatterns = [
     # reportes
     path('index_reporte/', views_reporte.index_reporte, name='index_reporte'),
     path('reporte_general/', views_reporte.reporte_general, name='reporte_general'),
+
     path('selecciona_colaborador_reporte/', views_reporte.selecciona_colaborador_reporte, name='selecciona_colaborador_reporte'),
+     path('reporte_colaborador/', views_reporte.reporte_colaborador, name='reporte_colaborador'),
 ]

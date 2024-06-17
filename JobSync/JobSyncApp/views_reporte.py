@@ -77,3 +77,6 @@ def index_reporte(request):
 def selecciona_colaborador_reporte(request):
     colaboradores = CustomUser.objects.filter(rol=True)
     return render (request,'admin/reportes/selecciona_colaborador_reporte.html',{'colaboradores': colaboradores})
+
+def reporte_colaborador(request):
+    return render(request,'admin/reportes/reporte_colaborador.html')
