@@ -27,8 +27,12 @@ def reporte_general(request):
     ]
 
     # Obtener el nombre del mes seleccionado
+    current_month = datetime.now().strftime('%m')
     selected_month_name = None
-    if selected_month:
+
+    # Si no se selecciona ningún mes, seleccionar el mes actual
+    if not selected_month:
+        selected_month = current_month
         for month in months:
             if month['value'] == selected_month:
                 selected_month_name = month['name']
