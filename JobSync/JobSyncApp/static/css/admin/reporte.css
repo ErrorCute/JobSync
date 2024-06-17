@@ -63,3 +63,36 @@ th, td {
     padding: 8px;
     text-align: left;
 }
+
+
+#fecha-filter {
+    margin-bottom: 20px; /* Añadir margen inferior para separación */
+    position: fixed;
+    top: 22%;
+    right: 4%;
+}
+
+.filter-select {
+    width: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid rgba(3, 207, 163, 0.76);
+    border-radius: 5px;
+    color: #fff;
+    background: rgba(22, 22, 22, 0.315);
+}
+
+.filter-button {
+    width: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid rgba(3, 207, 163, 0.76);
+    border-radius: 5px;
+    color: #fff;
+    background: rgba(22, 22, 22, 0.315);
+    cursor: pointer; /* Añadir cursor de puntero al botón */
+}
+
+.filter-button:hover {
+    background-color: rgba(3, 207, 163, 0.76); /* Cambiar color de fondo al pasar el cursor */
+}

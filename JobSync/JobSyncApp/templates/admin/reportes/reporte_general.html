@@ -23,13 +23,28 @@
         <button class="boton descargar" onclick="generarPDF()">Descargar PDF</button>
     </div>
 </div>
-  
-  
-    <div >
+
+<div id="fecha-filter">
+         <form method="GET" action="{% url 'reporte_general' %}">
+            <label for="month">Seleccionar Mes:</label>
+            <select name="month" id="month"class="filter-select">
+                {% for month in months %}
+                <option value="{{ month.value }}" {% if selected_month == month.value %}selected{% endif %}>{{ month.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit"  class="filter-button">Filtrar</button>
+        </form>
+  </div>
+
+   
       <div id="contenido" >
         
         
-          <h1>Reporte General</h1>
+          <h1>Reporte General </h1>
+        <br>
+        <h3>Mes {{ selected_month_name }}</h3>
+        <br>
+   
     
     <table>
         <thead>
@@ -55,8 +70,7 @@
           
       
     </div>
-   
-  </div>
+
 
 
 <!--  -->
