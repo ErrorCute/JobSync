@@ -184,46 +184,50 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
 
     return render(request, 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html', context)
 
-
-def asignar_trabajo(request, user_id):
+def asignar_y_desasignar_trabajos(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
-    nuevos_trabajos_ids = request.POST.get('trabajos', '').split(',')
-    nuevos_trabajos_ids = [trabajo_id for trabajo_id in nuevos_trabajos_ids if trabajo_id]
+    trabajos_ids = request.POST.get('trabajos', '').split(',')
+    trabajos_desasignar_ids = request.POST.get('trabajos_desasignar', '').split(',')
+    
+    trabajos_ids = [trabajo_id for trabajo_id in trabajos_ids if trabajo_id]
+    trabajos_desasignar_ids = [trabajo_id for trabajo_id in trabajos_desasignar_ids if trabajo_id]
 
-    if not nuevos_trabajos_ids:
-        messages.error(request, "No se han asignado trabajos.")
-        return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
+    trabajos_a_asignar = Trabajo.objects.filter(id__in=trabajos_ids)
+    trabajos_a_desasignar = Trabajo.objects.filter(id__in=trabajos_desasignar_ids)
 
-    # Validar solapamiento entre los nuevos trabajos
-    nuevos_trabajos = Trabajo.objects.filter(id__in=nuevos_trabajos_ids)
-    for trabajo1 in nuevos_trabajos:
-        for trabajo2 in nuevos_trabajos:
+    # Validación de solapamiento de horarios
+    for trabajo1 in trabajos_a_asignar:
+        for trabajo2 in trabajos_a_asignar:
             if trabajo1.id != trabajo2.id:
                 if (trabajo1.fecha == trabajo2.fecha) and \
                    (trabajo1.hora_inicio < trabajo2.hora_termino) and \
                    (trabajo1.hora_termino > trabajo2.hora_inicio):
                     messages.error(request, f"Los trabajos '{trabajo1.nombre_trabajo}' y '{trabajo2.nombre_trabajo}' coinciden en el rango horario.")
                     return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
-
-    # Verificar si hay trabajos conflictivos en el mismo rango horario
-    for trabajo_id in nuevos_trabajos_ids:
-        trabajo = get_object_or_404(Trabajo, id=trabajo_id)
-        trabajos_conflictivos = Trabajo.objects.filter(colaborador=colaborador, fecha=trabajo.fecha, hora_inicio__lt=trabajo.hora_termino, hora_termino__gt=trabajo.hora_inicio).exclude(id=trabajo_id)
+    
+    for trabajo in trabajos_a_asignar:
+        trabajos_conflictivos = Trabajo.objects.filter(
+            colaborador=colaborador, fecha=trabajo.fecha,
+            hora_inicio__lt=trabajo.hora_termino, hora_termino__gt=trabajo.hora_inicio
+        ).exclude(id=trabajo.id)
+        
         if trabajos_conflictivos.exists():
             messages.error(request, f"Ya hay un trabajo asignado para este colaborador en este rango horario: {trabajo.nombre_trabajo}")
-            trabajo.error = True  # Añadir una marca al trabajo que presenta un error
-            trabajo.save()
             return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
 
-    # Asignar los nuevos trabajos si no hay conflictos
-    for trabajo in nuevos_trabajos:
+    # Asignar y desasignar trabajos
+    for trabajo in trabajos_a_asignar:
         trabajo.colaborador = colaborador
-        if trabajo.estado == 'sin_asignar':  # Solo cambiar estado si estaba sin asignar
-            trabajo.estado = 'pendiente'
+        if trabajo.estado == 'sin_asignar':
+            trabajo.estado = 'pendiente' if trabajo.reagendado_contador == 0 else 'reagendado'
         trabajo.save()
 
-    messages.success(request, "Trabajos asignados con éxito.")
-    return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
+    for trabajo in trabajos_a_desasignar:
+        trabajo.colaborador = None
+        trabajo.estado = 'sin_asignar'
+        trabajo.save()
 
+    messages.success(request, "Cambios guardados con éxito.")
+    return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
 
 

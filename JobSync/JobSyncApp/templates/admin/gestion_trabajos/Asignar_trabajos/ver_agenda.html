@@ -6,10 +6,7 @@
 {% endblock extra_css %}
 
 {% block contenido %}
-
-
 <div class="button-container">
-
 </div>
 
 <div class="header">
@@ -20,27 +17,26 @@
 <div class="card">              
     <div id="calendar"></div>   
 </div>
-
 {% endblock %}
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'es',
-            selectable: true,
-            dateClick: function(info) {
-                var fechaSeleccionada = info.dateStr;
-                var colaboradorId = "{{ colaborador.id }}"; 
-                var url = "{% url 'trabajos_sin_asignar' '0000' '0000-00-00' %}".replace('0000', colaboradorId).replace('0000-00-00', fechaSeleccionada);
-                window.location.href = url;
-            }
-        });
-        calendar.render();
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        selectable: true,
+        dateClick: function(info) {
+            var fechaSeleccionada = info.dateStr;
+            var colaboradorId = "{{ colaborador.id }}"; 
+            var url = "{% url 'trabajos_sin_asignar' '0000' '0000-00-00' %}".replace('0000', colaboradorId).replace('0000-00-00', fechaSeleccionada);
+            window.location.href = url;
+        }
     });
+    calendar.render();
+});
 </script>
 {% endblock %}

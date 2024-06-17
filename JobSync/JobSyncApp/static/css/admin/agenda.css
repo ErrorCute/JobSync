@@ -106,3 +106,24 @@ body {
 .btn-back:hover {
     background-color: #1a6f6f;
 }
+
+#calendar {
+    width: 100%; 
+    max-width: 1200px; 
+    height: 750px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.589);
+}
+
+
+.fc {
+    font-size: 1em; /* Ajusta el tamaño del texto */
+}
+
+.fc-toolbar {
+    font-size: 1em; /* Ajusta el tamaño de la barra de herramientas */
+}
+
+.fc-daygrid-event {
+    font-size: 0.8em; /* Ajusta el tamaño de los eventos */
+}

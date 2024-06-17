@@ -7,47 +7,15 @@
 {% endblock extra_css %}
 
 {% block contenido %}
-
 <div class="header">
     <a href="{% url 'index_trabajo' %}"  class="boton volver">Volver</a>
     <h1 id="titulo-trabajos">Trabajos</h1>
     <a href="{% url 'crear_trabajo' %}"  class="boton regresar">Registrar Trabajo</a>
 </div>
 
-<div class="filter-container">
-    <select id="comuna-filter">
-        <option value="">Comunas</option>
-        {% for c in comuna %}
-            <option value="{{ c.nombre }}">{{ c.nombre }}</option>
-        {% endfor %}
-    </select>
-
-    <select id="estado-filter">
-        <option value="">Estado</option>
-        <option value="sin_asignar">Sin asignar</option>
-        <option value="pendiente">Pendiente</option>
-        <option value="completado">Completado</option>
-        <option value="reagendado">Reagendado</option>
-        <option value="cancelado">Cancelado</option>
-    </select>
-    <input type="date" id="fecha-filter">
-</div>
-
 <div class="card-container">
     {% for trabajo in trabajos %}
-    <div class="card {% if trabajo.estado == 'sin_asignar' %}
-                        blanco
-                    {% elif trabajo.estado == 'pendiente' %}
-                        azul
-                    {% elif trabajo.estado == 'completado' %}
-                        verde
-                    {% elif trabajo.estado == 'reagendado' and trabajo.reagendado_contador == 1 %}
-                        amarillo
-                    {% elif trabajo.estado == 'reagendado' and trabajo.reagendado_contador >= 2 %}
-                        rojo
-                    {% elif trabajo.estado == 'cancelado' %}
-                        negro
-                    {% endif %}" id="trabajo" data-comuna="{{ trabajo.comuna }}"  data-estado="{{ trabajo.estado }}"data-fecha="{{ trabajo.fecha|date:'Y-m-d' }}">
+    <div class="card" id="trabajo" data-comuna="{{ trabajo.comuna }}"  data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha|date:'Y-m-d' }}">
         <div class="botones">
             <button class="delete-btn" data-url="{% url 'eliminar_trabajo' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
             <button class="edit-btn" data-url="{% url 'modificar_trabajo' trabajo.id %}"> <i class="fas fa-edit"></i></button>
@@ -67,9 +35,30 @@
     </div>
     {% endfor %}
 </div>
+
+<div class="filter-container">
+    <h2>Filtros</h2>
+
+    <select id="comuna-filter">
+        <option value="">Comunas</option>
+        {% for c in comuna %}
+            <option value="{{ c.nombre }}">{{ c.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <select id="estado-filter">
+        <option value="">Estado</option>
+        <option value="sin_asignar">Sin asignar</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="completado">Completado</option>
+        <option value="reagendado">Reagendado</option>
+        <option value="cancelado">Cancelado</option>
+    </select>
+
+    <input type="date" id="fecha-filter">
+</div>
+
 <script src="{% static 'js/filtro_trabajo.js' %}"></script>
-
-
 
 <script>
   document.getElementById('fecha-filter').addEventListener('change', function() {
@@ -87,8 +76,8 @@
         }
     });
 </script>
-<script>
 
+<script>
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const url = this.dataset.url;
@@ -102,24 +91,6 @@
             window.location.href = url;
         });
     });
-
-    // Scroll down when a new card is added
-    function scrollToBottom() {
-        const container = document.getElementById('card-container');
-        container.scrollTop = container.scrollHeight;
-    }
-
-    // Simulate card addition
-    const observer = new MutationObserver(scrollToBottom);
-    observer.observe(document.getElementById('card-container'), { childList: true });
-
-    // Call scrollToBottom on page load to ensure it's at the bottom
-    scrollToBottom();
-    
- 
-
 </script>
-
-    
 
 {% endblock %}

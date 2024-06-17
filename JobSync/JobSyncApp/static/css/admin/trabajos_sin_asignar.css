@@ -185,5 +185,16 @@ body {
     border: 2px solid rgba(212, 17, 17, 0.877);
 }
 
+[data-estado="sin_asignar"][data-reagendado-contador="1"] {
+    background-color: rgba(226, 221, 221, 0.836);
+    color: rgb(12, 11, 11);
+    border: 3px solid rgba(243, 228, 14, 0.87);
 
+}
 
+[data-estado="sin_asignar"][data-reagendado-contador="2"] {
+    background-color: rgba(226, 221, 221, 0.836);
+    color: rgb(12, 11, 11);
+    border: 3px solid rgba(212, 17, 17, 0.877);
+
+}

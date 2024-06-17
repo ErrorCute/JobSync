@@ -29,7 +29,7 @@ urlpatterns = [
     path('ver_agenda/<int:colaborador_id>/', views.ver_agenda, name='ver_agenda'),
     
     path('trabajos_sin_asignar/<int:colaborador_id>/<str:fecha>/', views.trabajos_sin_asignar, name='trabajos_sin_asignar'),
-    path('asignar-trabajo/<int:user_id>', views.asignar_trabajo, name='asignar_trabajo'),
+    path('asignar-y-desasignar-trabajo/<int:user_id>', views.asignar_y_desasignar_trabajos, name='asignar_y_desasignar_trabajo'),
     
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
