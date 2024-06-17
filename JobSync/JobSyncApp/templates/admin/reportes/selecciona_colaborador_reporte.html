@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/listado_colaboradores.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock extra_css %}
+
+{% block contenido %}
+
+<div class="card-container">
+    <div class="header">
+        <a href="{% url 'index_reporte' %}" id="btn-volver" class="btn btn-back">Volver</a>
+        <h1 id="titulo-trabajos">Seleccionar Colaborador</h1>
+    </div>
+    <div class="search-container" >
+        <input type="text" id="search-input" placeholder="Buscar por nombre..." >
+    </div>
+    {% for colaborador in colaboradores %}
+    <div class="card">
+        <button class="select-btn" data-url="#"> <i class="fas fa-calendar-alt"></i> </button>
+        <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
+        <p><strong>Email:</strong> {{ colaborador.email }}</p>
+        <p><strong>Teléfono:</strong> {{ colaborador.telefono }}</p>
+        <p><strong>Comuna:</strong> {{ colaborador.comuna }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<script src="{% static 'js/colaboradores.js' %}"></script>
+<script>
+    document.querySelectorAll('.select-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const url = this.dataset.url;
+            window.location.href = url;
+        });
+    });
+</script>
+{% endblock %}
