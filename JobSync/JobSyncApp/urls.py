@@ -43,5 +43,5 @@ urlpatterns = [
     path('reporte_general/', views_reporte.reporte_general, name='reporte_general'),
 
     path('selecciona_colaborador_reporte/', views_reporte.selecciona_colaborador_reporte, name='selecciona_colaborador_reporte'),
-     path('reporte_colaborador/', views_reporte.reporte_colaborador, name='reporte_colaborador'),
+     path('reporte_colaborador/<int:colaborador_id>/', views_reporte.reporte_colaborador, name='reporte_colaborador'),
 ]
