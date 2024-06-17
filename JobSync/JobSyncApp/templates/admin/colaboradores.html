@@ -23,7 +23,6 @@
     <div class="card"  data-comuna="{{ colaborador.comuna }}">
         <button class="delete-btn" data-url="{% url 'eliminar_usuario' colaborador.id %}"> <i class="fas fa-trash-alt"></i></button>
         <button class="edit-btn" data-url="{% url 'modificar_usuario' colaborador.id %}" > <i class="fas fa-edit"></i></button>
-        <!-- <h2>{{ colaborador.username }}</h2> -->
         <p><strong>Nombre:</strong> {{ colaborador.first_name }} {{ colaborador.last_name }}</p>
         <p><strong>Email:</strong> {{ colaborador.email }}</p>
         <p><strong>Teléfono:</strong> {{ colaborador.telefono }}</p>

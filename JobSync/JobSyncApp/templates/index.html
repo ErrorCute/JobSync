@@ -30,7 +30,6 @@
            
             <li class="nav-link"><a href="{% url 'sobre_nosotros' %}">Sobre Nosotros</a></li>
             {%if user.is_authenticated%}
-            <li class="nav-link"><a href="{% url 'home' %}">Inicio</a></li>
             <li class="nav-link"><a href="{% url 'custom_logout' %}">Cerrar Sesion</a></li>
             {% else %}
             <li class="nav-link"><a href="{% url 'custom_login' %}">login</a></li>
