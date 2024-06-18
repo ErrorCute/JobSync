@@ -7,6 +7,7 @@
 {% endblock extra_css %}
 
 {% block contenido %}
+
 <div class="header">
     <a href="{% url 'index_trabajo' %}"  class="boton volver">Volver</a>
     <h1 id="titulo-trabajos">Trabajos</h1>
@@ -37,7 +38,9 @@
 </div>
 
 <div class="filter-container">
-    <h2>Filtros</h2>
+    <h2>Filtros <button id="boton-info" onclick="mostrarModal()"><i class="fas fa-info-circle"></i></button></h2>
+   <!-- bonon desplegable -->
+ 
 
     <select id="comuna-filter">
         <option value="">Comunas</option>
@@ -52,12 +55,30 @@
         <option value="pendiente">Pendiente</option>
         <option value="completado">Completado</option>
         <option value="reagendado">Reagendado</option>
-        <option value="cancelado">Cancelado</option>
+  
     </select>
 
     <input type="date" id="fecha-filter">
+
 </div>
 
+<!-- modal  -->
+
+<div id="miModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h3 style="color: rgb(0, 204, 255);">Los colores visibles en cada trabajo representa el estado del mismo</h3>
+        <ul>
+            <li><div class="color-box" style="background-color:rgb(255, 255, 255);"></div><strong> Sin asignar:</strong> Este estado indica que el trabajo todavía no ha sido asignado a ninguna persona o equipo específico.</li>
+            <li><div class="color-box" style="background-color: rgba(117, 17, 233, 0.801);"></div><strong>Pendiente:</strong> El trabajo ha sido asignado pero aún no se ha completado </li>
+            <li><div class="color-box" style="background-color: rgba(30, 206, 133, 0.733);"></div><strong>Completado:</strong> El trabajo ha sido realizado y finalizado exitosamente. No se requieren más acciones en esta tarea</li>
+            <li><div class="color-box" style="background-color: yellow;"></div><strong>Reagendado (Prioridad Normal):</strong> El trabajo ha sido reprogramado sin ninguna urgencia especial</li>
+            <li><div class="color-box" style="background-color: rgba(243, 228, 14, 0.87)"></div><strong>Reagendado(Prioridad Alta):</strong> El trabajo ha sido reprogramado, aunque pospuesta, tiene una mayor prioridad</li>
+            <li><div class="color-box" style="background-color: rgba(212, 17, 17, 0.877);"></div><strong>Reagendado(Prioridad Urgente):</strong> Es la prioridad más alta dentro de los trabajos reagendados y debe ser completado lo antes posible</li>
+      </ul>
+    </div>
+</div>
+ 
 <script src="{% static 'js/filtro_trabajo.js' %}"></script>
 
 <script>
@@ -75,6 +96,25 @@
             }
         }
     });
+
+// script modal mensaje 
+function mostrarModal() {
+            var modal = document.getElementById("miModal");
+            modal.style.display = "block";
+        }
+
+        function cerrarModal() {
+            var modal = document.getElementById("miModal");
+            modal.style.display = "none";
+        }
+
+        // Cerrar el modal si el usuario hace clic fuera de él
+        window.onclick = function(event) {
+            var modal = document.getElementById("miModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 </script>
 
 <script>
@@ -91,6 +131,20 @@
             window.location.href = url;
         });
     });
+    document.addEventListener("DOMContentLoaded", function() {
+    var acc = document.getElementsByClassName("accordion");
+    for (var i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+});
 </script>
 
 {% endblock %}
