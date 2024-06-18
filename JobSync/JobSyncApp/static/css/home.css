@@ -11,7 +11,7 @@
     font-family: "Poppins", sans-serif;
 }
 
-body{
+body {
     min-height: 100vh;
     width: 100%;
     display: flex;
@@ -20,12 +20,12 @@ body{
     background: url(../css/img/fondo.png);
 }
 
-.registro, .gestion, .reportes {
+.registro, .gestion, .reportes, .perfil {
     margin: 50px;
-    display: flex; 
+    display: flex;
 }
 
-.container{
+.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -44,9 +44,43 @@ body{
 
 .container a {
     color: #fff;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
 
-.registro .container i, .gestion .container i, .reportes .container i{
+.registro .container i, .gestion .container i, .reportes .container i, .perfil .container i{
     font-size: 50px;
 }
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .registro, .gestion, .reportes, .perfil {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+        
+    }
+
+    .container {
+        
+        margin-bottom: 20px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .registro, .gestion, .reportes, .perfil {
+        margin: 80px;
+    }
+
+    .container {
+        width: 350px; 
+        height: 180px; 
+    }
+
+    .registro .container i, .gestion .container i, .reportes .container i, .perfil .container i {
+        font-size: 60px; 
+    }
+}
+

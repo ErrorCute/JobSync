@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('../img/fondo.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.wrapper {
+    margin-top: 10%;
+    width: 750px;
+    background: rgba(22, 22, 22, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.wrapper h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-box {
+    margin-bottom: 20px;
+}
+
+.input-field {
+    margin-bottom: 20px;
+}
+
+.input-field-column {
+    display: flex;
+    justify-content: space-between;
+    gap: 20%; 
+}
+
+.input-field label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.input-field input, .input-field select {
+    width: 260px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    outline: none;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.input-field input::placeholder {
+    color: #ccc;
+}
+
+.input-field input:focus, .input-field select:focus {
+    border-color: #fff;
+}
+
+.input-field select {
+    height: 54px;
+    padding: 15px 15px 15px 40px;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 24px;
+}
+
+.input-field select option[disabled] {
+    color: #ccc;
+}
+
+.input-field select option {
+    color: #333;
+}
+
+.input-field select option:hover {
+    background-color: #f0f0f0;
+}
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 90%;
+        padding: 20px;
+        margin-top: 22%;
+    }
+
+    .input-field-column {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .input-field input, .input-field select {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1920px) {
+    .wrapper {
+        width: 50%;
+    }
+
+    .input-field input, .input-field select {
+        width: 400px;
+    }
+
+    .input-field-column {
+        gap: 5%;
+    }
+}

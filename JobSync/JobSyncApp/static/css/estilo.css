@@ -1,11 +1,10 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 
 .navbar-container {
   display: flex;
@@ -20,7 +19,6 @@
   width: 100%;
   z-index: 1000;
 }
-
 
 .logo-container {
   display: flex;
@@ -156,5 +154,28 @@
 
   .main {
     font-size: 2rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .navbar-container {
+    padding: 0 2rem;
+  }
+
+  .navbar-container .logo-container a {
+    font-size: 2rem;
+  }
+
+  .navbar-container .nav-items {
+    gap: 3rem;
+  }
+
+  .navbar-container .nav-items .nav-link a,
+  .navbar-container .nav-items .login-register .button {
+    font-size: 1.2rem;
+  }
+
+  .main {
+    font-size: 4rem;
   }
 }

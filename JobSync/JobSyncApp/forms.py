@@ -265,3 +265,46 @@ class ReagendarTrabajoForm(forms.ModelForm):
         if hora_inicio and hora_termino and hora_termino <= hora_inicio:
             raise ValidationError("La hora de término debe ser mayor que la hora de inicio.")
         return hora_termino
+    
+
+class ColaboradorPerfilForm(forms.ModelForm):
+    nueva_contraseña = forms.CharField(label='Nueva Contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Nueva Contraseña'}), required=False)
+    repetir_nueva_contraseña = forms.CharField(label='Repetir Nueva Contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Repetir Nueva Contraseña'}), required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'telefono', 'comuna']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
+            'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
+            'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
+        }
+
+    def clean_telefono(self):
+        telefono = self.cleaned_data.get('telefono')
+        if not re.match(r'^\d{9}$', telefono):
+            raise forms.ValidationError("El teléfono debe contener 9 dígitos.")
+        return telefono
+
+    def clean(self):
+        cleaned_data = super().clean()
+        nueva_contraseña = cleaned_data.get("nueva_contraseña")
+        repetir_nueva_contraseña = cleaned_data.get("repetir_nueva_contraseña")
+
+        if nueva_contraseña and len(nueva_contraseña) < 5:
+            raise forms.ValidationError("La nueva contraseña debe tener más de 4 caracteres.")
+        
+        if nueva_contraseña and nueva_contraseña != repetir_nueva_contraseña:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        nueva_contraseña = self.cleaned_data.get('nueva_contraseña')
+        if nueva_contraseña:
+            user.set_password(nueva_contraseña)
+        if commit:
+            user.save()
+        return user

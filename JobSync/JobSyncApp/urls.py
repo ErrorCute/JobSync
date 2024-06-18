@@ -46,4 +46,5 @@ urlpatterns = [
     path('reporte_colaborador/<int:colaborador_id>/', views_reporte.reporte_colaborador, name='reporte_colaborador'),
     # ---vista colaborador
     path('mi_reporte/', views_reporte.mi_reporte, name='mi_reporte'),
+    path('mi_perfil/', views_colaborador.mi_perfil, name='mi_perfil'),
 ]

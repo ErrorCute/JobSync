@@ -6,6 +6,7 @@ from django.contrib import messages
 from datetime import datetime
 from babel.dates import format_date, parse_date
 from .forms import ReagendarTrabajoForm
+from .forms import ColaboradorPerfilForm
 @login_required
 def mi_agenda(request):
     # Asegúrate de que request.user es una instancia de CustomUser
@@ -17,7 +18,7 @@ def mi_agenda(request):
 
 
 
-
+@login_required
 def mi_trabajos(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(fecha=fecha, colaborador_id=colaborador_id)
@@ -36,6 +37,7 @@ def mi_trabajos(request, colaborador_id, fecha):
     }
     return render(request, 'colaborador/agenda/mi_trabajos.html', context)
 
+@login_required
 def actualizar_estado_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
     if request.method == 'POST':
@@ -51,6 +53,7 @@ def actualizar_estado_trabajo(request, trabajo_id):
 
     return render(request, 'colaborador/agenda/mi_trabajos.html', {'trabajo': trabajo})
 
+@login_required
 def reagendar_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
     if request.method == 'POST':
@@ -65,3 +68,17 @@ def reagendar_trabajo(request, trabajo_id):
         form = ReagendarTrabajoForm(instance=trabajo)
     return render(request, 'colaborador/agenda/reagendar_trabajo.html', {'form': form, 'trabajo': trabajo})
 
+@login_required
+def mi_perfil(request):
+    if request.method == 'POST':
+        form = ColaboradorPerfilForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Tu perfil ha sido actualizado exitosamente.')
+            return redirect('mi_perfil')
+        else:
+            messages.error(request, 'Por favor, corrige los errores a continuación.')
+    else:
+        form = ColaboradorPerfilForm(instance=request.user)
+
+    return render(request, 'colaborador/mi_perfil.html', {'form': form})

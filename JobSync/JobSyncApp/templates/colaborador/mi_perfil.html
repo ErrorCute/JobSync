@@ -1,0 +1,82 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/colaborador/mi_perfil.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+{% endblock extra_css %}
+
+{% block contenido %}
+<div class="wrapper">
+    <form id="modificarUsuarioForm" action="" method="POST">
+        {% csrf_token %}
+        <h1>Modificar Perfil</h1>
+        <div class="input-box">
+            <div class="input-field-column">
+                <div class="input-field">
+                    <label class="input-label" for="id_first_name">Nombre</label>
+                    {{ form.first_name }}
+                    {% for error in form.first_name.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="input-field">
+                    <label class="input-label" for="id_last_name">Apellido</label>
+                    {{ form.last_name }}
+                    {% for error in form.last_name.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="input-field-column">
+                <div class="input-field">
+                    <label class="input-label" for="id_telefono">Teléfono</label>
+                    {{ form.telefono }}
+                    <p></p>
+                    {% for error in form.telefono.errors %}
+                        <div class="text-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="input-field">
+                    <label class="input-label" for="id_comuna">Comuna</label>
+                    {{ form.comuna }}
+                </div>
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-field">
+                <label class="input-label" for="id_nueva_contraseña">Nueva Contraseña</label>
+                {{ form.nueva_contraseña }}
+                {% for error in form.nueva_contraseña.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="input-field">
+                <label class="input-label" for="id_repetir_nueva_contraseña">Repetir Nueva Contraseña</label>
+                {{ form.repetir_nueva_contraseña }}
+                {% for error in form.repetir_nueva_contraseña.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="text-danger">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <button class="btn btn-danger"><a href="{% url 'index_colaborador' %}">Regresar</a></button>
+    </form>
+</div>
+{% endblock %}
