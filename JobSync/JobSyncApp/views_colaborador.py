@@ -7,14 +7,30 @@ from datetime import datetime
 from babel.dates import format_date, parse_date
 from .forms import ReagendarTrabajoForm
 from .forms import ColaboradorPerfilForm
+from django.utils.dateformat import DateFormat
+
 @login_required
 def mi_agenda(request):
-    # Asegúrate de que request.user es una instancia de CustomUser
-    if not isinstance(request.user, CustomUser):
-        raise ValueError("El usuario autenticado no es una instancia de CustomUser.")
-    
     colaborador = request.user
-    return render(request, 'colaborador/agenda/mi_agenda.html', {'colaborador': colaborador})
+    trabajos = Trabajo.objects.filter(
+        colaborador=colaborador,
+        estado__in=['pendiente', 'reagendado']
+    )
+    
+    eventos = [
+        {
+            'title': trabajo.nombre_trabajo,
+            'start': DateFormat(trabajo.fecha).format('Y-m-d'),
+            'description': trabajo.nombre_titular,
+        } for trabajo in trabajos
+    ]
+    
+    return render(request, 'colaborador/agenda/mi_agenda.html', {
+        'colaborador': colaborador,
+        'eventos': eventos,
+    })
+
+
 
 
 

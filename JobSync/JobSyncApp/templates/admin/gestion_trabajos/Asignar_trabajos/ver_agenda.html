@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/admin/agenda.css' %}">
 {% endblock extra_css %}
@@ -25,9 +26,20 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    var eventos = JSON.parse(`[
+        {% for evento in eventos %}
+        {
+            "title": "{{ evento.title|escapejs }}",
+            "start": "{{ evento.start|escapejs }}",
+            "description": "{{ evento.description|escapejs }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]`);
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: 'es',
+        events: eventos,
         selectable: true,
         dateClick: function(info) {
             var fechaSeleccionada = info.dateStr;
