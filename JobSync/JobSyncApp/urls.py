@@ -30,17 +30,18 @@ urlpatterns = [
     
     path('trabajos_sin_asignar/<int:colaborador_id>/<str:fecha>/', views.trabajos_sin_asignar, name='trabajos_sin_asignar'),
     path('asignar-y-desasignar-trabajo/<int:user_id>', views.asignar_y_desasignar_trabajos, name='asignar_y_desasignar_trabajo'),
-    
     # colaborador ---
     path('index_colaborador/', views.index_colaborador, name='index_colaborador'),
     path('mi_agenda/',views_colaborador.mi_agenda,name='mi_agenda'),
     path('mi_trabajos/<int:colaborador_id>/<str:fecha>/', views_colaborador.mi_trabajos, name='mi_trabajos'),
     path('reagendar_trabajo/<int:trabajo_id>/', views_colaborador.reagendar_trabajo, name='reagendar_trabajo'),
     path('actualizar_estado_trabajo/<int:trabajo_id>', views_colaborador.actualizar_estado_trabajo, name='actualizar_estado_trabajo'),
-
     # reportes
+<<<<<<< HEAD
     # ---vista admin
     path('index_reporte/', views_reporte.index_reporte, name='index_reporte'),
+=======
+>>>>>>> rama-eliminar
     path('reporte_general/', views_reporte.reporte_general, name='reporte_general'),
     path('selecciona_colaborador_reporte/', views_reporte.selecciona_colaborador_reporte, name='selecciona_colaborador_reporte'),
     path('reporte_colaborador/<int:colaborador_id>/', views_reporte.reporte_colaborador, name='reporte_colaborador'),
