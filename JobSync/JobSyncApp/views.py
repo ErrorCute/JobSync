@@ -10,22 +10,28 @@ from datetime import datetime
 from babel.dates import format_date, parse_date
 from django.http import  HttpResponseBadRequest
 from django.contrib import messages
+
 def custom_login(request):
     if request.method == 'POST':
         formulario = UsuarioUserForm(data=request.POST)
         if formulario.is_valid():
-            username = formulario.cleaned_data.get('username')  
+            username = formulario.cleaned_data.get('username')
             password = formulario.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
-                if user.rol:
-                    return redirect('index_colaborador')
+                if not user.is_deleted:  # Verifica si el usuario está eliminado
+                    login(request, user)
+                    if user.rol:
+                        return redirect('index_colaborador')
+                    else:
+                        return redirect('home')
                 else:
-                    return redirect('home')
+                    messages.error(request, 'Este usuario ha sido eliminado.')
+            else:
+                messages.error(request, 'Credenciales no válidas.')
     else:
         formulario = UsuarioUserForm()
-        
+    
     return render(request, 'registration/login.html', {'formulario': formulario})
 
 
@@ -74,15 +80,15 @@ def registro(request):
 
 
 def lista_colaboradores(request ):
-    colaboradores = CustomUser.objects.filter(rol=True)
+    colaboradores = CustomUser.objects.filter(rol=True, is_deleted = False)
    
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
 
 def eliminar_usuario(request, user_id):
     if request.method == 'POST':
-        user = CustomUser.objects.get(id=user_id)
+        user = get_object_or_404(CustomUser, id=user_id)
         user.delete()
-        return redirect('colaboradores')  
+        return redirect('colaboradores')
     else:
         return render(request, 'admin/eliminar_usuario.html', {'user_id': user_id})
 
@@ -117,7 +123,7 @@ def index_trabajo(request):
 
 def trabajos(request):
     comuna = Comuna.objects.all()
-    trabajos = Trabajo.objects.all()  # Obtener todos los trabajos
+    trabajos = Trabajo.objects.filter(is_deleted=False)  # Obtener todos los trabajos
     return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos,'comuna':comuna})
 
 
@@ -149,10 +155,9 @@ def modificar_trabajo(request, trabajo_id):
 
 
 def eliminar_trabajo(request, trabajo_id):
-    trabajo= Trabajo.objects.get(id=trabajo_id)
-    trabajo.delete()
-    return redirect ('trabajos')
-
+    trabajo = get_object_or_404(Trabajo, id=trabajo_id)
+    trabajo.delete()  # Esto llamará al método delete personalizado
+    return redirect('trabajos')
 
 
 def seleccionar_colaborador(request):
