@@ -263,3 +263,70 @@ body {
     border: 3px solid rgba(212, 17, 17, 0.877);
 
 }
+
+#boton-info{
+   
+    width: 50px;
+    font-size: 20px;
+    border: 1px solid rgba(3, 207, 163, 0.76);
+    border-radius: 5px;
+    color: #b0e3f5;
+    background: rgba(22, 22, 22, 0.315);
+    margin-left: 30px;
+}
+    /* Estilo para el mensaje desplegable */
+    .modal {
+        display: none; /* Oculto por defecto */
+        position: fixed; /* Posición fija para quedarse en su lugar */
+        z-index: 1; /* Por encima de todo el contenido */
+        left: 0;
+        top: 0;
+        width: 100%; /* Ancho completo */
+        height: 100%; /* Altura completa */
+        overflow: auto; /* Habilitar el desplazamiento si es necesario */
+        background-color: rgb(0,0,0); /* Color de fondo con opacidad */
+        background-color: rgba(0,0,0,0.4); /* Color de fondo con opacidad */
+    }
+
+    /* Contenido del modal */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% de margen superior y centrado horizontal */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Ancho del 80% */
+        border-radius: 20px;
+    }
+
+    /* Estilo del botón de cierre */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    /* css para el contenido del modal  */
+    ul {
+        list-style-type: none; /* Quitar las viñetas de la lista */
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+    .color-box {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border: 1px solid #000;
+        border-radius: 30px;
+    }
