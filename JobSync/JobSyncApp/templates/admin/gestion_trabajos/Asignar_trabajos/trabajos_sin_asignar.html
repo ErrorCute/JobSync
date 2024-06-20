@@ -12,6 +12,17 @@
 </div>
 
 <div class="container">
+
+    {% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} error">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
     <div class="trabajos-list" id="trabajos-sin-asignar">
         <h2>Trabajos sin asignar</h2>
         <ul>
@@ -28,15 +39,6 @@
             <li class="no-trabajos">No hay trabajos sin asignar para esta fecha.</li>
             {% endfor %}
         </ul>
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
     </div>
 
     <div class="buttons">

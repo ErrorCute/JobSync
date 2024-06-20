@@ -72,12 +72,14 @@
             <li><div class="color-box" style="background-color:rgb(255, 255, 255);"></div><strong> Sin asignar:</strong> Este estado indica que el trabajo todavía no ha sido asignado a ninguna persona o equipo específico.</li>
             <li><div class="color-box" style="background-color: rgba(117, 17, 233, 0.801);"></div><strong>Pendiente:</strong> El trabajo ha sido asignado pero aún no se ha completado </li>
             <li><div class="color-box" style="background-color: rgba(30, 206, 133, 0.733);"></div><strong>Completado:</strong> El trabajo ha sido realizado y finalizado exitosamente. No se requieren más acciones en esta tarea</li>
-            <li><div class="color-box" style="background-color: yellow;"></div><strong>Reagendado (Prioridad Normal):</strong> El trabajo ha sido reprogramado sin ninguna urgencia especial</li>
             <li><div class="color-box" style="background-color: rgba(243, 228, 14, 0.87)"></div><strong>Reagendado(Prioridad Alta):</strong> El trabajo ha sido reprogramado, aunque pospuesta, tiene una mayor prioridad</li>
             <li><div class="color-box" style="background-color: rgba(212, 17, 17, 0.877);"></div><strong>Reagendado(Prioridad Urgente):</strong> Es la prioridad más alta dentro de los trabajos reagendados y debe ser completado lo antes posible</li>
-      </ul>
+            <li><div class="color-box border-yellow"></div><strong>Sin Asignar Amarillo:</strong> Trabajo Sin asignar que fue reagendado con prioridad alta.</li>
+            <li><div class="color-box border-red"></div><strong>Sin Asignar Rojo:</strong> Trabajo Sin asignar que fue reagendado con prioridad urgente.</li>
+        </ul>
     </div>
 </div>
+
  
 <script src="{% static 'js/filtro_trabajo.js' %}"></script>
 

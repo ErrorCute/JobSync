@@ -1,3 +1,5 @@
+# views.py
+
 import locale
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -9,6 +11,7 @@ from datetime import datetime
 from django.utils.dateformat import DateFormat
 from babel.dates import format_date, parse_date
 from django.contrib import messages
+from .decorators import user_is_colaborador, user_is_admin
 
 def custom_login(request):
     if request.method == 'POST':
@@ -33,13 +36,11 @@ def custom_login(request):
     
     return render(request, 'registration/login.html', {'formulario': formulario})
 
-
 def index(request):
     return render(request,'index.html')
 
 def custom_logout(request):
     logout(request)
-  
     return redirect('/')
 
 def registro(request):
@@ -77,12 +78,14 @@ def registro(request):
         form = RegistroForm()
     return render(request, 'registro.html', {'form': form})
 
-
-def lista_colaboradores(request ):
-    colaboradores = CustomUser.objects.filter(rol=True, is_deleted = False)
-   
+@login_required
+@user_is_admin
+def lista_colaboradores(request):
+    colaboradores = CustomUser.objects.filter(rol=True, is_deleted=False)
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
 
+@login_required
+@user_is_admin
 def eliminar_usuario(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(CustomUser, id=user_id)
@@ -91,6 +94,8 @@ def eliminar_usuario(request, user_id):
     else:
         return render(request, 'admin/eliminar_usuario.html', {'user_id': user_id})
 
+@login_required
+@user_is_admin
 def modificar_usuario(request, user_id):
     usuario = get_object_or_404(CustomUser, id=user_id)
     if request.method == 'POST':
@@ -102,10 +107,13 @@ def modificar_usuario(request, user_id):
         form = ModificarUsuarioForm(instance=usuario)
     return render(request, 'admin/modificar_usuario.html', {'form': form, 'usuario_id': user_id})
 
-
+@login_required
+@user_is_admin
 def home(request):
     return render(request, 'home.html')
 
+@login_required
+@user_is_colaborador
 def index_colaborador(request):
     return render(request ,'colaborador/index_colaborador.html')
 
@@ -113,21 +121,23 @@ def index_colaborador(request):
 def sobre_nosotros(request):
     return render(request, 'sobrenosotros.html')
 
-
-
 # ------------------------------------------------ gestion de trabajos como administrador ----------------------
 
+@login_required
+@user_is_admin
 def index_trabajo(request):
     return render (request,'admin/gestion_trabajos/trabajos/index_trabajo.html')
 
+@login_required
+@user_is_admin
 def trabajos(request):
     comuna = Comuna.objects.all()
     trabajos = Trabajo.objects.filter(is_deleted=False)  # Obtener todos los trabajos
     return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos,'comuna':comuna})
 
-
+@login_required
+@user_is_admin
 def crear_trabajo(request):
-
     if request.method == 'POST':
         form = TrabajoForm(request.POST)
         if form.is_valid():
@@ -138,8 +148,8 @@ def crear_trabajo(request):
         form = TrabajoForm()
     return render(request, 'admin/gestion_trabajos/trabajos/crear_trabajo.html', {'form': form})
 
-
-
+@login_required
+@user_is_admin
 def modificar_trabajo(request, trabajo_id):
     trabajo = Trabajo.objects.get(id=trabajo_id)
     if request.method == 'POST':
@@ -149,22 +159,25 @@ def modificar_trabajo(request, trabajo_id):
             return redirect('trabajos')  
     else:
         form = ModificarTrabajoForm(instance=trabajo)
-    
     return render(request, 'admin/gestion_trabajos/trabajos/modificar_trabajo.html', {'form': form})
 
-
+@login_required
+@user_is_admin
 def eliminar_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
     trabajo.delete()  # Esto llamará al método delete personalizado
     return redirect('trabajos')
 
-
+@login_required
+@user_is_admin
 def seleccionar_colaborador(request):
     colaboradores = CustomUser.objects.filter(rol=True)
     return render(request, 'admin/gestion_trabajos/Asignar_trabajos/seleccionar_colaborador.html', {'colaboradores': colaboradores})
 
 from django.utils.dateformat import DateFormat
 
+@login_required
+@user_is_admin
 def ver_agenda(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(
@@ -185,8 +198,8 @@ def ver_agenda(request, colaborador_id):
         'eventos': eventos,
     })
 
-
-
+@login_required
+@user_is_admin
 def trabajos_sin_asignar(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos_sin_asignar = Trabajo.objects.filter(fecha=fecha, colaborador__isnull=True)
@@ -206,6 +219,8 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
 
     return render(request, 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html', context)
 
+@login_required
+@user_is_admin
 def asignar_y_desasignar_trabajos(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
     trabajos_ids = request.POST.get('trabajos', '').split(',')
@@ -251,5 +266,3 @@ def asignar_y_desasignar_trabajos(request, user_id):
 
     messages.success(request, "Cambios guardados con éxito.")
     return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
-
-
