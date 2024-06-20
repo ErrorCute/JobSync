@@ -5,6 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+    text-decoration: none;
 }
 
 body {
@@ -112,6 +113,7 @@ body {
     color: #333;
     font-weight: 600;
     margin-top: 10px;
+    text-decoration: none;
 }
 
 /* Media Queries */

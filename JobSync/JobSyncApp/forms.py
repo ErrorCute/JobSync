@@ -268,8 +268,16 @@ class ReagendarTrabajoForm(forms.ModelForm):
     
 
 class ColaboradorPerfilForm(forms.ModelForm):
-    nueva_contraseña = forms.CharField(label='Nueva Contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Nueva Contraseña'}), required=False)
-    repetir_nueva_contraseña = forms.CharField(label='Repetir Nueva Contraseña', widget=forms.PasswordInput(attrs={'placeholder': 'Repetir Nueva Contraseña'}), required=False)
+    nueva_contraseña = forms.CharField(
+        label='Nueva Contraseña',
+        widget=forms.PasswordInput(attrs={'placeholder': 'Nueva Contraseña'}),
+        required=False
+    )
+    repetir_nueva_contraseña = forms.CharField(
+        label='Repetir Nueva Contraseña',
+        widget=forms.PasswordInput(attrs={'placeholder': 'Repetir Nueva Contraseña'}),
+        required=False
+    )
 
     class Meta:
         model = CustomUser
@@ -283,9 +291,29 @@ class ColaboradorPerfilForm(forms.ModelForm):
 
     def clean_telefono(self):
         telefono = self.cleaned_data.get('telefono')
+        if not telefono:
+            raise ValidationError("El teléfono es requerido.")
         if not re.match(r'^\d{9}$', telefono):
-            raise forms.ValidationError("El teléfono debe contener 9 dígitos.")
+            raise ValidationError("El teléfono debe contener 9 dígitos.")
         return telefono
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if not first_name:
+            raise ValidationError("El nombre es requerido.")
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if not last_name:
+            raise ValidationError("El apellido es requerido.")
+        return last_name
+
+    def clean_comuna(self):
+        comuna = self.cleaned_data.get('comuna')
+        if not comuna:
+            raise ValidationError("La comuna es requerida.")
+        return comuna
 
     def clean(self):
         cleaned_data = super().clean()
@@ -293,10 +321,10 @@ class ColaboradorPerfilForm(forms.ModelForm):
         repetir_nueva_contraseña = cleaned_data.get("repetir_nueva_contraseña")
 
         if nueva_contraseña and len(nueva_contraseña) < 5:
-            raise forms.ValidationError("La nueva contraseña debe tener más de 4 caracteres.")
+            raise ValidationError("La nueva contraseña debe tener más de 4 caracteres.")
         
         if nueva_contraseña and nueva_contraseña != repetir_nueva_contraseña:
-            raise forms.ValidationError("Las contraseñas no coinciden.")
+            raise ValidationError("Las contraseñas no coinciden.")
         
         return cleaned_data
 
