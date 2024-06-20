@@ -43,7 +43,7 @@ class CustomUser(AbstractUser):
 
 class TrabajoManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_deleted=False)
+        return super().get_queryset()
 
 class Trabajo(models.Model):
     colaborador = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
