@@ -22,7 +22,13 @@
             <button class="edit-btn" data-url="{% url 'modificar_trabajo' trabajo.id %}"> <i class="fas fa-edit"></i></button>
             <h2> {{ trabajo.nombre_trabajo }}</h2>
         </div>
-        
+        <p><strong>Colaborador:</strong> 
+            {% if trabajo.colaborador %}
+                {{ trabajo.colaborador.first_name }} {{ trabajo.colaborador.last_name }}
+            {% else %}
+                Sin colaborador
+            {% endif %}
+        </p>
         <p><strong>Nombre del Titular:</strong> {{ trabajo.nombre_titular }}</p>
         <p><strong>RUT del Titular:</strong> {{ trabajo.rut_titular }}</p>
         <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>

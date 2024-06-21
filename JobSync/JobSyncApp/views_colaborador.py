@@ -93,8 +93,8 @@ def mi_perfil(request):
             form.save()
             messages.success(request, 'Tu perfil ha sido actualizado exitosamente.')
             return redirect('mi_perfil')
-        else:
-            messages.error(request, 'Por favor, corrige los errores a continuación.')
+        
+            
     else:
         form = ColaboradorPerfilForm(instance=request.user)
 

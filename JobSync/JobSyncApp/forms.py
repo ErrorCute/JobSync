@@ -278,15 +278,21 @@ class ColaboradorPerfilForm(forms.ModelForm):
         widget=forms.PasswordInput(attrs={'placeholder': 'Repetir Nueva Contraseña'}),
         required=False
     )
+    email = forms.EmailField(
+        label='Correo Electrónico',
+        widget=forms.EmailInput(attrs={'placeholder': 'Correo Electrónico', 'readonly': 'readonly'}),
+        required=False
+    )
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'telefono', 'comuna']
+        fields = ['first_name', 'last_name', 'telefono', 'comuna', 'email']
         widgets = {
             'first_name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Apellido'}),
             'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
             'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Correo Electrónico', 'readonly': 'readonly'}),
         }
 
     def clean_telefono(self):
@@ -320,10 +326,16 @@ class ColaboradorPerfilForm(forms.ModelForm):
         nueva_contraseña = cleaned_data.get("nueva_contraseña")
         repetir_nueva_contraseña = cleaned_data.get("repetir_nueva_contraseña")
 
+        if not nueva_contraseña:
+            self.add_error('nueva_contraseña', 'Este campo es requerido.')
+
+        if not repetir_nueva_contraseña:
+            self.add_error('repetir_nueva_contraseña', 'Este campo es requerido.')
+
         if nueva_contraseña and len(nueva_contraseña) < 5:
-            raise ValidationError("La nueva contraseña debe tener más de 4 caracteres.")
-        
-        if nueva_contraseña and nueva_contraseña != repetir_nueva_contraseña:
+            self.add_error('nueva_contraseña', 'La nueva contraseña debe tener más de 4 caracteres.')
+
+        if nueva_contraseña and repetir_nueva_contraseña and nueva_contraseña != repetir_nueva_contraseña:
             raise ValidationError("Las contraseñas no coinciden.")
         
         return cleaned_data
