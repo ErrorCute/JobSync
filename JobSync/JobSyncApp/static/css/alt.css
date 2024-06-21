@@ -265,3 +265,12 @@ span{
   .navbar-container .nav-items.active {
     right: 0;
   }
+
+  .navbar-container .text-container a {
+    font-size: 1 rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    font-family: 'Kanit', sans-serif;
+  }
