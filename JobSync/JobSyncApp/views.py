@@ -3,7 +3,7 @@
 import locale
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, Comuna, Trabajo
+from .models import CustomUser, Comuna, Trabajo,Rol
 from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -68,6 +68,9 @@ def registro(request):
                     comuna=comuna,  
                     password=contraseña
                 )
+                rol_colaborador = Rol.objects.get(nombre='Colaborador')
+
+                nuevo_usuario.rol = rol_colaborador 
                 nuevo_usuario.save()
                 return redirect('colaboradores') 
             else:

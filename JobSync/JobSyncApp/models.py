@@ -67,6 +67,7 @@ class Cliente(models.Model):
     telefono = models.CharField(max_length=15)
     comuna = models.ForeignKey(Comuna, on_delete=models.SET_NULL, null=True)
     direccion = models.CharField(max_length=255)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.nombre_titular
@@ -102,12 +103,4 @@ class Trabajo(models.Model):
 
 
 # Populating the Rol and Estado models with initial values
-def populate_initial_data():
-    roles = ['Colaborador', 'Admin']
-    estados = ['Sin asignar', 'Pendiente', 'Completado', 'Reagendado']
-    
-    for rol in roles:
-        Rol.objects.get_or_create(nombre=rol)
 
-    for estado in estados:
-        Estado.objects.get_or_create(nombre=estado)
