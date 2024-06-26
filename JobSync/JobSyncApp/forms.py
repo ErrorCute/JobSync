@@ -97,14 +97,9 @@ class ModificarUsuarioForm(forms.ModelForm):
 class TrabajoForm(forms.ModelForm):
     class Meta:
         model = Trabajo
-        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'telefono', 'comuna', 'direccion', 'fecha', 'hora_inicio', 'hora_termino', 'valor']
+        fields = ['nombre_trabajo', 'fecha', 'hora_inicio', 'hora_termino', 'valor']
         widgets = {
             'nombre_trabajo': forms.TextInput(attrs={'placeholder': 'Nombre del trabajo'}),
-            'nombre_titular': forms.TextInput(attrs={'placeholder': 'Nombre del titular'}),
-            'rut_titular': forms.TextInput(attrs={'placeholder': 'RUT del titular'}),
-            'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
-            'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
-            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
             'fecha': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Fecha (YYYY-MM-DD)'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de inicio (HH:MM)'}),
             'hora_termino': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de término (HH:MM)'}),
@@ -147,14 +142,9 @@ class TrabajoForm(forms.ModelForm):
 class ModificarTrabajoForm(forms.ModelForm):
     class Meta:
         model = Trabajo
-        fields = ['nombre_trabajo', 'nombre_titular', 'rut_titular', 'telefono', 'comuna', 'direccion', 'fecha', 'hora_inicio', 'hora_termino', 'valor']
+        fields = ['nombre_trabajo', 'fecha', 'hora_inicio', 'hora_termino', 'valor']
         widgets = {
             'nombre_trabajo': forms.TextInput(attrs={'placeholder': 'Nombre del trabajo'}),
-            'nombre_titular': forms.TextInput(attrs={'placeholder': 'Nombre del titular'}),
-            'rut_titular': forms.TextInput(attrs={'placeholder': 'RUT del titular'}),
-            'telefono': forms.TextInput(attrs={'placeholder': 'Teléfono'}),
-            'comuna': forms.Select(attrs={'placeholder': 'Comuna'}),
-            'direccion': forms.TextInput(attrs={'placeholder': 'Dirección'}),
             'fecha': forms.DateInput(attrs={'type': 'date', 'placeholder': 'Fecha (YYYY-MM-DD)'}),
             'hora_inicio': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de inicio (HH:MM)'}),
             'hora_termino': forms.TimeInput(attrs={'type': 'time', 'placeholder': 'Hora de término (HH:MM)'}),
