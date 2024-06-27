@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser, Trabajo
+from .models import CustomUser, Trabajo,Estado
 
 from datetime import datetime
 
@@ -40,7 +40,8 @@ def reporte_general(request):
             break
 
     usuarios = CustomUser.objects.filter(rol=True)
-    trabajos = Trabajo.objects.filter(estado='completado')
+    estado_completado = Estado.objects.get(nombre='completado')
+    trabajos = Trabajo.objects.filter(estado=estado_completado)
 
     # Filtrar trabajos por el mes seleccionado
     if selected_month:
@@ -115,9 +116,10 @@ def reporte_colaborador(request, colaborador_id):
             selected_month_name = month['name']
             break
     
-    
+    estado_completado = Estado.objects.get(nombre='completado')
+
     # Obtener trabajos completados del colaborador
-    trabajos_completados = Trabajo.objects.filter(colaborador=colaborador, estado='completado')
+    trabajos_completados = Trabajo.objects.filter(colaborador=colaborador, estado=estado_completado)
     
     # Filtrar trabajos por el mes seleccionado si está definido
     if selected_month:
@@ -191,8 +193,9 @@ def mi_reporte(request):
             selected_month_name = month['name']
             break
     
+    estado_completado = Estado.objects.get(nombre='completado')
     # Obtener trabajos completados del colaborador
-    trabajos_completados = Trabajo.objects.filter(colaborador=colaborador, estado='completado')
+    trabajos_completados = Trabajo.objects.filter(colaborador=colaborador, estado=estado_completado)
     
     # Filtrar trabajos por el mes seleccionado si está definido
     if selected_month:
