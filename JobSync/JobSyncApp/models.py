@@ -82,7 +82,7 @@ class Estado(models.Model):
 
 class Trabajo(models.Model):
     colaborador = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=True, blank=True)
     nombre_trabajo = models.CharField(max_length=100)
     fecha = models.DateField()
     hora_inicio = models.TimeField()
@@ -101,6 +101,4 @@ class Trabajo(models.Model):
     def __str__(self):
         return self.nombre_trabajo
 
-
-# Populating the Rol and Estado models with initial values
 

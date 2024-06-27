@@ -3,7 +3,7 @@
 import locale
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, Comuna, Trabajo,Rol
+from .models import CustomUser, Comuna, Trabajo,Rol, Empresa
 from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -22,11 +22,22 @@ def custom_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 if not user.is_deleted:  # Verifica si el usuario está eliminado
-                    login(request, user)
-                    if user.rol:
-                        return redirect('index_colaborador')
-                    else:
-                        return redirect('home')
+                    # Obtener el subdominio de la solicitud
+                    subdominio = request.get_host().split('.')[0]
+                    try:
+                        empresa = Empresa.objects.get(subdominio=subdominio)
+                        if user.empresa == empresa:
+                            login(request, user)
+                            if user.rol.nombre == 'Admin':
+                                return redirect('home')  # Página de inicio para Admin
+                            elif user.rol.nombre == 'Colaborador':
+                                return redirect('index_colaborador')  # Página de inicio para Colaborador
+                            else:
+                                messages.error(request, 'Rol de usuario no reconocido.')
+                        else:
+                            messages.error(request, 'El usuario no pertenece a esta empresa.')
+                    except Empresa.DoesNotExist:
+                        messages.error(request, 'Empresa no encontrada.')
                 else:
                     messages.error(request, 'Este usuario ha sido eliminado.')
             else:
@@ -84,7 +95,7 @@ def registro(request):
 @login_required
 @user_is_admin
 def lista_colaboradores(request):
-    colaboradores = CustomUser.objects.filter(rol=True, is_deleted=False)
+    colaboradores = CustomUser.objects.filter(empresa=request.empresa)
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
 
 @login_required
@@ -111,7 +122,7 @@ def modificar_usuario(request, user_id):
     return render(request, 'admin/modificar_usuario.html', {'form': form, 'usuario_id': user_id})
 
 @login_required
-@user_is_admin
+
 def home(request):
     return render(request, 'home.html')
 
@@ -135,7 +146,7 @@ def index_trabajo(request):
 @user_is_admin
 def trabajos(request):
     comuna = Comuna.objects.all()
-    trabajos = Trabajo.objects.filter(is_deleted=False)  # Obtener todos los trabajos
+    trabajos = Trabajo.objects.filter(empresa=request.empresa)
     return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos,'comuna':comuna})
 
 @login_required

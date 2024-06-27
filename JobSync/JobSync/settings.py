@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5&*k@ch$q4j7mm%$aha*&#w3%w-7ym=y--@_j9@%ottxal2-c9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'JobSyncApp.middleware.EmpresaMiddleware',
 ]
 
 ROOT_URLCONF = 'JobSync.urls'
