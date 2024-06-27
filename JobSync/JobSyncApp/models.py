@@ -90,6 +90,7 @@ class Trabajo(models.Model):
     valor = models.DecimalField(max_digits=10, decimal_places=2)
     estado = models.ForeignKey(Estado, on_delete=models.SET_NULL, null=True)
     reagendado_contador = models.PositiveIntegerField(default=0)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
 
     objects = models.Manager()

@@ -93,7 +93,7 @@ def registro(request):
     return render(request, 'registro.html', {'form': form})
 
 @login_required
-@user_is_admin
+
 def lista_colaboradores(request):
     colaboradores = CustomUser.objects.filter(empresa=request.empresa)
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
