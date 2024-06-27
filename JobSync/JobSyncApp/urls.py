@@ -20,7 +20,8 @@ urlpatterns = [
     # gestion de trabajos admin 
     path('index_trabajo/', views.index_trabajo, name='index_trabajo'),
     path('trabajos/', views.trabajos, name='trabajos'),
-    path('crear_trabajo/', views.crear_trabajo, name='crear_trabajo'),
+     path('clientes/', views.clientes, name='clientes'),
+    path('crear_trabajo/<int:cliente_id>', views.crear_trabajo, name='crear_trabajo'),
     path('modificar_trabajo/<int:trabajo_id>/', views.modificar_trabajo, name='modificar_trabajo'),
     path('eliminar_trabajo/<int:trabajo_id>/', views.eliminar_trabajo, name= 'eliminar_trabajo'),
 

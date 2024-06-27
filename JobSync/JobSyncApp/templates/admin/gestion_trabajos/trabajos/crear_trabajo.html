@@ -19,41 +19,10 @@
                         <p class="text-danger">{{ error }}</p>
                     {% endfor %}
                 </div>
-                <div class="input-field">
-                    {{ form.nombre_titular }}
-                    {% for error in form.nombre_titular.errors %}
-                        <p class="text-danger">{{ error }}</p>
-                    {% endfor %}
-                </div>
+                
             </div>
-            <div class="input-box">
-                <div class="input-field">
-                    {{ form.rut_titular }}
-                    {% for error in form.rut_titular.errors %}
-                        <p class="text-danger">{{ error }}</p>
-                    {% endfor %}
-                </div>
-                <div class="input-field">
-                    {{ form.telefono }}
-                    {% for error in form.telefono.errors %}
-                        <p class="text-danger">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="input-box">
-                <div class="input-field">
-                    {{ form.direccion }}
-                    {% for error in form.direccion.errors %}
-                        <p class="text-danger">{{ error }}</p>
-                    {% endfor %}
-                </div>
-                <div class="input-field">
-                    {{ form.comuna }}
-                    {% for error in form.comuna.errors %}
-                        <p class="text-danger">{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
+         
+    
             <div class="input-box">
                 <div class="input-field">
                     {{ form.fecha }}

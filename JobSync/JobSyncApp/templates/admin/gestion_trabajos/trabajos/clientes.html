@@ -1,0 +1,67 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/listado_colaboradores.css' %}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock extra_css %}
+{% block contenido %}
+
+<div class="header">
+    <a href="{% url 'home' %}" id="btn-volver" class="btn btn-back">Volver</a>
+    <h1>Clientes</h1>
+    
+</div>
+    <div class="search-container" >
+    <input type="text" id="search-input" placeholder="Buscar por nombre..." >
+</div>
+
+<div class="card-container">
+
+    {% for cliente in clientes %}
+    <div class="card"  data-comuna="{{ colaborador.comuna }}">
+        <button class="edit-btn" data-url="{% url 'crear_trabajo' cliente.id %}" > <i class="fas fa-edit"></i></button>
+        <p><strong>Nombre:</strong>{{ cliente.nombre_titular }}</p>
+        <p><strong>RUT:</strong> {{ cliente.rut }}</p>
+        <p><strong>Teléfono:</strong> {{ cliente.telefono }}</p>
+        <p><strong>Comuna:</strong> {{ cliente.comuna }}</p>
+        <p><strong>Dirección:</strong> {{ cliente.direccion }}</p>
+
+        
+    </div>
+    {% endfor %}
+
+</div>
+
+
+
+<script >
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const url = this.dataset.url;
+        window.location.href = url;
+    });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("search-input");
+    const cards = document.querySelectorAll(".card");
+
+    searchInput.addEventListener("input", function() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        cards.forEach(card => {
+            const nombre = card.querySelector(".card-title").textContent.toLowerCase();
+            if (nombre.includes(searchTerm)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+});
+
+</script>
+
+
+
+{% endblock %}

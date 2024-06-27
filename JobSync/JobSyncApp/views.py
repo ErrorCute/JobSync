@@ -3,7 +3,7 @@
 import locale
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, Comuna, Trabajo,Rol
+from .models import CustomUser, Comuna, Trabajo,Rol,Cliente,Estado
 from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -138,13 +138,21 @@ def trabajos(request):
     trabajos = Trabajo.objects.filter(is_deleted=False)  # Obtener todos los trabajos
     return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos,'comuna':comuna})
 
+def clientes(request):
+    clientes = Cliente.objects.all()
+    return render(request,'admin/gestion_trabajos/trabajos/clientes.html',{'clientes': clientes})
+
 @login_required
 @user_is_admin
-def crear_trabajo(request):
+def crear_trabajo(request,cliente_id):
+    cliente = get_object_or_404(Cliente, id=cliente_id)
     if request.method == 'POST':
         form = TrabajoForm(request.POST)
         if form.is_valid():
             trabajo = form.save(commit=False)
+            trabajo.cliente = cliente
+            estado_sin_asignar = Estado.objects.get(nombre='sin_asignar')
+            trabajo.estado = estado_sin_asignar
             trabajo.save()
             return redirect('trabajos')  
     else:
@@ -185,14 +193,14 @@ def ver_agenda(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(
         colaborador=colaborador,
-        estado__in=['pendiente', 'reagendado']
+        estado__nombre__in=['pendiente', 'reagendado']
     )
     
     eventos = [
         {
             'title': trabajo.nombre_trabajo,
             'start': DateFormat(trabajo.fecha).format('Y-m-d'),
-            'description': trabajo.nombre_titular,
+            # 'description': trabajo.cliente.nombre_titular,
         } for trabajo in trabajos
     ]
     
@@ -256,15 +264,21 @@ def asignar_y_desasignar_trabajos(request, user_id):
             return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
 
     # Asignar y desasignar trabajos
+
+    # Asignar y desasignar trabajos
+    estado_pendiente = Estado.objects.get(nombre='pendiente')
+    estado_sin_asignar = Estado.objects.get(nombre='sin_asignar')
+    estado_reagendado =Estado.objects.get(nombre='reagendado')
+
     for trabajo in trabajos_a_asignar:
         trabajo.colaborador = colaborador
-        if trabajo.estado == 'sin_asignar':
-            trabajo.estado = 'pendiente' if trabajo.reagendado_contador == 0 else 'reagendado'
+        if trabajo.estado.nombre == 'sin_asignar':
+            trabajo.estado = estado_pendiente if trabajo.reagendado_contador == 0 else estado_reagendado
         trabajo.save()
 
     for trabajo in trabajos_a_desasignar:
         trabajo.colaborador = None
-        trabajo.estado = 'sin_asignar'
+        trabajo.estado = estado_sin_asignar
         trabajo.save()
 
     messages.success(request, "Cambios guardados con éxito.")

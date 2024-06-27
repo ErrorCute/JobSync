@@ -33,7 +33,7 @@
                 <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
                 <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
                 <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
-                <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+                <p><strong>Estado:</strong> {{ trabajo.estado.nombre }}</p>
             </li>
             {% empty %}
             <li class="no-trabajos">No hay trabajos sin asignar para esta fecha.</li>
@@ -57,7 +57,7 @@
                 <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
                 <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
                 <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
-                <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+                <p><strong>Estado:</strong> {{ trabajo.estado.nombre }}</p>
             </li>
             {% endfor %}
         </ul>

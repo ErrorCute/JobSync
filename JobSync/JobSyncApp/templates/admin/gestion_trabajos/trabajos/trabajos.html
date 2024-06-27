@@ -11,7 +11,7 @@
 <div class="header">
     <a href="{% url 'index_trabajo' %}"  class="boton volver">Volver</a>
     <h1 id="titulo-trabajos">Trabajos</h1>
-    <a href="{% url 'crear_trabajo' %}"  class="boton regresar">Registrar Trabajo</a>
+    <a href="{% url 'clientes' %}"  class="boton regresar">Registrar Trabajo</a>
 </div>
 
 <div class="card-container">
@@ -30,15 +30,15 @@
             {% endif %}
         </p>
         <p><strong>Nombre del Titular:</strong> {{ trabajo.nombre_titular }}</p>
-        <p><strong>RUT del Titular:</strong> {{ trabajo.rut_titular }}</p>
-        <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
-        <p><strong>Comuna:</strong> {{ trabajo.comuna }}</p>
-        <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+        <p><strong>RUT del Titular:</strong> {{ trabajo.cliente.rut }}</p>
+        <p><strong>Telefono:</strong> {{ trabajo.cliente.telefono }}</p>
+        <p><strong>Comuna:</strong> {{ trabajo.cliente.comuna }}</p>
+        <p><strong>Dirección:</strong> {{ trabajo.cliente.direccion }}</p>
         <p><strong>Fecha:</strong> {{ trabajo.fecha }}</p>
         <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
         <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
         <p><strong>Valor:</strong> {{ trabajo.valor }}</p>
-        <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+        <p><strong>Estado:</strong> {{ trabajo.estado.nombre }}</p>
     </div>
     {% endfor %}
 </div>
