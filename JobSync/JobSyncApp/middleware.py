@@ -10,7 +10,8 @@ class EmpresaMiddleware:
         try:
             empresa = Empresa.objects.get(subdominio=host)
             request.empresa = empresa
-            print(f"Subdominio: {host}, Empresa: {empresa.nombre}")  
+           # print(f"Subdominio: {host}, Empresa: {empresa.nombre}")  
         except Empresa.DoesNotExist:
             return HttpResponseForbidden("Empresa no encontrada")
         return self.get_response(request)
+

@@ -2,9 +2,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser, Trabajo,Estado, Rol
-
 from datetime import datetime
-
 
 def reporte_general(request):
     # Obtener el mes seleccionado de los parámetros GET
