@@ -29,11 +29,11 @@
             {% for trabajo in trabajos_sin_asignar %}
             <li data-id="{{ trabajo.id }}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha }}" data-hora-inicio="{{ trabajo.hora_inicio }}" data-hora-termino="{{ trabajo.hora_termino }}" class="{% if trabajo.estado == 'completado' %}completado{% endif %}">
                 <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
-                <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
-                <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+                <p><strong>Telefono :</strong> {{ trabajo.cliente.telefono }}</p>
+                <p><strong>Dirección  :</strong> {{ trabajo.cliente.direccion }}</p>
                 <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
                 <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
-                <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+                <p><strong>Estado:</strong> {{ trabajo.estado.nombre }}</p>
             </li>
             {% empty %}
             <li class="no-trabajos">No hay trabajos sin asignar para esta fecha.</li>
@@ -51,13 +51,13 @@
         <h2> Agenda</h2>
         <ul>
             {% for trabajo in trabajos_asignados %}
-            <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }} {% if trabajo.estado == 'completado' %}completado{% endif %}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha }}" data-hora-inicio="{{ trabajo.hora_inicio }}" data-hora-termino="{{ trabajo.hora_termino }}">
+            <li data-id="{{ trabajo.id }}" class="{{ trabajo.estado|lower }} {% if trabajo.estado.nombre == 'completado' %}completado{% endif %}" data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha }}" data-hora-inicio="{{ trabajo.hora_inicio }}" data-hora-termino="{{ trabajo.hora_termino }}">
                 <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
-                <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
-                <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+                <p><strong>Telefono :</strong> {{ trabajo.cliente.telefono }}</p>
+                <p><strong>Dirección  :</strong> {{ trabajo.cliente.direccion }}</p>
                 <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
                 <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
-                <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+                <p><strong>Estado:</strong> {{ trabajo.estado.nombre }}</p>
             </li>
             {% endfor %}
         </ul>

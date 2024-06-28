@@ -1,7 +1,7 @@
 import locale
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser, Trabajo
+from .models import CustomUser, Trabajo,Estado
 from django.contrib import messages
 from datetime import datetime
 from babel.dates import format_date
@@ -10,19 +10,19 @@ from django.utils.dateformat import DateFormat
 from .decorators import user_is_colaborador
 
 @login_required
-@user_is_colaborador
+
 def mi_agenda(request):
     colaborador = request.user
     trabajos = Trabajo.objects.filter(
         colaborador=colaborador,
-        estado__in=['pendiente', 'reagendado']
+        estado__nombre__in=['pendiente', 'reagendado']
     )
     
     eventos = [
         {
             'title': trabajo.nombre_trabajo,
             'start': DateFormat(trabajo.fecha).format('Y-m-d'),
-            'description': trabajo.nombre_titular,
+            'description': trabajo.cliente.nombre_titular,
         } for trabajo in trabajos
     ]
     
@@ -32,7 +32,7 @@ def mi_agenda(request):
     })
 
 @login_required
-@user_is_colaborador
+
 def mi_trabajos(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(fecha=fecha, colaborador_id=colaborador_id)
@@ -52,21 +52,27 @@ def mi_trabajos(request, colaborador_id, fecha):
     return render(request, 'colaborador/agenda/mi_trabajos.html', context)
 
 @login_required
-@user_is_colaborador
+
 def actualizar_estado_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
+    
     if request.method == 'POST':
         rut_titular = request.POST.get('rut_titular')
-        if trabajo.rut_titular == rut_titular:
-            trabajo.estado = 'completado'
+        
+        # Verificar si el RUT ingresado coincide con el titular del cliente asociado al trabajo
+        if trabajo.cliente.rut == rut_titular:
+            estado_completado = Estado.objects.get(nombre='completado')
+            trabajo.estado = estado_completado
             trabajo.save()
             messages.success(request, 'Estado del trabajo actualizado con éxito')
         else:
             messages.error(request, 'El RUT no coincide con el titular del trabajo')
         
+        # Redireccionar de vuelta a la página de detalles de trabajos del colaborador
         return redirect('mi_trabajos', colaborador_id=trabajo.colaborador.id, fecha=trabajo.fecha)
 
     return render(request, 'colaborador/agenda/mi_trabajos.html', {'trabajo': trabajo})
+
 
 @login_required
 @user_is_colaborador
@@ -77,7 +83,8 @@ def reagendar_trabajo(request, trabajo_id):
         if form.is_valid():
             form.save()
             trabajo.reagendado_contador += 1
-            trabajo.estado = 'reagendado'
+            estado_reagendado =Estado.objects.get(nombre='reagendado')
+            trabajo.estado = estado_reagendado
             trabajo.save()
             return redirect('mi_trabajos', colaborador_id=trabajo.colaborador.id, fecha=trabajo.fecha)
     else:

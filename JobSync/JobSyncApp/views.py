@@ -1,9 +1,8 @@
 # views.py
-
 import locale
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, Comuna, Trabajo,Rol, Empresa
+from .models import CustomUser, Comuna, Trabajo,Rol,Cliente,Estado, Empresa
 from .forms import ModificarTrabajoForm, UsuarioUserForm, RegistroForm, ModificarUsuarioForm, TrabajoForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -54,6 +53,7 @@ def custom_logout(request):
     logout(request)
     return redirect('/')
 
+
 def registro(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
@@ -69,6 +69,9 @@ def registro(request):
 
             # Verificar si el usuario ya existe
             if not CustomUser.objects.filter(email=email).exists():
+                # Obtener la empresa del usuario que realiza el registro
+                empresa = request.user.empresa
+
                 # Crear el usuario si no existe
                 nuevo_usuario = CustomUser.objects.create_user(
                     username=email,
@@ -76,13 +79,16 @@ def registro(request):
                     first_name=nombre,
                     last_name=apellido,
                     telefono=telefono,
-                    comuna=comuna,  
+                    comuna=comuna,
+                    empresa=empresa,  # Asignar la empresa del usuario que registra
                     password=contraseña
                 )
-                rol_colaborador = Rol.objects.get(nombre='Colaborador')
 
-                nuevo_usuario.rol = rol_colaborador 
+                # Asignar el rol por defecto 'Colaborador'
+                rol_colaborador = Rol.objects.get(nombre='Colaborador')
+                nuevo_usuario.rol = rol_colaborador
                 nuevo_usuario.save()
+
                 return redirect('colaboradores') 
             else:
                 # El usuario ya existe, mostrar un mensaje de error
@@ -90,16 +96,19 @@ def registro(request):
                 return render(request, 'registro.html', {'form': form, 'error_message': mensaje_error})
     else:
         form = RegistroForm()
+    
     return render(request, 'registro.html', {'form': form})
 
 @login_required
 
 def lista_colaboradores(request):
-    colaboradores = CustomUser.objects.filter(empresa=request.empresa)
+    rol_admin = Rol.objects.get(nombre='Admin')
+    colaboradores = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
+    
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
 
 @login_required
-@user_is_admin
+
 def eliminar_usuario(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(CustomUser, id=user_id)
@@ -109,7 +118,7 @@ def eliminar_usuario(request, user_id):
         return render(request, 'admin/eliminar_usuario.html', {'user_id': user_id})
 
 @login_required
-@user_is_admin
+
 def modificar_usuario(request, user_id):
     usuario = get_object_or_404(CustomUser, id=user_id)
     if request.method == 'POST':
@@ -127,7 +136,7 @@ def home(request):
     return render(request, 'home.html')
 
 @login_required
-@user_is_colaborador
+
 def index_colaborador(request):
     return render(request ,'colaborador/index_colaborador.html')
 
@@ -138,24 +147,33 @@ def sobre_nosotros(request):
 # ------------------------------------------------ gestion de trabajos como administrador ----------------------
 
 @login_required
-@user_is_admin
+
 def index_trabajo(request):
     return render (request,'admin/gestion_trabajos/trabajos/index_trabajo.html')
 
 @login_required
-@user_is_admin
+
 def trabajos(request):
     comuna = Comuna.objects.all()
     trabajos = Trabajo.objects.filter(empresa=request.empresa)
     return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos,'comuna':comuna})
 
+def clientes(request):
+    clientes = Cliente.objects.all()
+    return render(request,'admin/gestion_trabajos/trabajos/clientes.html',{'clientes': clientes})
+
 @login_required
-@user_is_admin
-def crear_trabajo(request):
+
+def crear_trabajo(request, cliente_id):
+    cliente = get_object_or_404(Cliente, id=cliente_id)
     if request.method == 'POST':
         form = TrabajoForm(request.POST)
         if form.is_valid():
             trabajo = form.save(commit=False)
+            trabajo.cliente = cliente
+            trabajo.empresa = request.user.empresa 
+            estado_sin_asignar = Estado.objects.get(nombre='sin_asignar')
+            trabajo.estado = estado_sin_asignar
             trabajo.save()
             return redirect('trabajos')  
     else:
@@ -163,7 +181,7 @@ def crear_trabajo(request):
     return render(request, 'admin/gestion_trabajos/trabajos/crear_trabajo.html', {'form': form})
 
 @login_required
-@user_is_admin
+
 def modificar_trabajo(request, trabajo_id):
     trabajo = Trabajo.objects.get(id=trabajo_id)
     if request.method == 'POST':
@@ -176,34 +194,35 @@ def modificar_trabajo(request, trabajo_id):
     return render(request, 'admin/gestion_trabajos/trabajos/modificar_trabajo.html', {'form': form})
 
 @login_required
-@user_is_admin
 def eliminar_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
     trabajo.delete()  # Esto llamará al método delete personalizado
     return redirect('trabajos')
 
 @login_required
-@user_is_admin
+
 def seleccionar_colaborador(request):
-    colaboradores = CustomUser.objects.filter(rol=True)
+    rol_admin = Rol.objects.get(nombre='Admin')
+    colaboradores = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
+    
     return render(request, 'admin/gestion_trabajos/Asignar_trabajos/seleccionar_colaborador.html', {'colaboradores': colaboradores})
 
 from django.utils.dateformat import DateFormat
 
 @login_required
-@user_is_admin
+
 def ver_agenda(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(
         colaborador=colaborador,
-        estado__in=['pendiente', 'reagendado']
+        estado__nombre__in=['pendiente', 'reagendado']
     )
     
     eventos = [
         {
             'title': trabajo.nombre_trabajo,
             'start': DateFormat(trabajo.fecha).format('Y-m-d'),
-            'description': trabajo.nombre_titular,
+            # 'description': trabajo.cliente.nombre_titular,
         } for trabajo in trabajos
     ]
     
@@ -213,7 +232,7 @@ def ver_agenda(request, colaborador_id):
     })
 
 @login_required
-@user_is_admin
+
 def trabajos_sin_asignar(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos_sin_asignar = Trabajo.objects.filter(fecha=fecha, colaborador__isnull=True)
@@ -234,7 +253,7 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
     return render(request, 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html', context)
 
 @login_required
-@user_is_admin
+
 def asignar_y_desasignar_trabajos(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
     trabajos_ids = request.POST.get('trabajos', '').split(',')
@@ -267,15 +286,21 @@ def asignar_y_desasignar_trabajos(request, user_id):
             return redirect(request.META.get('HTTP_REFERER', 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html'))
 
     # Asignar y desasignar trabajos
+
+    # Asignar y desasignar trabajos
+    estado_pendiente = Estado.objects.get(nombre='pendiente')
+    estado_sin_asignar = Estado.objects.get(nombre='sin_asignar')
+    estado_reagendado =Estado.objects.get(nombre='reagendado')
+
     for trabajo in trabajos_a_asignar:
         trabajo.colaborador = colaborador
-        if trabajo.estado == 'sin_asignar':
-            trabajo.estado = 'pendiente' if trabajo.reagendado_contador == 0 else 'reagendado'
+        if trabajo.estado.nombre == 'sin_asignar':
+            trabajo.estado = estado_pendiente if trabajo.reagendado_contador == 0 else estado_reagendado
         trabajo.save()
 
     for trabajo in trabajos_a_desasignar:
         trabajo.colaborador = None
-        trabajo.estado = 'sin_asignar'
+        trabajo.estado = estado_sin_asignar
         trabajo.save()
 
     messages.success(request, "Cambios guardados con éxito.")

@@ -16,7 +16,7 @@
         <h2>Trabajos Pendientes</h2>
         <ul>
             {% for trabajo in trabajos %}
-                {% if trabajo.estado == 'pendiente' or trabajo.estado == 'reagendado' %}
+                {% if trabajo.estado.nombre == 'pendiente' or trabajo.estado.nombre == 'reagendado' %}
                     <li data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                         <div class="trabajo-header">
                             <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
@@ -28,11 +28,11 @@
                                 </form>
                             </div>
                         </div>
-                        <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
-                        <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+                        <p><strong>Telefono:</strong> {{ trabajo.cliente.telefono }}</p>
+                        <p><strong>Dirección:</strong> {{ trabajo.cliente.direccion }}</p>
                         <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
                         <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
-                        <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+                        <p><strong>Estado:</strong> {{ trabajo.estado.nombre}}</p>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -43,14 +43,14 @@
         <h2>Trabajos Completados</h2>
         <ul>
             {% for trabajo in trabajos %}
-                {% if trabajo.estado == 'completado' %}
+                {% if trabajo.estado.nombre == 'completado' %}
                     <li data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                     <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
-                    <p><strong>Telefono:</strong> {{ trabajo.telefono }}</p>
-                    <p><strong>Dirección:</strong> {{ trabajo.direccion }}</p>
+                    <p><strong>Telefono:</strong> {{ trabajo.cliente.telefono }}</p>
+                    <p><strong>Dirección:</strong> {{ trabajo.cliente.direccion }}</p>
                     <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
                     <p><strong>Hora Termino:</strong> {{ trabajo.hora_termino }}</p>
-                    <p><strong>Estado:</strong> {{ trabajo.get_estado_display }}</p>
+                    <p><strong>Estado:</strong> {{ trabajo.estado.nombre }}</p>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -67,7 +67,7 @@
             {% csrf_token %}
             <input type="hidden" id="trabajo-id" name="trabajo_id">
             <label for="rut_titular">RUT del Titular:</label>
-            <input type="text" id="rut_titular" name="rut_titular" required maxlength="9" onchange="formatRut(this)">
+            <input type="text" id="rut_titular" name="rut_titular" >
             <button type="submit" class="btn btn-confirmar">Confirmar trabajo</button>
         </form>
     </div>
