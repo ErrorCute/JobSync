@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser, Trabajo,Estado
+from .models import CustomUser, Trabajo,Estado, Rol
 
 from datetime import datetime
 
@@ -39,7 +39,8 @@ def reporte_general(request):
             selected_month_name = month['name']
             break
 
-    usuarios = CustomUser.objects.filter(rol=True)
+    rol_admin = Rol.objects.get(nombre='Admin')
+    usuarios = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
     estado_completado = Estado.objects.get(nombre='completado')
     trabajos = Trabajo.objects.filter(estado=estado_completado)
 
@@ -77,7 +78,8 @@ def index_reporte(request):
     return render(request,'admin/reportes/index_reporte.html')
 
 def selecciona_colaborador_reporte(request):
-    colaboradores = CustomUser.objects.filter(rol=True)
+    rol_admin = Rol.objects.get(nombre='Admin')
+    colaboradores = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
     return render (request,'admin/reportes/selecciona_colaborador_reporte.html',{'colaboradores': colaboradores})
 
 
