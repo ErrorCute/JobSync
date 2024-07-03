@@ -8,7 +8,6 @@
 
 {% block contenido %}
 
-<div class="card-container">
     <div class="header">
         <a href="{% url 'index_reporte' %}" id="btn-volver" class="btn btn-back">Volver</a>
         <h1 id="titulo-trabajos">Seleccionar Colaborador</h1>
@@ -16,6 +15,7 @@
     <div class="search-container" >
         <input type="text" id="search-input" placeholder="Buscar por nombre..." >
     </div>
+    <div class="card-container">
     {% for colaborador in colaboradores %}
     <div class="card">
         <button class="select-btn" data-url="{% url 'reporte_colaborador' colaborador.id %}">  <i class="ri-file-list-line"></i> </button>

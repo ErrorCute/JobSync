@@ -15,7 +15,6 @@
     <input type="text" id="search-input" placeholder="Buscar por nombre..." >
 </div>
 <div class="card-container">
-    
     {% for colaborador in colaboradores %}
     <div class="card">
         <button class="select-btn" data-url="{% url 'ver_agenda' colaborador.id %}"> <i class="fas fa-calendar-alt"></i> </button>
