@@ -69,7 +69,7 @@ body {
 }
 
 .container .trabajos-list {
-    width: 44%;
+    width: 100%;
     border: 1px solid;
     padding: 10px;
     height: 500px;
@@ -86,7 +86,7 @@ body {
 
 .container .trabajos-list ul {
     list-style-type: none;
-    padding: 0;
+    padding: 10px;
 }
 
 .container .trabajos-list ul li {
@@ -100,7 +100,7 @@ body {
 
 .trabajo-buttons {
     position: absolute;
-    top: 1px;
+    top: 10px;
     right: 5px;
     display: flex;
     gap: 10px; 
@@ -124,7 +124,7 @@ body {
 }
 
 .btn-confirmar {
-    padding: 5px 10px;
+    padding: 15px 10px;
     background-color: #2bddbfc0;
     color: white;
     text-decoration: none;
@@ -266,3 +266,134 @@ body.modal-open {
     border: 2px solid rgba(212, 17, 17, 0.877);
 }
 
+.boton-volver{
+    position: fixed;
+    top: 90px;
+    left: 20px;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.texto-top {
+    position: absolute; /* Posicionamiento absoluto para mover libremente */
+    top: 80px; /* Alinea el elemento en la parte superior del contenedor */
+    right: 0; /* Alinea el elemento en la parte derecha del contenedor */
+    margin-top: 20px; /* Margen superior para separar del borde superior */
+    margin-right: 20px; /* Margen derecho para separar del borde derecho */
+    margin-bottom: 30px;
+}
+
+.boton-vista {
+    position: fixed;
+    text-align: center;
+    top: 140px;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+@media only screen and (max-width: 480px){
+
+    .texto-top {
+    
+        position: absolute; /* Posicionamiento absoluto para mover libremente */
+        top: 80px; /* Alinea el elemento en la parte superior del contenedor */
+        right: 0; /* Alinea el elemento en la parte derecha del contenedor */
+        margin-top: 20px; /* Margen superior para separar del borde superior */
+        margin-right: 20px; /* Margen derecho para separar del borde derecho */
+        font-size: 12px;
+    }
+    .boton-volver{
+        position: fixed;
+        top: 90px;
+        left: 20px;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .container .trabajos-list
+    {
+        margin-top: 120px;
+    }
+    .container .trabajos-list li {
+        font-size: 10px;
+    }
+
+    .container .trabajos-list p {
+        padding-right: 150px;
+    }
+
+    .container .trabajos-list h2 {
+        margin-top: 10px;
+    }
+
+/* Estilos para los botones dentro de trabajo-buttons */
+.trabajo-buttons {
+    position: relative; /* Establecer posición relativa para alinear los botones */
+    text-align: right; /* Alinear contenido a la derecha */
+    margin-top: -10px; /* Ajuste para mover un poco hacia arriba */
+}
+
+/* Estilo base para ambos botones */
+.btn-confirmar {
+    padding: 10px;
+    background-color: #2bddbfc0;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+    font-size: 11px;
+    transition: background-color 0.3s;
+    position: absolute; /* Ajustar posición absoluta para superponer */
+    right: 0; /* Alinear a la derecha dentro del contenedor */
+    top: 35px; /* Ajuste para mover un poco hacia arriba */
+}
+
+.btn-reagendar
+{
+    padding: 10px;
+    background-color: #2bddbfc0;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+    font-size: 11px;
+    transition: background-color 0.3s;
+    position: absolute; /* Ajustar posición absoluta para superponer */
+    right: 0; /* Alinear a la derecha dentro del contenedor */
+    top: -10px; /* Ajuste para mover un poco hacia arriba */
+}
+/* Estilo específico para el botón Reagendar */
+.btn-reagendar {
+    background-color: #f3e40bbb;
+    z-index: 2; /* Colocar este botón encima del otro */
+}
+
+/* Efecto hover para ambos botones */
+.btn-confirmar:hover,
+.btn-reagendar:hover {
+    background-color: #0fac55e0;
+}
+}
+
+
+@media only screen and (min-width: 800px) and (max-width:880px){
+
+    .container .trabajos-list p {
+        padding-right: 250px;
+    }
+
+    .container .trabajos-list h2 {
+        margin-top: 10px;
+    }
+
+}

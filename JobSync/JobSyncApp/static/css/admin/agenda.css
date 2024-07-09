@@ -127,3 +127,71 @@ body {
 .fc-daygrid-event {
     font-size: 0.8em; /* Ajusta el tamaño de los eventos */
 }
+
+
+
+.boton-volver{
+    font-size: 20px;
+    padding-left: 60px;
+}
+
+.test
+{
+
+    text-align: right;
+    padding-right: 30px;
+}
+
+@media only screen and (max-width: 480px){
+
+
+    .test
+{
+    font-size: 8px;
+    text-align: right;
+    padding-right: 10px;
+    position: relative;
+}
+
+.boton-volver
+{
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+
+#calendar {
+    width: 100%;
+    height: 70vh;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: rgba(12, 11, 11, 0.952);
+}
+
+
+.fc .fc-toolbar-title {
+    font-size: 1.20em;
+    margin: 8px;
+    text-align: left;
+}
+
+
+}
+
+@media only screen and (min-width: 800px) and (max-width:880px){
+
+    .test
+    {
+        font-size: 12px;
+        text-align: right;
+        padding-right: 10px;
+        position: relative;
+    }
+
+    .boton-volver
+{
+    font-size: 18px;
+    padding-left: 10px;
+}
+
+}
