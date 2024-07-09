@@ -55,7 +55,7 @@ def reporte_general(request):
         total_trabajos_usuario = trabajos_usuario.count()
         total_recaudado_usuario = sum(trabajo.valor for trabajo in trabajos_usuario)
         usuarios_data.append({
-            'username':  f"{usuario.last_name} {usuario.first_name}",
+            'username':  f"{usuario.first_name} {usuario.last_name}",
             'total_trabajos': total_trabajos_usuario,
             'total_recaudado': total_recaudado_usuario
         })

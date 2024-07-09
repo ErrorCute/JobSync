@@ -1,38 +1,38 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
-
 * {
-    padding: 0;
-    margin: 0;
     box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
-    border: none;
-    outline: none;
-    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    color: #ffffff;
-    align-items: center;
-    justify-content: center;
-    background: url("/static/css/img/fondo.png") no-repeat center center fixed;  
+    font-family: 'Sen', sans-serif;
+    background: url("/static/css/img/fondo.png") no-repeat center center fixed;
     background-size: cover;
+    color: #ffffff;
+
+}
+
+/* Estilos para el navbar que se extiende desde index.html */
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegura que el navbar esté encima de todo */
 }
 
 .header {
-    width: 100%;
+    background-color: #0d0e0e;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    color: rgba(255, 255, 255, 0.8);
-    position: fixed;
-    top: 70px;
-    z-index: 1000;
-    background-color: #0d0e0e;
+    margin-top: 70px; /* Ajusta el margen para que el header comience debajo del navbar */
+    width: 100%;
+    z-index: 900; /* Coloca el header debajo del navbar */
 }
 
 .boton {
@@ -54,45 +54,110 @@ body {
 .boton:hover {
     background-color: #00b31e;
 }
-table {
-    border-collapse: collapse;
-    width: 100%;
+
+#fecha-filter {
+    margin-top: 70px; /* Ajuste el margen superior para evitar superposición con el header fijo */
+    padding: 10px;
+    background-color: rgba(22, 22, 22, 0.315);
+    border-radius: 5px;
+    display: flex; /* Hacer que los elementos dentro de #fecha-filter sean flexibles */
+    align-items: center; /* Alinear verticalmente los elementos */
+    flex-wrap: nowrap; /* Evitar que los elementos se envuelvan en varias líneas */
 }
-th, td {
-    border: 1px solid #000;
+
+.filter-select {
+    flex: 1; /* Hacer que el select ocupe todo el espacio disponible */
+    margin-right: 10px; /* Espacio entre el select y el botón */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid rgba(3, 207, 163, 0.76);
+    border-radius: 5px;
+    color: #fff;
+    background: rgba(22, 22, 22, 0.315);
+    cursor: pointer;
+}
+
+.filter-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid rgba(3, 207, 163, 0.76);
+    border-radius: 5px;
+    color: #fff;
+    background: rgba(22, 22, 22, 0.315);
+    cursor: pointer;
+}
+
+.filter-button:hover {
+    background-color: rgba(3, 207, 163, 0.76);
+}
+
+#contenido {
+    margin-top: 90px; /* Ajuste el margen superior para evitar superposición con el header fijo y navbar */
+    padding: 20px;
+    background: rgba(22, 22, 22, 0.315);
+    border-radius: 5px;
+}
+
+.reporte {
+    margin-bottom: 20px;
+}
+
+.tabla-reporte table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tabla-reporte th, .tabla-reporte td {
+    border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
-
-#fecha-filter {
-    margin-bottom: 20px; /* Añadir margen inferior para separación */
-    position: fixed;
-    top: 22%;
-    right: 4%;
-}
-
-.filter-select {
-    width: 150px;
+.totales {
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid rgba(3, 207, 163, 0.76);
+    border: 1px solid #ccc;
     border-radius: 5px;
-    color: #fff;
-    background: rgba(22, 22, 22, 0.315);
 }
 
-.filter-button {
-    width: 100px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid rgba(3, 207, 163, 0.76);
-    border-radius: 5px;
-    color: #fff;
-    background: rgba(22, 22, 22, 0.315);
-    cursor: pointer; /* Añadir cursor de puntero al botón */
-}
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .header {
+        padding: 8px 16px;
+    }
 
-.filter-button:hover {
-    background-color: rgba(3, 207, 163, 0.76); /* Cambiar color de fondo al pasar el cursor */
+    .boton {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    #fecha-filter {
+        margin-top: 30px;
+        padding: 10px;
+        flex-direction: column; /* Cambiar la dirección del flex a columna */
+        align-items: stretch; /* Alinear los elementos estirándolos */
+    }
+
+    .filter-select {
+        margin-bottom: 10px; /* Espacio entre el select y el botón */
+    }
+
+    .filter-button {
+        font-size: 14px;
+    }
+
+    #contenido {
+        margin-top: 10px; /* Ajuste el margen superior para dispositivos móviles */
+        padding: 10px;
+    }
+
+    .tabla-reporte th, .tabla-reporte td {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .totales {
+        padding: 8px;
+        font-size: 14px;
+    }
 }
