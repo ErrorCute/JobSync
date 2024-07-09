@@ -128,6 +128,10 @@
             background-color: #ccc; /* Color de la línea */
             margin: 20px 0; /* Márgenes superior e inferior */
             }
+             #imagen-report {
+                    max-width: 40%; /* Ajusta el tamaño máximo al ancho disponible */
+                    height: auto; /* Mantiene la proporción de la imagen */
+                }
         </style>
     `;
    
@@ -141,6 +145,7 @@
                 <body>
                     <div class="fecha">${fechaActual}</div>
                         <div class="encabezado">
+                        <img  id="imagen-report" src="{% static 'css/img/logo.png' %}" >
                         <h1>Reporte del Colaborador</h1>
                     </div>
                     <hr>
