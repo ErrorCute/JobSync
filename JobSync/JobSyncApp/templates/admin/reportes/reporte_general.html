@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
         {% block extra_css %}
-        <link rel="stylesheet" href="{% static 'css' %}/estilo.css">
+        <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
         <link rel="stylesheet" href="{% static 'css/admin/reporte.css' %}">
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
@@ -11,6 +11,7 @@
 
         {% endblock extra_css %}
 
+      
 {% block contenido %}
 
 
@@ -26,7 +27,7 @@
 
 <div id="fecha-filter">
          <form method="GET" action="{% url 'reporte_general' %}">
-            <label for="month">Seleccionar Mes:</label>
+            <label for="month">Mes </label>
             <select name="month" id="month"class="filter-select">
                 {% for month in months %}
                 <option value="{{ month.value }}" {% if selected_month == month.value %}selected{% endif %}>{{ month.name }}</option>
@@ -36,41 +37,39 @@
         </form>
   </div>
 
-   
-      <div id="contenido" >
-        
-        
-          <h1>Reporte General </h1>
-        <br>
-        <h3>Mes {{ selected_month_name }}</h3>
-        <br>
-   
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Usuario</th>
-                <th>Total Trabajos</th>
-                <th>Total Recaudado</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for data in usuarios_data %}
-            <tr>
-                <td>{{ data.username }}</td>
-                <td>{{ data.total_trabajos }}</td>
-                <td>${{ data.total_recaudado }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h3>Totales Generales</h3>
-    <p>Total de Trabajos: {{ total_trabajos }}</p>
-    <p>Total Recaudado: ${{ total_recaudado }}</p>
-          
+  <div id="contenido">
+    <div class="reporte">
       
+        <h3> Mes  {{ selected_month_name }}</h3>
     </div>
 
+    <div class="tabla-reporte">
+        <table>
+            <thead>
+                <tr>
+                    <th>Colaborador</th>
+                    <th>Total Trabajos</th>
+                    <th>Total Recaudado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in usuarios_data %}
+                <tr>
+                    <td>{{ data.username }}</td>
+                    <td>{{ data.total_trabajos }}</td>
+                    <td>${{ data.total_recaudado }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="totales">
+        <h3>Totales Generales</h3><br>
+        <p>Total de Trabajos: {{ total_trabajos }}</p>
+        <p>Total Recaudado: ${{ total_recaudado }}</p>
+    </div>
+</div>
 
 
 <!--  -->
@@ -80,22 +79,66 @@
 
  
 <script>
-  function generarPDF() {
+function generarPDF() {
     const contenido = document.getElementById('contenido');
-    html2pdf()
-      .from(contenido)
-      .save();
-  }
-  function generarPDF() {
-    const contenido = document.getElementById('contenido');
-    
+
+    // Obtener la fecha actual
+    const fechaActual = new Date().toLocaleDateString('es-MX', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
     // Estilos para el PDF generado
     const styles = `
         <style>
             body {
                 color: #000; /* Texto en negro */
+                font-family: Arial, sans-serif; /* Establecer una fuente diferente si es necesario */
             }
-       
+            h1 {
+                text-align: center; /* Centrar el título */
+                margin-bottom: 20px; /* Espacio inferior para separación */
+                top: 10px;
+                font-size: 28px; /* Tamaño del título */
+                color: #333; /* Color del título */
+                text-transform: uppercase; /* Convertir texto a mayúsculas */
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            .reporte {
+                padding: 8px;
+            }       
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            .totales {
+                margin-top: 20px; /* Espacio superior para separación */
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            .encabezado {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .fecha {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 14px;
+            }
+            hr {
+            border: none; /* Sin borde */
+            height: 1px; /* Altura de la línea */
+            background-color: #ccc; /* Color de la línea */
+            margin: 20px 0; /* Márgenes superior e inferior */
+            }
         </style>
     `;
 
@@ -107,15 +150,23 @@
                 ${styles}
             </head>
             <body>
-                ${contenido.innerHTML}
+                <div class="fecha">${fechaActual}</div>
+                <div class="encabezado">
+                    <h1>jobSync</h1>
+                    <h1>Reporte General</h1>
+                </div>
+                <hr>
+                
+                ${contenido.innerHTML} 
             </body>
         </html>
     `;
+
     html2pdf()
-      .from(contentWithStyles)
-      .save();
-   
+        .from(contentWithStyles)
+        .save();
 }
+
 
 
 </script>

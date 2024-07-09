@@ -6,20 +6,21 @@
     <link rel="stylesheet" href="{% static 'css/admin/reporte.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400..800&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block contenido %}
 
 <div class="header">
     <a href="{% url 'index_colaborador' %}" class="boton volver">Volver</a>
-    <h1 id="titulo-trabajos">Reporte general</h1>
+    <h1 id="titulo-trabajos">Reporte</h1>
     <div>
         <button class="boton descargar" onclick="generarPDF()">Descargar PDF</button>
     </div>
 </div>
 <div id="fecha-filter">
     <form method="GET" action="{% url 'mi_reporte'%}">
-       <label for="month">Seleccionar Mes:</label>
+       <label for="month">Mes:</label>
        <select name="month" id="month"class="filter-select">
            {% for month in months %}
            <option value="{{ month.value }}" {% if selected_month == month.value %}selected{% endif %}>{{ month.name }}</option>
@@ -32,13 +33,13 @@
 <div id="contenido">
     <h1>{{ colaborador.first_name }} {{colaborador.last_name}}</h1>
 <br>
-<h1>Reporte del Mes de {{selected_month_name}}</h1>
-    
+<h3>Mes {{selected_month_name}}</h3>
+<div class="tabla-reporte">
     <table>
         <thead>
             <tr>
-                <th>Nombre del Trabajo</th>
-                <th>Fecha Realizado</th>
+                <th>Trabajo</th>
+                <th>Fecha </th>
                 <th>Valor</th>
             </tr>
         </thead>
@@ -52,7 +53,7 @@
             {% endfor %}
         </tbody>
     </table>
-    
+</div>
     <h3>Totales Generales</h3>
     <p>Total de Trabajos: {{ trabajos_completados }}</p>
     <p>Total Recaudado: ${{ total_recaudado }}</p>
@@ -63,17 +64,73 @@
 <script>
     function generarPDF() {
         const contenido = document.getElementById('contenido');
-        
+        const fechaActual = new Date().toLocaleDateString('es-MX', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
         // Estilos para el PDF generado
         const styles = `
-            <style>
-                body {
-                    color: #000; /* Texto en negro */
-                }
-                /* Agrega estilos adicionales aquí si es necesario */
-            </style>
-        `;
-        
+        <style>
+            body {
+                color: #000; /* Texto en negro */
+                font-family: Arial, sans-serif; /* Establecer una fuente diferente si es necesario */
+            }
+            h1 {
+                text-align: center; /* Centrar el título */
+                margin-bottom: 20px; /* Espacio inferior para separación */
+                top: 10px;
+                font-size: 28px; /* Tamaño del título */
+                color: #333; /* Color del título */
+                text-transform: uppercase; /* Convertir texto a mayúsculas */
+            }
+            h3{       
+                padding: 8px;
+            }
+            p{
+                padding: 8px;
+                
+                
+            }    
+            table {
+                padding: 8px;
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            .reporte {
+                padding: 8px;
+            }       
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            .totales {
+                margin-top: 20px; /* Espacio superior para separación */
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            .encabezado {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .fecha {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 14px;
+            }
+            hr {
+            border: none; /* Sin borde */
+            height: 1px; /* Altura de la línea */
+            background-color: #ccc; /* Color de la línea */
+            margin: 20px 0; /* Márgenes superior e inferior */
+            }
+        </style>
+    `;
+   
         // Contenido HTML completo para el PDF
         const contentWithStyles = `
             <html>
@@ -82,6 +139,12 @@
                     ${styles}
                 </head>
                 <body>
+                    <div class="fecha">${fechaActual}</div>
+                        <div class="encabezado">
+                        <h1>jobSync</h1>
+                        <h1>Reporte del Colaborador</h1>
+                    </div>
+                    <hr>
                     ${contenido.innerHTML}
                 </body>
             </html>
