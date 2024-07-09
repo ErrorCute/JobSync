@@ -10,6 +10,8 @@
     <h1>Reagendar Trabajo</h1>
 </div>
 
+
+
 <div class="container">
     <form method="post" action="{% url 'reagendar_trabajo' trabajo.id %}">
         {% csrf_token %}
@@ -50,6 +52,9 @@
             </div>
         {% endif %}
         <button type="submit" class="btn btn-confirmar">Reagendar</button>
+        <button type="button" class="btn btn-volver" onclick="window.location.href='{% url 'mi_trabajos' colaborador_id=trabajo.colaborador_id fecha=trabajo.fecha %}'">Volver</button>
+
+
     </form>
 </div>
 {% endblock %}

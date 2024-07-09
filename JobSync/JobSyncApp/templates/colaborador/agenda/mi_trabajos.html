@@ -6,9 +6,16 @@
 {% endblock extra_css %}
 
 {% block contenido %}
-<div class="header">
+<div class="boton-volver">
     <a href="{% url 'mi_agenda' %}" id="btn-volver" class="btn btn-back">Volver</a>
-    <h1> Mis Trabajos  {{ fecha }}</h1>
+</div>
+
+<div class="texto-top">
+    <h1> Mis Trabajos</h1>
+</div>
+
+<div class="boton-vista">
+    <button class="btn btn-back" onclick="toggleVista()">Cambiar Vista</button>
 </div>
 
 <div class="container">
@@ -19,15 +26,15 @@
                 {% if trabajo.estado.nombre == 'pendiente' or trabajo.estado.nombre == 'reagendado' %}
                     <li data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                         <div class="trabajo-header">
-                            <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                             <div class="trabajo-buttons">
                                 <a href="{% url 'reagendar_trabajo' trabajo.id %}" class="btn btn-reagendar">Reagendar</a>
                                 <form method="post" action="{% url 'actualizar_estado_trabajo' trabajo.id %}" class="btn-form">
                                     {% csrf_token %}
-                                    <button type="button" class="btn btn-confirmar" onclick="openModal('{{ trabajo.id }}')">Confirmar Trabajo</button>
+                                    <button type="button" class="btn btn-confirmar" onclick="openModal('{{ trabajo.id }}')">Confirmar</button>
                                 </form>
                             </div>
                         </div>
+                        <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                         <p><strong>Telefono:</strong> {{ trabajo.cliente.telefono }}</p>
                         <p><strong>Dirección:</strong> {{ trabajo.cliente.direccion }}</p>
                         <p><strong>Hora Inicio:</strong> {{ trabajo.hora_inicio }}</p>
@@ -77,6 +84,31 @@
 
 {% block extra_js %}
 <script>
+        function toggleVista() {
+        var pendientes = document.getElementById('trabajos-pendientes');
+        var completados = document.getElementById('trabajos-completados');
+
+        // Alternar la visibilidad de los contenedores
+        if (pendientes.style.display === 'none') {
+            pendientes.style.display = 'block';
+            completados.style.display = 'none';
+        } else {
+            pendientes.style.display = 'none';
+            completados.style.display = 'block';
+        }
+    }
+
+    // Función para asegurar que al cargar la página inicialmente muestre los trabajos pendientes
+    window.onload = function() {
+        var pendientes = document.getElementById('trabajos-pendientes');
+        var completados = document.getElementById('trabajos-completados');
+
+        pendientes.style.display = 'block'; // Mostrar trabajos pendientes
+        completados.style.display = 'none'; // Ocultar trabajos completados
+    };
+
+
+
     function openModal(trabajoId) {
         document.getElementById('trabajo-id').value = trabajoId;
         document.getElementById('modal-confirmar-trabajo').style.display = 'block';
@@ -116,5 +148,10 @@
             input.value = formattedRut;
         }
     }
+
+
+
 </script>
+
+
 {% endblock extra_js %}
