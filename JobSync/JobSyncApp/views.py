@@ -10,7 +10,7 @@ from datetime import datetime
 from django.utils.dateformat import DateFormat
 from babel.dates import format_date, parse_date
 from django.contrib import messages
-from .decorators import user_is_colaborador, user_is_admin
+from .decorators import admin_required, colaborador_required
 
 def custom_login(request):
     if request.method == 'POST':
@@ -53,7 +53,8 @@ def custom_logout(request):
     logout(request)
     return redirect('/')
 
-
+@login_required
+@admin_required
 def registro(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
@@ -100,7 +101,7 @@ def registro(request):
     return render(request, 'registro.html', {'form': form})
 
 @login_required
-
+@admin_required
 def lista_colaboradores(request):
     rol_admin = Rol.objects.get(nombre='Admin')
     colaboradores = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
@@ -108,7 +109,7 @@ def lista_colaboradores(request):
     return render(request, 'admin/colaboradores.html', {'colaboradores': colaboradores})
 
 @login_required
-
+@admin_required
 def eliminar_usuario(request, user_id):
     if request.method == 'POST':
         user = get_object_or_404(CustomUser, id=user_id)
@@ -118,7 +119,7 @@ def eliminar_usuario(request, user_id):
         return render(request, 'admin/eliminar_usuario.html', {'user_id': user_id})
 
 @login_required
-
+@admin_required
 def modificar_usuario(request, user_id):
     usuario = get_object_or_404(CustomUser, id=user_id)
     if request.method == 'POST':
@@ -131,12 +132,12 @@ def modificar_usuario(request, user_id):
     return render(request, 'admin/modificar_usuario.html', {'form': form, 'usuario_id': user_id})
 
 @login_required
-
+@admin_required
 def home(request):
     return render(request, 'home.html')
 
 @login_required
-
+@colaborador_required
 def index_colaborador(request):
     return render(request ,'colaborador/index_colaborador.html')
 
@@ -147,23 +148,25 @@ def sobre_nosotros(request):
 # ------------------------------------------------ gestion de trabajos como administrador ----------------------
 
 @login_required
-
+@admin_required
 def index_trabajo(request):
     return render (request,'admin/gestion_trabajos/trabajos/index_trabajo.html')
 
 @login_required
-
+@admin_required
 def trabajos(request):
     comuna = Comuna.objects.all()
     trabajos = Trabajo.objects.filter(empresa=request.empresa)
     return render(request, 'admin/gestion_trabajos/trabajos/trabajos.html', {'trabajos': trabajos,'comuna':comuna})
 
+@login_required
+@admin_required
 def clientes(request):
     clientes = Cliente.objects.all()
     return render(request,'admin/gestion_trabajos/trabajos/clientes.html',{'clientes': clientes})
 
 @login_required
-
+@admin_required
 def crear_trabajo(request, cliente_id):
     cliente = get_object_or_404(Cliente, id=cliente_id)
     if request.method == 'POST':
@@ -181,7 +184,7 @@ def crear_trabajo(request, cliente_id):
     return render(request, 'admin/gestion_trabajos/trabajos/crear_trabajo.html', {'form': form})
 
 @login_required
-
+@admin_required
 def modificar_trabajo(request, trabajo_id):
     trabajo = Trabajo.objects.get(id=trabajo_id)
     if request.method == 'POST':
@@ -194,13 +197,14 @@ def modificar_trabajo(request, trabajo_id):
     return render(request, 'admin/gestion_trabajos/trabajos/modificar_trabajo.html', {'form': form})
 
 @login_required
+@admin_required
 def eliminar_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
-    trabajo.delete()  # Esto llamará al método delete personalizado
+    trabajo.delete()  
     return redirect('trabajos')
 
 @login_required
-
+@admin_required
 def seleccionar_colaborador(request):
     rol_admin = Rol.objects.get(nombre='Admin')
     colaboradores = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
@@ -210,7 +214,7 @@ def seleccionar_colaborador(request):
 from django.utils.dateformat import DateFormat
 
 @login_required
-
+@admin_required
 def ver_agenda(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(
@@ -232,7 +236,7 @@ def ver_agenda(request, colaborador_id):
     })
 
 @login_required
-
+@admin_required
 def trabajos_sin_asignar(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos_sin_asignar = Trabajo.objects.filter(fecha=fecha, colaborador__isnull=True)
@@ -253,7 +257,7 @@ def trabajos_sin_asignar(request, colaborador_id, fecha):
     return render(request, 'admin/gestion_trabajos/Asignar_trabajos/trabajos_sin_asignar.html', context)
 
 @login_required
-
+@admin_required
 def asignar_y_desasignar_trabajos(request, user_id):
     colaborador = get_object_or_404(CustomUser, id=user_id)
     trabajos_ids = request.POST.get('trabajos', '').split(',')

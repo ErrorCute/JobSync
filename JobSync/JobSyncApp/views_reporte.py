@@ -3,7 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser, Trabajo,Estado, Rol
 from datetime import datetime
+from .decorators import admin_required, colaborador_required
 
+@admin_required
 def reporte_general(request):
     # Obtener el mes seleccionado de los parámetros GET
     selected_month = request.GET.get('month')
@@ -71,16 +73,17 @@ def reporte_general(request):
 
     return render(request, 'admin/reportes/reporte_general.html', context)
 
-
+@admin_required
 def index_reporte(request):
     return render(request,'admin/reportes/index_reporte.html')
 
+@admin_required
 def selecciona_colaborador_reporte(request):
     rol_admin = Rol.objects.get(nombre='Admin')
     colaboradores = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
     return render (request,'admin/reportes/selecciona_colaborador_reporte.html',{'colaboradores': colaboradores})
 
-
+@admin_required
 def reporte_colaborador(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     
@@ -155,7 +158,7 @@ def reporte_colaborador(request, colaborador_id):
     return render(request, 'admin/reportes/reporte_colaborador.html', context)
 
 
-
+@colaborador_required
 def mi_reporte(request):
     colaborador = request.user  # Obtener el usuario logueado como colaborador
     

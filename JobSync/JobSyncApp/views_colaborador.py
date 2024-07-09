@@ -7,10 +7,10 @@ from datetime import datetime
 from babel.dates import format_date
 from .forms import ReagendarTrabajoForm, ColaboradorPerfilForm
 from django.utils.dateformat import DateFormat
-from .decorators import user_is_colaborador
+from .decorators import colaborador_required
 
 @login_required
-
+@colaborador_required
 def mi_agenda(request):
     colaborador = request.user
     trabajos = Trabajo.objects.filter(
@@ -32,7 +32,7 @@ def mi_agenda(request):
     })
 
 @login_required
-
+@colaborador_required
 def mi_trabajos(request, colaborador_id, fecha):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(fecha=fecha, colaborador_id=colaborador_id)
@@ -52,7 +52,7 @@ def mi_trabajos(request, colaborador_id, fecha):
     return render(request, 'colaborador/agenda/mi_trabajos.html', context)
 
 @login_required
-
+@colaborador_required
 def actualizar_estado_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
     
@@ -75,7 +75,7 @@ def actualizar_estado_trabajo(request, trabajo_id):
 
 
 @login_required
-@user_is_colaborador
+@colaborador_required
 def reagendar_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)
     if request.method == 'POST':
@@ -92,7 +92,7 @@ def reagendar_trabajo(request, trabajo_id):
     return render(request, 'colaborador/agenda/reagendar_trabajo.html', {'form': form, 'trabajo': trabajo})
 
 @login_required
-@user_is_colaborador
+@colaborador_required
 def mi_perfil(request):
     if request.method == 'POST':
         form = ColaboradorPerfilForm(request.POST, instance=request.user)
