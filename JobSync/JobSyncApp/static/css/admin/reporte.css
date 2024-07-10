@@ -12,6 +12,9 @@ body {
 
 }
 
+a:-webkit-any-link {
+    text-decoration: none;
+}
 /* Estilos para el navbar que se extiende desde index.html */
 .navbar {
     background-color: #333;
