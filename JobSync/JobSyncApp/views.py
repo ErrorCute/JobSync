@@ -175,7 +175,7 @@ def crear_trabajo(request, cliente_id):
             trabajo = form.save(commit=False)
             trabajo.cliente = cliente
             trabajo.empresa = request.user.empresa 
-            estado_sin_asignar = Estado.objects.get(nombre='sin_asignar')
+            estado_sin_asignar = Estado.objects.get(nombre='Sin asignar')
             trabajo.estado = estado_sin_asignar
             trabajo.save()
             return redirect('trabajos')  
@@ -219,7 +219,7 @@ def ver_agenda(request, colaborador_id):
     colaborador = get_object_or_404(CustomUser, id=colaborador_id)
     trabajos = Trabajo.objects.filter(
         colaborador=colaborador,
-        estado__nombre__in=['pendiente', 'reagendado']
+        estado__nombre__in=['Pendiente', 'Reagendado']
     )
     
     eventos = [
@@ -292,13 +292,13 @@ def asignar_y_desasignar_trabajos(request, user_id):
     # Asignar y desasignar trabajos
 
     # Asignar y desasignar trabajos
-    estado_pendiente = Estado.objects.get(nombre='pendiente')
-    estado_sin_asignar = Estado.objects.get(nombre='sin_asignar')
-    estado_reagendado =Estado.objects.get(nombre='reagendado')
+    estado_pendiente = Estado.objects.get(nombre='Pendiente')
+    estado_sin_asignar = Estado.objects.get(nombre='Sin asignar')
+    estado_reagendado =Estado.objects.get(nombre='Reagendado')
 
     for trabajo in trabajos_a_asignar:
         trabajo.colaborador = colaborador
-        if trabajo.estado.nombre == 'sin_asignar':
+        if trabajo.estado.nombre == 'Sin asignar':
             trabajo.estado = estado_pendiente if trabajo.reagendado_contador == 0 else estado_reagendado
         trabajo.save()
 

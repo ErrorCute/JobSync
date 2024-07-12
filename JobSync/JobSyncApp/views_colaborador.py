@@ -15,7 +15,7 @@ def mi_agenda(request):
     colaborador = request.user
     trabajos = Trabajo.objects.filter(
         colaborador=colaborador,
-        estado__nombre__in=['pendiente', 'reagendado']
+        estado__nombre__in=['Pendiente', 'Reagendado']
     )
     
     eventos = [
@@ -61,7 +61,7 @@ def actualizar_estado_trabajo(request, trabajo_id):
         
         # Verificar si el RUT ingresado coincide con el titular del cliente asociado al trabajo
         if trabajo.cliente.rut == rut_titular:
-            estado_completado = Estado.objects.get(nombre='completado')
+            estado_completado = Estado.objects.get(nombre='Completado')
             trabajo.estado = estado_completado
             trabajo.save()
             messages.success(request, 'Estado del trabajo actualizado con éxito')
@@ -83,7 +83,7 @@ def reagendar_trabajo(request, trabajo_id):
         if form.is_valid():
             form.save()
             trabajo.reagendado_contador += 1
-            estado_reagendado =Estado.objects.get(nombre='reagendado')
+            estado_reagendado =Estado.objects.get(nombre='Reagendado')
             trabajo.estado = estado_reagendado
             trabajo.save()
             return redirect('mi_trabajos', colaborador_id=trabajo.colaborador.id, fecha=trabajo.fecha)
@@ -99,7 +99,7 @@ def mi_perfil(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Tu perfil ha sido actualizado exitosamente.')
-            return redirect('mi_perfil')
+            return redirect('index_colaborador')
         
             
     else:

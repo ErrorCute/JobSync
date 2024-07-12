@@ -16,7 +16,7 @@
 
 <div class="card-container">
     {% for trabajo in trabajos %}
-    <div class="card" id="trabajo" data-comuna="{{ trabajo.comuna }}"  data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha|date:'Y-m-d' }}">
+    <div class="card" id="trabajo" data-comuna="{{ trabajo.cliente.comuna.nombre }}"  data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}" data-fecha="{{ trabajo.fecha|date:'Y-m-d' }}">
         <div class="botones">
             <button class="delete-btn" data-url="{% url 'eliminar_trabajo' trabajo.id %}"> <i class="fas fa-trash-alt"></i></button>
             <button class="edit-btn" data-url="{% url 'modificar_trabajo' trabajo.id %}"> <i class="fas fa-edit"></i></button>
@@ -57,10 +57,10 @@
 
     <select id="estado-filter">
         <option value="">Estado</option>
-        <option value="sin_asignar">Sin asignar</option>
-        <option value="pendiente">Pendiente</option>
-        <option value="completado">Completado</option>
-        <option value="reagendado">Reagendado</option>
+        <option value="Sin asignar">Sin asignar</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Completado">Completado</option>
+        <option value="Reagendado">Reagendado</option>
   
     </select>
 

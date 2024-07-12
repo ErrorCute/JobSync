@@ -41,7 +41,7 @@ def reporte_general(request):
 
     rol_admin = Rol.objects.get(nombre='Admin')
     usuarios = CustomUser.objects.filter(empresa=request.empresa).exclude(rol=rol_admin)
-    estado_completado = Estado.objects.get(nombre='completado')
+    estado_completado = Estado.objects.get(nombre='Completado')
     trabajos = Trabajo.objects.filter(estado=estado_completado)
 
     # Filtrar trabajos por el mes seleccionado
@@ -119,7 +119,7 @@ def reporte_colaborador(request, colaborador_id):
             selected_month_name = month['name']
             break
     
-    estado_completado = Estado.objects.get(nombre='completado')
+    estado_completado = Estado.objects.get(nombre='Completado')
 
     # Obtener trabajos completados del colaborador
     trabajos_completados = Trabajo.objects.filter(colaborador=colaborador, estado=estado_completado)

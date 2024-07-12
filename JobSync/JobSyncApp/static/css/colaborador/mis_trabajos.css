@@ -216,6 +216,7 @@ body.modal-open {
     max-width: 600px;
     border-radius: 10px;
     text-align: center;
+    height: 25%;
     color: #cccccc;
     pointer-events: auto;
 }
@@ -235,32 +236,32 @@ body.modal-open {
 }
 
 /* Colores según estado */
-[data-estado="sin_asignar"] {
-    background-color: rgba(226, 221, 221, 0.836);
+[data-estado="Sin asignar"] {
+    background-color: rgb(255, 255, 255);
     color: rgb(12, 11, 11);
     border: 2px solid rgb(255, 255, 255);
 }
 
-[data-estado="pendiente"] {
+[data-estado="Pendiente"] {
     background-color: rgba(99, 32, 255, 0.137);
     color: white;
     border: 2px solid rgba(117, 17, 233, 0.801);
 }
 
-[data-estado="completado"] {
+[data-estado="Completado"] {
     background-color: rgba(30, 206, 133, 0.733);
     color: white;
     border: 2px solid rgba(12, 243, 193, 0.884);
 }
 
 
-[data-estado="reagendado"][data-reagendado-contador="1"] {
+[data-estado="Reagendado"][data-reagendado-contador="1"] {
     background-color: rgba(255, 197, 7, 0.274);
-    color: black;
+    color: rgb(240, 236, 236);
     border: 2px solid rgba(243, 228, 14, 0.87);
 }
 
-[data-estado="reagendado"][data-reagendado-contador="2"] {
+[data-estado="Reagendado"][data-reagendado-contador="2"] {
     background-color: rgba(231, 28, 21, 0.199);
     color: white;
     border: 2px solid rgba(212, 17, 17, 0.877);
@@ -383,6 +384,22 @@ body.modal-open {
 .btn-reagendar:hover {
     background-color: #0fac55e0;
 }
+
+.btn-confirmar-rut{
+    
+    background-color: #2bddbfc0;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    width: 100px;
+    text-align: center;
+    font-size: 11px;
+    transition: background-color 0.3s;
+    position: center; /* Ajustar posición absoluta para superponer */
+    right: 0; /* Alinear a la derecha dentro del contenedor */
+    top: 130px; /* Ajuste para mover un poco hacia arriba */
+}
+
 }
 
 
@@ -395,5 +412,21 @@ body.modal-open {
     .container .trabajos-list h2 {
         margin-top: 10px;
     }
+
+    .btn-confirmar-rut{
+    
+        background-color: #2bddbfc0;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        width: 100px;
+        text-align: center;
+        font-size: 11px;
+        transition: background-color 0.3s;
+        position: center; /* Ajustar posición absoluta para superponer */
+        right: 0; /* Alinear a la derecha dentro del contenedor */
+        top: 130px; /* Ajuste para mover un poco hacia arriba */
+    }
+    
 
 }

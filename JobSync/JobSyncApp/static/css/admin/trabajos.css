@@ -106,8 +106,8 @@ body {
     top: 10px;
 }
 
-.card[data-estado="sin_asignar"] .delete-btn i,
-.card[data-estado="sin_asignar"] .edit-btn i{
+.card[data-estado="Sin asignar"] .delete-btn i,
+.card[data-estado="Sin asignar"] .edit-btn i{
     color: rgb(8, 8, 8);
 }
 .card .delete-btn {
@@ -219,45 +219,45 @@ body {
 }
 
 
-[data-estado="sin_asignar"] {
+[data-estado="Sin asignar"] {
     background-color: rgb(255, 255, 255);
     color: rgb(12, 11, 11);
     border: 2px solid rgb(255, 255, 255);
 }
 
-[data-estado="pendiente"] {
+[data-estado="Pendiente"] {
     background-color: rgba(99, 32, 255, 0.137);
     color: white;
     border: 2px solid rgba(117, 17, 233, 0.801);
 }
 
-[data-estado="completado"] {
+[data-estado="Completado"] {
     background-color: rgba(30, 206, 133, 0.733);
     color: white;
     border: 2px solid rgba(12, 243, 193, 0.884);
 }
 
 
-[data-estado="reagendado"][data-reagendado-contador="1"] {
+[data-estado="Reagendado"][data-reagendado-contador="1"] {
     background-color: rgba(255, 197, 7, 0.274);
     color: rgb(240, 236, 236);
     border: 2px solid rgba(243, 228, 14, 0.87);
 }
 
-[data-estado="reagendado"][data-reagendado-contador="2"] {
+[data-estado="Reagendado"][data-reagendado-contador="2"] {
     background-color: rgba(231, 28, 21, 0.199);
     color: white;
     border: 2px solid rgba(212, 17, 17, 0.877);
 }
 
-[data-estado="sin_asignar"][data-reagendado-contador="1"] {
+[data-estado="Sin asignar"][data-reagendado-contador="1"] {
     background-color: rgba(248, 248, 248, 0.993);
     color: rgb(12, 11, 11);
     border: 3px solid rgba(243, 228, 14, 0.87);
 
 }
 
-[data-estado="sin_asignar"][data-reagendado-contador="2"] {
+[data-estado="Sin asignar"][data-reagendado-contador="2"] {
     background-color: rgba(255, 255, 255, 0.952);
     color: rgb(12, 11, 11);
     border: 3px solid rgba(212, 17, 17, 0.877);

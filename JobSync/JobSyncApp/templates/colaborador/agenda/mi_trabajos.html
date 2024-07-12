@@ -23,7 +23,7 @@
         <h2>Trabajos Pendientes</h2>
         <ul>
             {% for trabajo in trabajos %}
-                {% if trabajo.estado.nombre == 'pendiente' or trabajo.estado.nombre == 'reagendado' %}
+                {% if trabajo.estado.nombre == 'Pendiente' or trabajo.estado.nombre == 'Reagendado' %}
                     <li data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                         <div class="trabajo-header">
                             <div class="trabajo-buttons">
@@ -50,7 +50,7 @@
         <h2>Trabajos Completados</h2>
         <ul>
             {% for trabajo in trabajos %}
-                {% if trabajo.estado.nombre == 'completado' %}
+                {% if trabajo.estado.nombre == 'Completado' %}
                     <li data-estado="{{ trabajo.estado }}" data-reagendado-contador="{{ trabajo.reagendado_contador }}">
                     <p><strong>Nombre del Trabajo:</strong> {{ trabajo.nombre_trabajo }}</p>
                     <p><strong>Telefono:</strong> {{ trabajo.cliente.telefono }}</p>
@@ -74,8 +74,8 @@
             {% csrf_token %}
             <input type="hidden" id="trabajo-id" name="trabajo_id">
             <label for="rut_titular">RUT del Titular:</label>
-            <input type="text" id="rut_titular" name="rut_titular" >
-            <button type="submit" class="btn btn-confirmar">Confirmar trabajo</button>
+            <input type="text" id="rut_titular" name="rut_titular" oninput="formatRut(this)" maxlength="12">
+            <button type="submit" class="btn btn-confirmar-rut">Confirmar</button>
         </form>
     </div>
 </div>
